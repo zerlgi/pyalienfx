@@ -231,8 +231,6 @@ class M11xR3:
 		self.REGION_MEDIA_BAR = 0x0800
 		self.REGION_POWER_BUTTON = 0x6000
 		
-		
-		
 		self.suportedMode["normal"] = AlienFXPowerMode(self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE,self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE, self.BLOCK_LOAD_ON_BOOT),
 		self.suportedMode["standby"] = AlienFXPowerMode(self.AlienFXProperties.STANDBY_ID, self.AlienFXTexts.STAND_BY_DESCRIPTION, self.BLOCK_STANDBY),
 		self.suportedMode["acPower"] = AlienFXPowerMode(self.AlienFXProperties.AC_POWER_ID, self.AlienFXTexts.AC_POWER_DESCRIPTION, self.BLOCK_AC_POWER),
@@ -352,7 +350,7 @@ class AlienFX_Driver:
 	
 class AlienFX_Main:
 	def __init__(self):
-		print "Initializing Driver ..."
+		print "Initializing Controler ..."
 		self.controller = AlienFX_Controler()
 		self.Select_Menu()
 		
@@ -406,26 +404,25 @@ class AlienFX_Main:
 		
 	def Area_Creator(self,All=False):
 		request = AlienFX_Constructor()
-		area = request.default_area
+		area = driver.computer.regions
+		area_to_send = []
 		keep = False
 		if not All:
 			while not keep:
 				print "Select the areas for which the modifications applies\n"
 				for i in area.keys():
-					ok = raw_input("Area : %s (%s) (Y/N) : "%(i,area[i]))
+					ok = raw_input("Area : %s (Y/N) : "%(area[i].description))
 					if ok.upper() == 'Y':
-						area[i] = True
+						area_to_send.append(i)
 						keep = True
-					else:
-						area[i] = False
 				if not keep:
 					print "Please select at least one Area !"
 		if All:
 			print "All Areas selected !"
 			for i in area.keys():
-				area[i] = True
+				area_to_send.append(i)
 		request = AlienFX_Constructor()
-		area = request.Area(area)
+		area = request.Area(area_to_send)
 		return area
 		
 	
@@ -513,19 +510,8 @@ class AlienFX_Constructor(list):
 	def Area(self, areas): # gotta check the power button to understand it ...
 		area = 0x0000
 		ret = [0x00,0x00]
-		if areas["r_speaker"]:
-			area += self.computer.REGION_RIGHT_SPEAKER
-		if areas["l_speaker"]:
-			area += self.computer.REGION_LEFT_SPEAKER
-		if areas["keyboard"]:
-			area += self.computer.REGION_RIGHT_KEYBOARD
-		if areas["logo"]:
-			area += self.computer.REGION_ALIEN_NAME
-		if areas["media"]:
-			area += self.computer.REGION_MEDIA_BAR
-		#if areas["power"]:
-			#area += self.computer.REGION_POWER_BUTTON	
-		#print "area : ",hex(area)
+		for key in areas:
+			area += self.computer.regions[key].regionId
 		n = 0
 		a = ""
 		while len(a) != 2:
@@ -607,6 +593,7 @@ class AlienFX_Constructor(list):
 	def raz(self):
 		while len(self) != 0:
 			self.pop()
+		self.default_area = {"r_speaker" : False, "l_speaker" : False, "keyboard" : False, "logo" : False, "media" : False, "power" : False}
 		
 		
 if __name__ == "__main__":
