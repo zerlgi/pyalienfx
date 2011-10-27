@@ -28,11 +28,11 @@ class AlienFXProperties:
 	def __init__(self):
 		self.isDebug = False
 		
-		self.AUTHOR = "Filip Wieladek"
+		self.AUTHOR = "Blondel Leo"
 		
 		#Application info
-		self.ALIEN_FX_VERSION = "0.5 beta"
-		self.ALIEN_FX_APPLICATION_RAW_NAME = "AlienFX Lite"
+		self.ALIEN_FX_VERSION = "pre alpha"
+		self.ALIEN_FX_APPLICATION_RAW_NAME = "pyAlienFX"
 		self.ALIEN_FX_APPLICATION_NAME = self.ALIEN_FX_APPLICATION_RAW_NAME +" "+ self.ALIEN_FX_VERSION
 		
 		#java properties
@@ -49,19 +49,6 @@ class AlienFXProperties:
 		self.WINDOWS_OS = "Windows"
 		self.isWindows = self.isWindows()
 
-		#application configuration	
-		self.ALIEN_FX_MAIN_CLASS = "uk.co.progger.alienFXLite.Main"
-		self.ALIEN_FX_SILENT_ARGUMENT = "-s"
-		self.ALIEN_FX_PROFILE_FOLDER_NAME = ".alienFXprofiles"
-		self.ALIEN_FX_PROFILE_FOLDER_PATH = self.userHomePath+self.ALIEN_FX_PROFILE_FOLDER_NAME+'/'
-		self.ALIEN_FX_SETTINGS_FILE_NAME = "settings.set"
-		self.ALIEN_FX_SETTINGS_FILE_PATH = self.userHomePath+self.ALIEN_FX_PROFILE_FOLDER_NAME+'/'+self.ALIEN_FX_SETTINGS_FILE_NAME
-		self.ALIEN_FX_PROFILE_EXTENSION = ".prof"
-		
-		#application locking
-		self.ALIEN_FX_LOCK_FILE_NAME = ".alienFXLock"
-		self.ALIEN_FX_LOCK_FILE_PATH = self.userHomePath+self.ALIEN_FX_LOCK_FILE_NAME
-		
 		#native libraries
 		self.ALIENFX_NATIVE_LIBRARY_NAME = "Alien"
 		self.ALIENFX_NATIVE_LIBRARY = self.ALIENFX_NATIVE_LIBRARY_NAME+self.arch
@@ -94,7 +81,7 @@ class AlienFXProperties:
 class AlienFXPowerMode:
 	def __init__(self, name, description, block):
 		self.description = description
-		self.blockId = block
+		#self.blockId = block
 		self.name = name
 
 class AlienFXRegion:
@@ -259,7 +246,7 @@ class M11xR3:
 		self.regions[self.AlienFXProperties.MEDIA_BAR_ID] = AlienFXRegion(self.AlienFXProperties.MEDIA_BAR_ID, self.AlienFXTexts.MEDIA_BAR_DESCRIPTION, self.REGION_MEDIA_BAR,self.SUPPORTED_COMMANDS,True,True,True, self.suportedMode)
 		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,2,True,True,True, self.suportedMode)
 
-
+			
 class AlienFX_Driver:
 	def __init__(self):
 		vendor_id=0x187c
@@ -311,7 +298,7 @@ class AlienFX_Driver:
 		self.dev = usb.core.find(idVendor=self.idVendor, idProduct=self.idProduct)
 		# was it found?
 		if self.dev is None:
-			raise ValueError('Device not found')
+			print "The USB controler coresponding to %s:%s was not found !"%(hex(self.idVendor),hex(self.idProduct))
 			sys.exit(1)
 		self.computer = M11xR3()
 		self.Take_over()
@@ -341,7 +328,7 @@ class AlienFX_Driver:
 			try:
 				self.dev.set_configuration()
 			except Exception,e:
-				raise ValueError("Can't set the configuration. Error : %s"%e)
+				raise DeviceNotFound("Can't set the configuration. Error : %s"%e)
 
 	def WaitForOk(self):
 		self.Take_over()
@@ -413,7 +400,7 @@ class AlienFX_Main:
 	def Color_Creator(self):
 		c = raw_input("Color Selection : \nPlease enter an HTML color : ")
 		request = AlienFX_Constructor()
-		color = request.Color(c)
+		color = request.Color(c.strip())
 		return color
 		
 		
