@@ -1,4 +1,7 @@
-from AlienFXEngine import *
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+from AlienFX.AlienFXEngine import *
 
 class AlienFX_Main:
 	def __init__(self):
