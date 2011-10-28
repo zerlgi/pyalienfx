@@ -116,7 +116,7 @@ class AlienFX_Main:
 				c = raw_input("All Area ? (Y/N) : ")
 				if c.upper() == 'Y':
 					All = True
-				area = self.Area_Creator(All)
+				area = self.Area_Creator()
 				color = self.Color_Creator()
 			if s == '1':
 				self.request.Set_Color(area,color)
