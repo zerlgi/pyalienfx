@@ -26,7 +26,7 @@ from AlienFX.AlienFXConfiguration import *
 import pygtk
 pygtk.require("2.0")
 import gtk,gobject
-import cairo
+#import cairo
 
 
 #from gi.repository import Gtk as gtk
@@ -53,6 +53,7 @@ class pyAlienFX_GUI():
 		self.set_color = 1
 		self.width,self.height = 800,600
 		self.Image_DB = Image_DB()
+		print "Initializing Interface ..."
 		self.AlienFX_Main()
 		self.Create_zones()
 		self.Create_Line()
@@ -139,7 +140,7 @@ class pyAlienFX_GUI():
 	def Create_zones(self):
 		try:
 			self.AlienFX_Preview_Hbox.destroy()
-			print "Destroy"
+			#print "Destroy"
 		except:
 			pass
 		
@@ -151,7 +152,7 @@ class pyAlienFX_GUI():
 		self.AlienFX_Main_Windows.show_all()
 	
 	def Widget_Zone(self,zone,confId = 1,line = False):
-		print "Creating : ",zone.description
+		#print "Creating : ",zone.description
 		Zone_VBox = gtk.VBox()
 		if not line:
 			title = gtk.Label(zone.description)
@@ -247,7 +248,7 @@ class pyAlienFX_GUI():
 		self.AlienFX_Main_Windows.show_all()
 	
 	def Widget_Line(self, zone, l):
-		print "Creating : ",zone.description
+		#print "Creating : ",zone.description
 		title = gtk.Label(zone.description)
 		self.AlienFX_Configurator_Table.attach(title,0,1,l-1,l,xoptions=gtk.EXPAND)
 		CONFS = zone.line.keys()
@@ -418,7 +419,7 @@ class pyAlienFX_GUI():
 	
 	def on_Line_AddConf_pressed(self,widget, zone, conf):
 		self.computer.regions[zone.name].add_line(conf+1, "fixed", self.default_color, self.default_color)
-		print zone.line
+		#print zone.line
 		self.Create_zones()
 		self.Create_Line()
 	
@@ -434,7 +435,7 @@ class pyAlienFX_GUI():
 				self.Set_color()
 			elif self.selected_mode != "morph" and not self.selected_area.power_button:
 				self.Set_color()
-		print self.computer.regions[self.selected_area.name].line[self.selected_Id]
+		#print self.computer.regions[self.selected_area.name].line[self.selected_Id]
 		self.Create_zones()
 		self.Create_Line()
 	
@@ -448,7 +449,7 @@ class pyAlienFX_GUI():
 			self.set_color = color
 		else:
 			self.set_color = 1
-		print "Hey ! Color %s clicked ! Area : %s"%(color,zone.description)
+		#print "Hey ! Color %s clicked ! Area : %s"%(color,zone.description)
 		
 	def on_AlienFX_Preview_Mode_Clicked(self, widget, event, mode, zone, confId):
 		self.selected_mode = mode
@@ -472,6 +473,13 @@ class pyAlienFX_GUI():
 		
 	def on_AlienFX_Main_Window_destroy(self,widget):
 		gtk.main_quit()
+		
+		
+	def Not_Yet(self,widget):
+		messagedialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "This feature is not yet available !")
+		messagedialog.run()
+		messagedialog.destroy()
+		
 		
 class Image_DB:
 	def __init__(self):
