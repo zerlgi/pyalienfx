@@ -1,0 +1,2114 @@
+; This skin was created for use specifically by WindowBlinds & Stardock SkinStudio
+; or programs explicitly authorized by Stardock to use WindowBlinds Advanced Visual Style  (UIS2) format.
+;
+; This skin may not be converted, imported, or read 
+; by any program without the explicit written consent of Stardock Corporation.
+; 
+; Skin format - Copyright (c) Stardock Net, Inc.
+; 
+; The skin itself is owned by the copyright holder (the skin author)
+; and use of his or her's intellectual property materials
+; is expressly forbidden without the consent of the skin author.
+;
+; When in doubt, contact legal@stardock.com
+
+
+[TitlebarSkin]
+SkinName=Alienware 2010 win7
+SkinAuthor=MadCat 21
+SpecialNotes=Copyrighted to Madcat Design © 2010
+AuthorsURL=
+Generator=Stardock SkinStudio Professional ver 5.0.1, Build 1112  - http://www.skinstudio.net
+WBVer=500
+AuthorEmail=
+EditorNotes=
+Category=OS
+ActiveTitle=
+
+[Personality]
+ColourAware=0
+MouseOver=1
+TileMenu=0
+TileLeftMenu=1
+TileRightMenu=1
+NoShape=0
+RightClickAction=11
+DoubleClickAction=1
+DynamicFrame=0
+HasDisabledState=0
+TextShift=17
+TextShiftVert=0
+TextRightClip=101
+Top=Alienware 2010 win7\frame_top_wb4.bmp
+Left=Alienware 2010 win7\frame_left_wb4.bmp
+Right=Alienware 2010 win7\frame_right_wb4.bmp
+Bottom=Alienware 2010 win7\frame_bottom_wb4.bmp
+TopTopHeight=10
+TopBotHeight=10
+LeftTopHeight=30
+LeftBotHeight=8
+RightTopHeight=30
+RightBotHeight=8
+BottomTopHeight=10
+BottomBotHeight=10
+TopStretch=0
+LeftStretch=0
+RightStretch=0
+BottomStretch=0
+UsesTran=1
+RollupSize=26
+BUTTONCOUNT=9
+TripleImages=1
+Menubar=Alienware 2010 win7\menu_bar.bmp
+ActiveTextR=192
+ActiveTextG=192
+ActiveTextB=192
+InactiveTextR=116
+InactiveTextG=116
+InactiveTextB=116
+MenuR=37
+MenuG=86
+MenuB=131
+MenuTextR=0
+MenuTextG=0
+MenuTextB=0
+TextShiftNoIcon=2
+TextRightClipNoIcon=101
+FadeLinkedButtons=0
+TextAlignment=0
+UseMenuBarColours=1
+MenuLeftTile=0
+MaxBorderCutTop=3
+AllowLargerGroupboxBorders=0
+MsstyleLike=1
+MDITransparent=1
+
+[Buttons]
+ContentLeft=3
+ContentRight=3
+ContentTop=3
+ContentBottom=3
+RadioPerPixel=1
+TopHeight=5
+BottomHeight=5
+LeftWidth=6
+RightWidth=6
+MouseOver=1
+Trans=1
+Tile=2
+PerPixel=1
+TextHorzAlignPressed=0
+CheckButton=WB6\checkbox_classic.tga
+CheckPerPixel=1
+RadioButton=Alienware 2010 win7\radiobox_classic.tga
+EnhancedMode=1
+TextFont=2
+PressedFont=2
+DisabledFont=2
+FocusFont=2
+DefaultFont=2
+MouseOverFont=2
+NormalColour=10
+TextColour=2
+PressedColour=10
+DisabledColour=4
+FocusColour=10
+DefaultColour=6
+MouseOverColour=5
+NormalFont=2
+AnimTimerRate=0
+LoopBackDelay=0
+SmartSmallMargins=0
+Image=Alienware 2010 win7\buttons.tga.tga
+
+[Font0]
+AntiAlias=1
+FontName=Digiface
+FontHeight=-11
+FontWeight=600
+ShadowOffset=0
+Name=Clock - Segoe UI 13
+DrawingStyle=4
+ShadowR=0
+ShadowG=0
+ShadowB=0
+ShadowOffsetY=0
+
+[Metrics]
+ScrollWidth=16
+CaptionHeight=50
+MenuHeight=18
+MenuPaddingWidth=16
+
+[Colour0]
+R=0
+G=0
+B=0
+
+[Colour1]
+R=255
+G=255
+B=255
+
+[Fonts]
+FontHeight=13
+Fontname=Segoe UI
+AntiAlias=1
+FontAngle=0
+FontWeight=400
+
+[Text]
+NoShadowInactiveText=0
+ShadowOffset=1
+Use3DText=4
+ShadowTextR=192
+ShadowTextG=192
+ShadowTextB=192
+
+[Button0]
+Align=1
+XCoord=50
+YCoord=0
+Action=0
+ButtonImage=Alienware 2010 win7\but_close.tga.tga
+Visibility=78
+FrameCount=6
+CombineOp=2
+OverlayFadeInTime=80
+OverlayFadeOutTime=80
+OverlayImageXOffset=0
+OverlayImageYOffset=-3
+PerPixel=1
+AnimTimerRate=0
+
+[Button1]
+Align=1
+XCoord=74
+YCoord=0
+Action=22
+ButtonImage=Alienware 2010 win7\but_max.tga
+Visibility=20
+CombineOp=2
+FrameCount=6
+Visibility1=4
+Visibility2=1
+CtrlAction=25
+OverlayFadeInTime=80
+OverlayFadeOutTime=80
+PerPixel=1
+
+[Button2]
+XCoord=74
+YCoord=0
+Align=1
+Action=22
+Visibility=21
+ButtonImage=Alienware 2010 win7\but_rest.tga
+FrameCount=6
+CombineOp=2
+Visibility1=3
+Visibility2=1
+CtrlAction=25
+OverlayFadeInTime=80
+OverlayFadeOutTime=80
+PerPixel=1
+
+[Button3]
+Align=1
+XCoord=101
+YCoord=0
+Action=23
+ButtonImage=Alienware 2010 win7\but_min.tga
+Visibility=22
+CombineOp=2
+FrameCount=6
+Visibility1=1
+CtrlAction=24
+OverlayFadeInTime=80
+OverlayFadeOutTime=80
+PerPixel=1
+
+[Button4]
+Align=1
+XCoord=50
+YCoord=0
+Action=0
+ButtonImage=Alienware 2010 win7\but_close.tga.tga
+Visibility=78
+CombineOp=2
+Visibility1=2
+PerPixel=1
+FrameCount=6
+AnimTimerRate=0
+
+[Button5]
+ButtonImage=Alienware 2010 win7\but_max.tga
+Align=1
+XCoord=74
+YCoord=0
+Action=22
+Visibility=20
+Visibility1=4
+CombineOp=2
+Visibility2=2
+CtrlAction=25
+PerPixel=1
+FrameCount=6
+
+[Button6]
+ButtonImage=Alienware 2010 win7\but_rest.tga
+Align=1
+XCoord=74
+YCoord=0
+Action=22
+Visibility=21
+Visibility1=3
+CombineOp=2
+Visibility2=2
+CtrlAction=25
+PerPixel=1
+FrameCount=6
+
+[Button7]
+ButtonImage=Alienware 2010 win7\but_min.tga
+Align=1
+XCoord=101
+YCoord=0
+Action=23
+CombineOp=2
+Visibility1=22
+Visibility2=2
+CtrlAction=24
+PerPixel=1
+FrameCount=6
+
+[ToolWindow.Caption]
+Image=Alienware 2010 win7\tool_panel_top.bmp
+TopHeight=10
+BottomHeight=4
+LeftWidth=6
+RightWidth=6
+ContentLeft=0
+ContentRight=73
+ContentTop=0
+ContentBottom=0
+NormalFont=4
+TextFont=4
+PressedFont=4
+DisabledFont=4
+FocusFont=4
+DefaultFont=4
+MouseOverFont=4
+NormalColour=10
+TextColour=0
+PressedColour=7
+DisabledColour=7
+FocusColour=5
+DefaultColour=5
+MouseOverColour=7
+TextColourOver=0
+Trans=0
+Tile=0
+MouseOver=1
+
+[ToolWindow.HorzBorder]
+Image=Alienware 2010 win7\tool_panel_bottom.bmp
+LeftWidth=6
+BottomHeight=1
+RightWidth=6
+TopHeight=1
+
+[ToolWindow.VertBorder]
+Image=Alienware 2010 win7\tool_panel_sides.bmp
+LeftWidth=1
+RightWidth=1
+TopHeight=1
+BottomHeight=1
+
+[ToolWindow.CloseButton]
+Image=Alienware 2010 win7\w_caption_but_close.tga.tga
+GlyphTransMode=3
+Trans=1
+TopHeight=4
+BottomHeight=4
+LeftWidth=4
+RightWidth=4
+GlyphImage=Alienware 2010 win7\tool_but_glyph.tga
+PerPixel=1
+SmartSmallMargins=1
+MouseOver=1
+
+[MenuBar]
+Image=Alienware 2010 win7\menu_bar_button.tga.tga
+Trans=1
+TopHeight=6
+BottomHeight=6
+LeftWidth=6
+RightWidth=6
+UseCustomBackground=1
+Tile=2
+PerPixel=1
+NormalColour=8
+FocusColour=16
+PressedColour=16
+DisabledColour=8
+DefaultColour=9
+
+[MenuItem]
+Image=Alienware 2010 win7\menu_item.tga.tga
+Trans=1
+TopHeight=3
+BottomHeight=5
+LeftWidth=23
+RightWidth=4
+Tile=0
+PerPixel=1
+FlatDisabled=1
+NormalFont=2
+DisabledColour=7
+NormalColour=8
+TextColour=2
+FocusColour=16
+TextColourOver=2
+ContentLeft=0
+ContentRight=0
+ContentTop=0
+ContentBottom=0
+SmartSmallMargins=0
+AnimTimerRate=0
+LoopBackDelay=0
+PressedColour=10
+DefaultColour=8
+
+[MenuBackground]
+Image=Alienware 2010 win7\menu_back.bmp
+Trans=0
+PerPixel=0
+TopHeight=4
+BottomHeight=4
+LeftWidth=4
+RightWidth=4
+Tile=0
+HideShadows=0
+AnimTimerRate=0
+LoopBackDelay=0
+
+[MdiControls]
+Image=Alienware 2010 win7\mdi_buttons.bmp
+Trans=0
+
+[MenuItem.Extras]
+Image=Alienware 2010 win7\menu_item_extras.bmp
+Trans=1
+PerPixel=0
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+
+[Button.Checkbox]
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+Image=Alienware 2010 win7\check box time.tga
+MouseOver=1
+Trans=1
+Alpha=254
+PerPixel=1
+
+[Button.Radio]
+Image=Alienware 2010 win7\radio  time.tga
+MouseOver=1
+Trans=1
+Alpha=254
+PerPixel=1
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+
+[Tabs]
+Border=Alienware 2010 win7\tab_pane.bmp
+BottomHeight=2
+Image=Alienware 2010 win7\tabs.tga.tga
+LeftWidth=7
+RightWidth=8
+TopHeight=8
+MouseOver=1
+Trans=1
+PerPixel=1
+ContentLeft=1
+ContentRight=2
+ContentTop=1
+ContentBottom=0
+NormalFont=3
+PressedFont=3
+TextFont=3
+DisabledFont=3
+FocusFont=3
+DefaultFont=3
+MouseOverFont=3
+NormalColour=10
+TextColour=2
+PressedColour=13
+FocusColour=10
+DefaultColour=8
+MouseOverColour=5
+TextColourOver=5
+DisabledColour=4
+Tile=2
+TextVertShiftPressed=0
+
+[Tabs.Border]
+BottomHeight=4
+Image=Alienware 2010 win7\tab_pane.bmp
+LeftWidth=4
+RightWidth=4
+TopHeight=4
+PerPixel=0
+Trans=0
+
+[HeaderBar]
+Image=Alienware 2010 win7\list_view_header.bmp
+LeftWidth=3
+RightWidth=3
+TopHeight=3
+BottomHeight=3
+Tile=2
+MouseOver=1
+Trans=0
+PerPixel=0
+FrameCount=5
+NormalFont=2
+TextFont=2
+PressedFont=2
+DisabledFont=2
+FocusFont=2
+DefaultFont=2
+MouseOverFont=2
+NormalColour=10
+TextColour=2
+PressedColour=10
+DisabledColour=8
+FocusColour=10
+DefaultColour=8
+MouseOverColour=5
+TextColourOver=5
+ContentLeft=2
+ContentRight=0
+ContentTop=1
+ContentBottom=0
+
+[Colours]
+Scrollbar=51 61 71
+ActiveTitle=51 61 71
+InactiveTitle=51 61 71
+Menu=51 61 71
+Window=51 61 71
+MenuText=178 178 178
+WindowText=154 154 154
+TitleText=6 127 248
+ActiveBorder=51 61 71
+InactiveBorder=51 61 71
+AppWorkSpace=89 89 89
+Hilight=6 127 248
+HilightText=178 178 178
+ButtonFace=51 61 71
+ButtonShadow=0 0 0
+GrayText=89 89 89
+ButtonText=0, 0, 0
+InactiveTitleText=89 89 89
+ButtonHilight=75 83 92
+ButtonDkShadow=75 83 92
+ButtonLight=75 83 92
+InfoText=178 178 178
+InfoWindow=51 61 71
+ButtonAlternateFace=228, 228, 228
+HotTrackingColor=6 127 248
+GradientActiveTitle=51 61 71
+GradientInactiveTitle=51 61 71
+MenuHilight=6 127 248
+MenuBar=51 61 71
+Background=51 61 71
+WindowFrame=75 83 92
+
+[Trackbar.ThumbDown]
+Image=Alienware 2010 win7\track_button_down.tga.tga
+Alpha=255
+PerPixel=1
+Trans=1
+TopHeight=8
+LeftWidth=5
+RightWidth=5
+MouseOver=1
+BottomHeight=8
+Tile=3
+SmartSmallMargins=1
+
+[Trackbar.ThumbUp]
+Image=Alienware 2010 win7\track_button_up.tga.tga
+TopHeight=8
+LeftWidth=5
+RightWidth=5
+PerPixel=1
+Trans=1
+MouseOver=1
+BottomHeight=8
+Tile=3
+SimpleMode=0
+SmartSmallMargins=1
+
+[Trackbar.ThumbLeft]
+Image=Alienware 2010 win7\track_button_left.tga.tga
+TopHeight=5
+BottomHeight=5
+LeftWidth=8
+MouseOver=1
+Trans=1
+PerPixel=1
+RightWidth=8
+Tile=2
+SmartSmallMargins=1
+
+[Trackbar.ThumbRight]
+Image=Alienware 2010 win7\track_button_right.tga.tga
+Trans=1
+TopHeight=5
+LeftWidth=8
+RightWidth=8
+PerPixel=1
+BottomHeight=5
+Tile=2
+SmartSmallMargins=1
+MouseOver=1
+
+[Trackbar.ThumbHorz]
+Image=Alienware 2010 win7\track_button_middle.tga.tga
+TopHeight=8
+LeftWidth=3
+RightWidth=3
+MouseOver=1
+Trans=1
+PerPixel=1
+BottomHeight=8
+Tile=3
+SmartSmallMargins=1
+
+[Trackbar.ThumbVert]
+Image=Alienware 2010 win7\track_button_center.tga.tga
+Trans=1
+TopHeight=3
+LeftWidth=8
+RightWidth=8
+MouseOver=1
+PerPixel=1
+BottomHeight=3
+Tile=2
+SmartSmallMargins=1
+
+[Trackbar.Track]
+Image=Alienware 2010 win7\track_bar_h.bmp
+LeftWidth=3
+RightWidth=1
+TopHeight=2
+BottomHeight=1
+TileTop=1
+TileBottom=1
+TileLeft=1
+TileRight=1
+SmartSmallMargins=1
+
+[Trackbar.TrackVert]
+Image=Alienware 2010 win7\track_bar_v.bmp
+TopHeight=2
+BottomHeight=2
+LeftWidth=2
+RightWidth=1
+
+[UpDown.Vert]
+Image=Alienware 2010 win7\spin_button_v.bmp
+TopHeight=4
+BottomHeight=3
+LeftWidth=3
+RightWidth=3
+GlyphImage=Alienware 2010 win7\spin_button_v_glyph.tga
+GlyphTransMode=3
+Trans=0
+PerPixel=0
+
+[UpDown.Horz]
+Image=Alienware 2010 win7\spin_button_h.bmp
+TopHeight=3
+BottomHeight=3
+LeftWidth=4
+RightWidth=3
+GlyphImage=Alienware 2010 win7\spin_button_h_glyph.tga
+GlyphTransMode=3
+PerPixel=0
+Trans=0
+
+[StatusBarEdges]
+Image=Alienware 2010 win7\status_bar.bmp
+TopHeight=4
+Tile=0
+BottomHeight=2
+LeftWidth=0
+RightWidth=2
+ContentLeft=2
+ContentRight=2
+ContentTop=1
+ContentBottom=1
+NormalFont=2
+TextFont=2
+NormalColour=2
+TextColour=2
+PerPixel=0
+Trans=1
+
+[GROUPBOXEDGE]
+Image=Alienware 2010 win7\group_box.bmp
+TopHeight=4
+BottomHeight=4
+LeftWidth=4
+RightWidth=4
+Trans=1
+ContentLeft=1
+ContentRight=1
+ContentTop=1
+ContentBottom=1
+PerPixel=0
+NormalColour=2
+NormalFont=2
+TextFont=2
+TextColour=2
+Tile=0
+
+[GROUPBOX]
+Tile=0
+PerPixel=0
+BackgroundLeftShift=0
+Trans=1
+Image=Alienware 2010 win7\group_box_top.bmp
+NormalFont=2
+TextFont=2
+NormalColour=2
+TextColour=2
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+ContentLeft=0
+ContentRight=0
+ContentTop=1
+ContentBottom=0
+
+[MINWINDOW.CAPTION]
+Image=Alienware 2010 win7\min_window_caption.bmp
+LeftWidth=2
+RightWidth=2
+TopHeight=13
+BottomHeight=2
+PerPixel=0
+NormalColour=8
+TextColour=2
+PressedColour=8
+DisabledColour=5
+FocusColour=5
+DefaultColour=5
+MouseOverColour=7
+TextColourOver=5
+NormalFont=8
+TextFont=1
+PressedFont=8
+FocusFont=1
+DefaultFont=1
+DisabledFont=1
+MouseOverFont=1
+ContentLeft=0
+ContentRight=0
+ContentTop=0
+ContentBottom=0
+
+[WINDOW.CLOSEBUTTON]
+Image=Alienware 2010 win7\w_caption_but_close.tga.tga
+Trans=1
+PerPixel=1
+GlyphImage=Alienware 2010 win7\w_caption_but_glyph_close.tga
+GlyphTransMode=3
+LeftWidth=4
+RightWidth=4
+TopHeight=4
+BottomHeight=4
+SmartSmallMargins=1
+MouseOver=1
+
+[WINDOW.HELPBUTTON]
+Image=Alienware 2010 win7\window_caption_but.tga
+Trans=1
+PerPixel=1
+GlyphImage=Alienware 2010 win7\w_caption_but_glyph_help.tga
+GlyphTransMode=3
+LeftWidth=4
+RightWidth=4
+TopHeight=4
+BottomHeight=4
+SmartSmallMargins=1
+MouseOver=1
+
+[WINDOW.MAXBUTTON]
+Image=Alienware 2010 win7\w_caption_but_max.tga.tga
+Trans=1
+PerPixel=1
+GlyphImage=Alienware 2010 win7\w_caption_but_glyph_max.tga
+GlyphTransMode=3
+LeftWidth=4
+RightWidth=4
+TopHeight=4
+BottomHeight=4
+SmartSmallMargins=1
+MouseOver=1
+
+[WINDOW.MINBUTTON]
+Image=Alienware 2010 win7\w_caption_but_max.tga.tga
+PerPixel=1
+GlyphImage=Alienware 2010 win7\w_caption_but_glyph_min.tga
+Alpha=255
+TopHeight=4
+BottomHeight=4
+LeftWidth=4
+RightWidth=4
+GlyphTransMode=3
+Trans=1
+SmartSmallMargins=1
+MouseOver=1
+
+[WINDOW.RESTOREBUTTON]
+Image=Alienware 2010 win7\w_caption_but_max.tga.tga
+Trans=1
+PerPixel=1
+GlyphImage=Alienware 2010 win7\w_caption_but_glyph_rest.tga
+GlyphTransMode=3
+LeftWidth=4
+RightWidth=4
+TopHeight=4
+BottomHeight=4
+SmartSmallMargins=1
+MouseOver=1
+
+[SCROLLBAR]
+BottomHeight=3
+Image=Alienware 2010 win7\scrollbar arrow time.bmp
+LeftWidth=3
+RightWidth=3
+TopHeight=3
+Tile=0
+Trans=1
+MouseOver=1
+MinThumbSize=16
+MinBeforeSwitch=16
+GlyphImage=Alienware 2010 win7\arrows glyph time.tga
+GlyphTransMode=3
+SimpleMode=0
+
+[HORZSCROLL]
+BottomHeight=8
+Image=Alienware 2010 win7\scrollbar back time h.tga
+LeftWidth=5
+RightWidth=5
+TopHeight=8
+Tile=2
+
+[HORZSCROLLTHUMB]
+BottomHeight=8
+Image=Alienware 2010 win7\scrollbar time h.tga
+LeftWidth=3
+RightWidth=3
+TopHeight=8
+ShowDot=1
+Tile=2
+PerPixel=1
+SmartSmallMargins=1
+Trans=1
+
+[VERTSCROLL]
+BottomHeight=5
+Image=Alienware 2010 win7\scrollbar back time v.tga
+LeftWidth=8
+RightWidth=8
+TopHeight=5
+Tile=3
+
+[VERTSCROLLTHUMB]
+BottomHeight=3
+Image=Alienware 2010 win7\scrollbar time v.tga
+LeftWidth=8
+RightWidth=8
+TopHeight=3
+ShowDot=1
+Tile=3
+PerPixel=1
+AlphaMode=0
+SmartSmallMargins=1
+Trans=1
+
+[SUNKEDGE]
+Image=Alienware 2010 win7\combobox border ,.bmp
+Tile=0
+TileTop=1
+TileBottom=1
+TileLeft=1
+TileRight=1
+TopHeight=10
+BottomHeight=9
+LeftWidth=4
+RightWidth=4
+
+[COMBOBUTTON]
+Image=Alienware 2010 win7\combobox button,.tga
+RightWidth=4
+LeftWidth=4
+TopHeight=4
+BottomHeight=4
+Tile=0
+MouseOver=1
+Trans=1
+PerPixel=1
+GlyphImage=Alienware 2010 win7\combobox button arrow glyph,.tga
+GlyphAlpha=255
+GlyphTransMode=3
+
+[EXTRAIMAGES]
+Image=Alienware 2010 win7\sizeing grip.bmp
+Trans=1
+Alpha=255
+PerPixel=0
+
+[TREEVIEW]
+Image=Alienware 2010 win7\tree_view.tga
+Tile=0
+TileTop=0
+TileBottom=0
+TileLeft=0
+TileRight=0
+PerPixel=0
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+GlyphTransMode=1
+
+[XPTaskbar]
+File=Alienware 2010 win7\Alien 2010.xp
+
+[XPShell]
+File=Alienware 2010 win7\Alien 2010.xps
+
+[SYSTEMFONTS]
+SystemIcon=1
+SystemMenu=1
+SYstemMessage=1
+SystemStatus=1
+SystemCaption=1
+SystemSmallCaption=1
+
+[SYSTEMFONT0]
+FontName=Kozuka Mincho Pro B
+Fontheight=13
+Name=Tahoma, 13
+FontWeight=400
+DrawingStyle=0
+ShadowR=0
+ShadowG=0
+ShadowB=0
+
+[SYSTEMFONT1]
+FontName=Tahoma
+Fontheight=-11
+Name=Tahoma, -11
+
+[STARTBUTTON]
+Image=Alienware 2010 win7\start_but_classic.bmp
+LeftWidth=11
+RightWidth=8
+BottomHeight=5
+TopHeight=5
+MouseOver=1
+PerPixel=0
+
+[TASKBAR]
+Image=Alienware 2010 win7\taskbar_but_classic.tga
+TopHeight=5
+BottomHeight=5
+LeftWidth=5
+RightWidth=5
+Tile=2
+PerPixel=1
+MouseOver=1
+Trans=1
+FocusPressedFont=2
+NormalFont=2
+TextFont=2
+PressedFont=2
+DisabledFont=2
+FocusFont=2
+DefaultFont=2
+MouseOverFont=2
+FocusPressedColour=2
+NormalColour=2
+TextColour=2
+PressedColour=3
+DisabledColour=4
+FocusColour=5
+DefaultColour=2
+MouseOverColour=5
+TextColourOver=5
+
+[TOOLBARS.MENUBAR]
+Image=Alienware 2010 win7\toolbar_but.tga.tga
+Trans=1
+PerPixel=1
+TextColour=0
+FocusColour=16
+DefaultColour=16
+MouseOverColour=0
+TextColourOver=0
+TextFont=5
+FocusFont=2
+DefaultFont=2
+MouseOverFont=2
+LeftWidth=5
+RightWidth=5
+TopHeight=5
+BottomHeight=5
+ContentLeft=0
+ContentRight=0
+ContentTop=1
+ContentBottom=1
+Tile=2
+NormalColour=10
+DisabledColour=7
+PressedColour=16
+NormalFont=2
+DisabledFont=2
+PressedFont=2
+
+[Animations]
+File=Alienware 2010 win7\Animations.Animations
+
+[ToolbarIcons]
+File=Alienware 2010 win7\ToolbarIcons.ToolBarIcons
+
+[Fonts.Install]
+
+[MenuBar.Background]
+LeftWidth=2
+RightWidth=2
+TopHeight=9
+BottomHeight=2
+Image=Alienware 2010 win7\menu_bar_2.bmp
+Tile=2
+
+[TOOLBARBACKGROUND]
+TileBottom=0
+TileLeft=0
+TileRight=0
+TileTop=0
+Image=Alienware 2010 win7\toolbar_back.bmp
+TopHeight=1
+BottomHeight=1
+LeftWidth=1
+RightWidth=1
+Tile=0
+
+[TOOLBARS]
+Image=Alienware 2010 win7\toolbar_but.tga.tga
+TopHeight=6
+BottomHeight=6
+LeftWidth=6
+RightWidth=6
+Tile=2
+PerPixel=1
+Trans=1
+ContentLeft=0
+ContentRight=0
+ContentTop=0
+ContentBottom=0
+DefaultColour=16
+NormalColour=10
+TextColour=2
+PressedColour=16
+DisabledColour=4
+FocusColour=16
+MouseOverColour=2
+TextColourOver=5
+DefaultFont=2
+NormalFont=2
+TextFont=2
+PressedFont=2
+DisabledFont=2
+FocusFont=2
+MouseOverFont=2
+
+[REBAR.GRIP]
+Image=Alienware 2010 win7\rebar_grip.tga
+Trans=1
+RightWidth=0
+TopHeight=1
+LeftWidth=0
+BottomHeight=1
+Tile=1
+Alpha=
+PerPixel=1
+
+[REBARGRIP]
+Image=Alienware 2010 win7\rebar_grip_classic.bmp
+TopHeight=2
+BotHeight=2
+Trans=1
+
+[TOOLBAR.HORZLINE]
+Image=Alienware 2010 win7\toolbar_horizontal_line.bmp
+LeftWidth=2
+RightWidth=2
+TopHeight=0
+BottomHeight=0
+Trans=1
+PerPixel=0
+
+[TOOLBAR.VERTICALSEP]
+Image=Alienware 2010 win7\toolbar_vertical_line.bmp
+Trans=1
+LeftWidth=3
+TopHeight=1
+BottomHeight=1
+RightWidth=0
+Tile=1
+
+[WindowFrame.TopPerPixel]
+Image=Alienware 2010 win7\frame top alien year.tga
+LeftWidth=46
+RightWidth=40
+TopHeight=0
+BottomHeight=0
+ContentLeft=17
+ContentRight=127
+ContentTop=12
+ContentBottom=0
+NormalFont=11
+PressedFont=11
+Tile=0
+PerPixel=1
+Trans=1
+TextAlpha=255
+NormalColour=10
+PressedColour=9
+TextHorzAlignNormal=1
+TextHorzAlignPressed=1
+TextAlphaInactive=255
+BackgroundEffect=0
+GlyphImage=Alienware 2010 win7\frame top glyph year.tga
+GlyphTransMode=3
+
+[WindowFrame.LeftPerPixel]
+Image=Alienware 2010 win7\frame left alien year.tga
+LeftWidth=10
+RightWidth=17
+TopHeight=43
+BottomHeight=43
+Tile=0
+Trans=1
+PerPixel=1
+BackgroundEffect=10
+
+[WindowFrame.RightPerPixel]
+Image=Alienware 2010 win7\frame right alien year.tga
+BottomHeight=43
+TopHeight=43
+Tile=0
+Trans=1
+PerPixel=1
+LeftWidth=10
+RightWidth=17
+BackgroundEffect=10
+
+[WindowFrame.BottomPerPixel]
+Image=Alienware 2010 win7\frame bottom alien year.tga
+LeftWidth=106
+RightWidth=106
+Tile=0
+Trans=1
+PerPixel=1
+TopHeight=0
+BottomHeight=0
+BackgroundEffect=10
+
+[WindowFrame.CloseButtonPerPixel]
+Image=Alienware 2010 win7\close button single alien 2010.tga
+LeftCoord=107
+TopCoord=0
+LeftCoordMaximized=107
+TopCoordMaximized=0
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+Trans=1
+PerPixel=1
+
+[WindowFrame.MaxButtonPerPixel]
+Image=Alienware 2010 win7\min button alien 2010.tga
+LeftCoord=134
+TopCoord=0
+LeftCoordMaximized=134
+TopCoordMaximized=0
+Trans=1
+PerPixel=1
+
+[WindowFrame.MinButtonPerPixel]
+Image=Alienware 2010 win7\min button alien 2010.tga
+LeftCoord=161
+TopCoord=0
+LeftCoordMaximized=161
+TopCoordMaximized=0
+Trans=1
+PerPixel=1
+
+[WindowFrame.RestoreButtonPerPixel]
+Image=Alienware 2010 win7\min button alien 2010.tga
+LeftCoord=134
+TopCoord=0
+LeftCoordMaximized=134
+TopCoordMaximized=0
+Trans=1
+PerPixel=1
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+
+[Button8]
+XCoord=6
+YCoord=5
+Align=0
+Action=11
+Visibility=27
+
+[Places.ToolbarsBack]
+Image=Alienware 2010 win7\file_dialog_back.bmp
+LeftWidth=4
+RightWidth=4
+TopHeight=4
+BottomHeight=4
+GlyphTransMode=3
+GlyphVertAlign=2
+
+[Places.Toolbars]
+Image=Alienware 2010 win7\file_dialog_buttons.tga.tga
+TopHeight=6
+BottomHeight=6
+LeftWidth=6
+RightWidth=7
+ContentLeft=0
+ContentRight=0
+ContentTop=1
+ContentBottom=1
+Trans=1
+PerPixel=1
+NormalFont=2
+TextFont=2
+PressedFont=2
+DisabledFont=2
+FocusFont=2
+DefaultFont=2
+MouseOverFont=2
+NormalColour=2
+TextColour=2
+PressedColour=13
+DisabledColour=4
+FocusColour=3
+DefaultColour=2
+MouseOverColour=5
+TextColourOver=4
+Tile=0
+
+[MenuBackground.MSMenus]
+Image=Alienware 2010 win7\menu_back.bmp
+LeftWidth=31
+RightWidth=4
+TopHeight=4
+BottomHeight=4
+
+[MenuItem.MSMenus]
+Image=Alienware 2010 win7\menu_item.tga.tga
+Trans=1
+PerPixel=1
+TopHeight=9
+BottomHeight=5
+LeftWidth=2
+RightWidth=2
+NormalFont=2
+TextFont=2
+PressedFont=2
+DisabledFont=2
+FocusFont=2
+DefaultFont=2
+MouseOverFont=2
+NormalColour=2
+TextColour=2
+PressedColour=5
+DisabledColour=8
+FocusColour=2
+DefaultColour=2
+MouseOverColour=5
+TextColourOver=5
+ContentLeft=0
+ContentRight=0
+ContentTop=0
+ContentBottom=0
+MouseOver=1
+
+[WindowFrame.TopPerPixelMaximized]
+Image=Alienware 2010 win7\frame top alien year.tga
+LeftWidth=40
+RightWidth=40
+TopHeight=0
+BottomHeight=0
+ContentLeft=-1
+ContentRight=127
+ContentTop=12
+ContentBottom=0
+Trans=1
+PerPixel=1
+NormalFont=10
+PressedFont=10
+NormalColour=7
+PressedColour=7
+TextAlpha=255
+TextAlphaInactive=180
+BackgroundEffect=10
+
+[Statusbar.Background]
+Image=Alienware 2010 win7\statusbar..bmp
+LeftWidth=2
+RightWidth=2
+TopHeight=2
+BottomHeight=2
+
+[Font1]
+FontAngle=0
+AntiAlias=1
+FontName=Segoe UI
+FontHeight=-11
+Italics=0
+Underline=0
+FontWeight=400
+ShadowOffset=0
+DrawingStyle=4
+Name=Titlebar Active = Segoe UI -11
+ShadowR=255
+ShadowG=255
+ShadowB=255
+
+[ProgressXP.HorzFlash]
+Image=Alienware 2010 win7\progress_glow_h.tga
+Trans=1
+PerPixel=1
+LeftWidth=0
+RightWidth=0
+TopHeight=1
+BottomHeight=1
+Tile=0
+FrameCount=1
+
+[Progress]
+Bitmap=Alienware 2010 win7\progress_bar.bmp
+LeftWidth=2
+RightWidth=2
+TopHeight=8
+BottomHeight=2
+Trans=1
+PerPixel=0
+Tile=0
+
+[ProgressXP.HorzBlock]
+Image=Alienware 2010 win7\progress_shunk_h.bmp
+LeftWidth=2
+RightWidth=2
+TopHeight=8
+BottomHeight=2
+Trans=1
+PerPixel=0
+Tile=0
+ChunkSize=0
+ChunkGap=0
+
+[ProgressXP.HorzEdge]
+Image=Alienware 2010 win7\progress_back_h.bmp
+Trans=1
+PerPixel=0
+LeftWidth=2
+RightWidth=2
+TopHeight=2
+BottomHeight=2
+ContentLeft=0
+ContentRight=0
+ContentTop=0
+ContentBottom=0
+
+[WindowFrame.SystemIconPerPixel]
+LeftCoordMaximized=-1000
+TopCoordMaximized=8
+LeftCoord=-1000
+TopCoord=7
+
+[Colour2]
+R=0
+G=0
+B=0
+Name=Buttons - Normal
+
+[WindowFrame.CloseButtonSinglePerPixel]
+Image=Alienware 2010 win7\close button single alien 2010.tga
+LeftCoord=107
+TopCoord=0
+Trans=1
+PerPixel=1
+LeftCoordMaximized=107
+TopCoordMaximized=0
+
+[SMALLHSCROLLTHUMB]
+Image=Alienware 2010 win7\scrollbar time h.tga
+SmartSmallMargins=1
+LeftWidth=3
+RightWidth=3
+TopHeight=7
+BottomHeight=7
+Trans=0
+PerPixel=0
+
+[SMALLVSCROLLTHUMB]
+Image=Alienware 2010 win7\scrollbar time v.tga
+Tile=3
+LeftWidth=7
+RightWidth=7
+TopHeight=3
+BottomHeight=3
+SmartSmallMargins=1
+Trans=0
+PerPixel=0
+
+[Tabs.Page]
+Image=Alienware 2010 win7\tab_page.bmp
+
+[Colour3]
+R=37
+G=86
+B=131
+Name=Buttons - Pressed
+
+[Colour4]
+R=150
+G=150
+B=150
+Name=Buttons - Disabled
+
+[Colour5]
+R=10
+G=56
+B=98
+Name=Buttons - Focused
+
+[Colour6]
+R=0
+G=0
+B=0
+Name=Buttons - Default
+
+[Font2]
+FontName=Segoe UI
+FontHeight=-11
+Name=Buttons - All States = Segoe UI -11
+
+[Tabs.Left]
+Image=Alienware 2010 win7\tabs.tga.tga
+ContentLeft=1
+ContentRight=2
+ContentTop=1
+ContentBottom=0
+LeftWidth=4
+RightWidth=4
+TopHeight=8
+BottomHeight=2
+TextVertShiftPressed=0
+Trans=1
+PerPixel=1
+Tile=2
+NormalFont=3
+PressedFont=3
+DisabledFont=3
+FocusFont=3
+DefaultFont=3
+TextFont=3
+MouseOverFont=3
+NormalColour=10
+PressedColour=11
+DisabledColour=4
+FocusColour=10
+DefaultColour=8
+TextColour=2
+TextColourOver=5
+MouseOver=1
+
+[Font3]
+FontName=Segoe UI
+FontHeight=-11
+Name=Tabs = Segoe UI -11
+
+[Font4]
+FontName=Digiface
+FontHeight=-15
+Name=Tool Window = Segoe UI -11
+FontWeight=400
+DrawingStyle=0
+RenderMode=0
+FontAlpha=255
+TextBlur=0
+ShadowAlpha=255
+ShadowBlur=0
+BlendMode=0
+UseColour=0
+ShadowR=0
+ShadowG=0
+ShadowB=0
+ShadowOffset=1
+ShadowOffsetY=1
+
+[Colour7]
+R=137
+G=137
+B=137
+Name=Tool Window - Inactive
+
+[Colour8]
+R=185
+G=185
+B=185
+Name=Menu - Disabled
+Colour=36 36 36
+
+[Colour9]
+R=102
+G=102
+B=102
+Name=Titlebar - Inactive
+
+[Font5]
+FontAngle=0
+AntiAlias=1
+FontName=Segoe UI
+FontHeight=-11
+Italics=0
+Underline=0
+FontWeight=400
+ShadowOffset=0
+DrawingStyle=4
+Name=Titlebar Inactive = Segoe UI 13
+ShadowR=144
+ShadowG=144
+ShadowB=144
+
+[Font6]
+FontName=Segoe UI
+FontHeight=13
+Name=Taskbar Button - Normal, Focused = Segoe UI 13
+DrawingStyle=0
+ShadowOffset=0
+ShadowR=0
+ShadowG=0
+ShadowB=0
+
+[Colour10]
+R=0
+G=0
+B=0
+Name=Start Panel - Places
+
+[Font7]
+FontName=Segoe UI
+FontHeight=-11
+FontWeight=600
+Name=Start Panel - All Programs = Segoe UI -11
+
+[Colour11]
+R=255
+G=255
+B=255
+Name=All Programs - Focused
+Colour=51 61 71
+
+[Colour12]
+R=44
+G=44
+B=44
+Name=Taskbar buttons - Normal, Focused
+
+[Colour13]
+R=255
+G=255
+B=255
+Name=Taskbar buttons - Activated, Activated Focused, Pressed
+
+[Font8]
+FontName=Segoe UI
+FontHeight=13
+Name=Taskbar Button - Activated, Activated Focused, Pressed
+DrawingStyle=0
+ShadowOffset=0
+ShadowR=96
+ShadowG=157
+ShadowB=218
+
+[Tabs.Right]
+Image=Alienware 2010 win7\tabs.tga.tga
+LeftWidth=4
+RightWidth=4
+TopHeight=7
+BottomHeight=2
+ContentLeft=1
+ContentRight=2
+ContentTop=1
+ContentBottom=0
+NormalFont=3
+PressedFont=3
+DisabledFont=3
+FocusFont=3
+DefaultFont=3
+TextFont=3
+MouseOverFont=3
+NormalColour=10
+PressedColour=11
+DisabledColour=4
+FocusColour=0
+DefaultColour=8
+TextColour=0
+TextColourOver=0
+MouseOver=1
+Tile=2
+
+[Colour14]
+R=217
+G=217
+B=217
+Name=Edit Box
+
+[ProgressXP.VertBlock]
+Image=Alienware 2010 win7\progress_shunk_v.bmp
+LeftWidth=8
+RightWidth=2
+TopHeight=2
+BottomHeight=2
+ChunkSize=0
+ChunkGap=0
+
+[ProgressXP.VertEdge]
+Image=Alienware 2010 win7\progress_back_v.bmp
+LeftWidth=8
+RightWidth=2
+BottomHeight=2
+TopHeight=2
+ContentLeft=0
+ContentRight=0
+ContentTop=0
+ContentBottom=0
+
+[Colour15]
+R=40
+G=40
+B=40
+Name=Start Panel - Programs
+
+[Font9]
+FontAngle=0
+AntiAlias=1
+FontName=Segoe UI
+FontHeight=-11
+Italics=0
+Underline=0
+FontWeight=400
+ShadowOffset=0
+DrawingStyle=4
+Name=Titlebar Active Max = Segoe UI -11
+ShadowR=115
+ShadowG=115
+ShadowB=115
+
+
+
+
+
+
+[AeroWizard.DownArrow]
+Image=Alienware 2010 win7\down.tga.tga
+Trans=1
+PerPixel=1
+Vert=1
+LeftWidth=2
+RightWidth=2
+TopHeight=2
+BottomHeight=2
+SimpleMode=3
+PreMultipliedAlpha=1
+
+[AeroWizard.LeftArrow]
+Image=Alienware 2010 win7\left arrow.tga.tga
+Trans=1
+PerPixel=1
+Vert=1
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+SimpleMode=3
+PreMultipliedAlpha=0
+
+[AeroWizard.RightArrow]
+Image=Alienware 2010 win7\right arrow.tga.tga
+Trans=1
+PerPixel=1
+Vert=1
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+SimpleMode=3
+PreMultipliedAlpha=0
+
+[AltTab.Button]
+Image=Alienware 2010 win7\alttab.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=7
+RightWidth=7
+TopHeight=20
+BottomHeight=7
+ContentLeft=6
+ContentTop=6
+ContentRight=6
+ContentBottom=6
+PreMultipliedAlpha=0
+
+[DragDrop.Arrows]
+Image=Alienware 2010 win7\DragArrows.tga
+Trans=1
+PerPixel=1
+PreMultipliedAlpha=0
+SimpleMode=3
+
+[DragDrop.Icon]
+Image=Alienware 2010 win7\dragicon.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=7
+RightWidth=7
+TopHeight=3
+BottomHeight=3
+ContentLeft=7
+ContentTop=3
+ContentRight=7
+ContentBottom=3
+PreMultipliedAlpha=1
+
+[DragDrop.Rect]
+Image=Alienware 2010 win7\dragrect.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=5
+RightWidth=31
+TopHeight=20
+BottomHeight=31
+ContentLeft=5
+ContentTop=5
+ContentRight=31
+ContentBottom=31
+PreMultipliedAlpha=0
+
+[DragDrop2.Icon]
+Image=Alienware 2010 win7\vista_toolbar.bmp
+LeftWidth=1
+RightWidth=1
+TopHeight=2
+BottomHeight=2
+
+[Explorer.FolderPane]
+Image=Alienware 2010 win7\explorer_folder_bar_vst.bmp
+LeftWidth=3
+RightWidth=3
+TopHeight=7
+BottomHeight=3
+Tile=0
+ApplyColour=0
+PreMultipliedAlpha=0
+Trans=0
+PerPixel=0
+
+[Explorer.InfoPane]
+Image=Alienware 2010 win7\expinfo back.bmp
+LeftWidth=1
+RightWidth=1
+TopHeight=5
+BottomHeight=1
+Tile=0
+ApplyColour=0
+PreMultipliedAlpha=0
+Trans=0
+PerPixel=0
+
+[Explorer.SelectionImage]
+Image=Alienware 2010 win7\explorerlist.tga.tga
+LeftWidth=4
+RightWidth=4
+TopHeight=10
+BottomHeight=10
+Trans=1
+PerPixel=1
+Vert=1
+ApplyColour=0
+PreMultipliedAlpha=0
+
+[StartMenu.ExtraArrow]
+Image=Alienware 2010 win7\logoff arrow time.tga
+PerPixel=1
+Trans=1
+LeftWidth=4
+TopHeight=4
+RightWidth=4
+BottomHeight=4
+Vert=0
+PreMultipliedAlpha=0
+GlyphImage=Alienware 2010 win7\StartMenuButtonArrow.tga
+GlyphVert=0
+GlyphTransMode=3
+
+[TabClose.IE7]
+Image=Alienware 2010 win7\ie tab close.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=4
+RightWidth=4
+TopHeight=4
+BottomHeight=2
+Vert=1
+PreMultipliedAlpha=0
+
+[Tabs.IE7]
+Image=Alienware 2010 win7\ie tabs.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=6
+RightWidth=6
+TopHeight=12
+BottomHeight=2
+Vert=1
+PreMultipliedAlpha=0
+
+[TaskDialog.Arrow]
+Image=Alienware 2010 win7\taskdilog expan button.tga
+Trans=1
+PerPixel=1
+LeftWidth=14
+RightWidth=0
+TopHeight=0
+BottomHeight=13
+PreMultipliedAlpha=0
+
+[TaskDialog.ButtonArrows]
+Image=Alienware 2010 win7\taskdialogbuttonarrows.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=0
+RightWidth=0
+TopHeight=0
+BottomHeight=0
+Vert=1
+SimpleMode=3
+PreMultipliedAlpha=0
+
+[TaskDialog.Buttons]
+Image=Alienware 2010 win7\taskdialogbuttons.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=6
+RightWidth=6
+TopHeight=20
+BottomHeight=6
+ContentLeft=7
+ContentTop=10
+ContentRight=7
+ContentBottom=10
+Vert=1
+PreMultipliedAlpha=0
+
+[Vista.Shell]
+Image=Alienware 2010 win7\vista_toolbar.bmp
+LeftWidth=6
+RightWidth=6
+TopHeight=6
+BottomHeight=6
+ApplyColour=0
+Tile=0
+
+[Vista.ShellButtons]
+Image=Alienware 2010 win7\toolbar_buttons_vst.tga.tga
+Trans=1
+PerPixel=1
+LeftWidth=3
+RightWidth=3
+TopHeight=3
+BottomHeight=3
+ContentLeft=0
+ContentTop=0
+ContentRight=0
+ContentBottom=0
+PreMultipliedAlpha=0
+Tile=0
+
+[Font10]
+AntiAlias=1
+FontName=Kozuka Mincho Pro H
+FontHeight=-11
+FontWeight=400
+ShadowOffset=0
+DrawingStyle=0
+Name=Taskbar Group Menu = Tahoma -11
+ShadowR=115
+ShadowG=115
+ShadowB=115
+ShadowOffsetY=0
+
+[ComboBox.ReadOnly]
+Image=Alienware 2010 win7\combobox border ,.bmp
+Trans=1
+PerPixel=0
+TopHeight=6
+BottomHeight=6
+LeftWidth=6
+RightWidth=6
+TileTop=0
+
+[HeaderBar.DropDown]
+Image=Alienware 2010 win7\list_view_header_drop_down.bmp
+Trans=0
+PerPixel=0
+TopHeight=3
+BottomHeight=3
+LeftWidth=3
+RightWidth=3
+
+[HeaderBar.Images]
+Image=Alienware 2010 win7\listviewheaderdropdownarrow.tga.tga
+Trans=1
+PerPixel=1
+TopHeight=18
+LeftWidth=31
+
+[Progressxp.HorzBlockRed]
+Image=Alienware 2010 win7\progress_shunk_h.bmp
+Trans=1
+TopHeight=8
+BottomHeight=2
+LeftWidth=2
+RightWidth=2
+PerPixel=0
+PreMultipliedAlpha=0
+
+[Progressxp.HorzBlockYellow]
+Image=Alienware 2010 win7\progress_shunk_h.bmp
+Trans=1
+TopHeight=8
+BottomHeight=2
+LeftWidth=2
+RightWidth=2
+PerPixel=0
+PreMultipliedAlpha=0
+
+[Progressxp.HorzBlockBlue]
+Image=Alienware 2010 win7\progress_shunk_h.bmp
+Trans=1
+TopHeight=8
+BottomHeight=2
+LeftWidth=2
+RightWidth=2
+PerPixel=0
+PreMultipliedAlpha=0
+
+[Progressxp.VertFlash]
+Image=Alienware 2010 win7\progress_glow_v.tga
+Trans=1
+PerPixel=1
+LeftWidth=1
+RightWidth=1
+
+[IETab.Edges]
+Image=Alienware 2010 win7\ie tabs_corners.bmp
+[IETab.Bottom]
+Image=Alienware 2010 win7\ie tabs_bottom_bar.bmp
+[Vista.ExplorerTop]
+Image=Alienware 2010 win7\explorerglassbackground.tga.tga
+Trans=1
+PerPixel=1
+TopHeight=4
+BottomHeight=4
+LeftWidth=2
+RightWidth=2
+FrameCount=1
+[ListView.VerticalLine]
+Image=Alienware 2010 win7\list_view_vert_line.bmp
+Trans=0
+PerPixel=0
+LeftWidth=0
+TopHeight=1
+BottomHeight=1
+Tile=1
+RightWidth=1
+[WBConfig]
+PrimaryHue=212
+PrimaryHueRange=24
+[Explorer.Backgrounds.ActiveBackground]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Explorer.Backgrounds.InactiveBackground]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Explorer.Backgrounds.ActiveBackgroundGlass]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Explorer.Backgrounds.InactiveBackgroundGlass]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Explorer.Backgrounds.ActiveBackgroundSorted]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Explorer.Backgrounds.InactiveBackgroundSorted]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Explorer.Backgrounds.ActiveBackgroundSortedGlass]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Explorer.Backgrounds.InactiveBackgroundSortedGlass]
+Image=Alienware 2010 win7\active back alien 2010.tga
+Trans=0
+PerPixel=0
+[Vista.ShellSide]
+Image=Alienware 2010 win7\sidebar 1.bmp
+RightWidth=6
+[Colour16]
+Colour=6 127 248
+[AddressBand]
+FrameCount=1
+Image=Alienware 2010 win7\address time.tga
+TopHeight=2
+BottomHeight=2
+LeftWidth=2
+RightWidth=2
+Trans=0
+PerPixel=0
+[ControlPanel.VFonts]
+Colours=TIME LINE\TIME LINE.UIS~_ControlPanel.colours
+[TaskDialog.VFonts]
+Colours=TIME LINE\TIME LINE.UIS~_TaskDialog.colours
+[Flyout.VFonts]
+Colours=TIME LINE\TIME LINE.UIS~_Flyout.colours
+[Button.VFonts]
+Colours=TIME LINE\TIME LINE.UIS~_Button.colours
+[WindowFrame.CloseButtonPerPixel^Overlay]
+Trans=0
+PerPixel=0
+PreMultipliedAlpha=0
+[WindowFrame.MaxButtonPerPixel^Overlay]
+Trans=0
+PerPixel=0
+PreMultipliedAlpha=0
+[WindowFrame.MinButtonPerPixel^Overlay]
+Trans=0
+PerPixel=0
+PreMultipliedAlpha=0
+[WindowFrame.RestoreButtonPerPixel^Overlay]
+Trans=0
+PerPixel=0
+PreMultipliedAlpha=0
+[WindowFrame.CloseButtonSinglePerPixel^Overlay]
+Trans=0
+PerPixel=0
+PreMultipliedAlpha=0
+[NavigationArrows.Normal]
+Image=Alienware 2010 win7\nav arrow glow time.tga
+Trans=1
+PerPixel=1
+[NavigationArrows.Mouseover]
+Image=Alienware 2010 win7\nav arrow glow time.tga
+Trans=1
+PerPixel=1
+[NavigationArrows.Disabled]
+Image=Alienware 2010 win7\nav arrow norm time.tga
+Trans=1
+PerPixel=1
+[NavigationArrows.Pressed]
+Image=Alienware 2010 win7\nav arrow glow time.tga
+Trans=1
+PerPixel=1
+[NavigationArrows.Background]
+Image=Alienware 2010 win7\nav arrow back time.tga
+[StartMenuButtons.Normal]
+Image=Alienware 2010 win7\logoff vista nonmal time.tga
+LeftWidth=10
+RightWidth=10
+TopHeight=5
+BottomHeight=13
+[StartMenuButtons.Pressed]
+Image=Alienware 2010 win7\logoff vista glow time.tga
+RightWidth=10
+LeftWidth=10
+[StartMenuButtons.MouseOver]
+Image=Alienware 2010 win7\logoff vista glow time.tga
+LeftWidth=10
+RightWidth=10
+[Search.Icons]
+Image=Alienware 2010 win7\search icons time.tga
+Trans=1
+PerPixel=1
+[Navigation.Icons]
+Trans=1
+PerPixel=0
+PreMultipliedAlpha=0
+Image=Alienware 2010 win7\navigation icons time.tga
+[IE.Icons]
+Image=Alienware 2010 win7\small icons time.tga
+[IE.LargeIcons]
+Image=Alienware 2010 win7\large icons time.tga
+[UIS2Buttons]
+ButtonImage=Alienware 2010 win7\but_close.tga.tga
+[Font11]
+FontName=Digiface
+FontHeight=16
+FontWeight=400
+DrawingStyle=0
+RenderMode=0
+FontAlpha=255
+TextBlur=0
+ShadowAlpha=255
+ShadowBlur=0
+BlendMode=0
+UseColour=0
+ShadowR=0
+ShadowG=0
+ShadowB=0
+ShadowOffset=1
+ShadowOffsetY=1
