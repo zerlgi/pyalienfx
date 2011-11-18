@@ -135,7 +135,7 @@ class AlienFX_Controller:
 			self.request.Set_Morph_Color(area,color1,color2)
 
 	
-	def Add_Speed_Conf(self,speed = 0xc8):
+	def Add_Speed_Conf(self,speed = 0xc800):
 		self.request.Set_Speed(speed)
 		
 	def End_Loop_Conf(self):

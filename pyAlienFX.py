@@ -53,6 +53,7 @@ class pyAlienFX_GUI():
 		self.selected_mode = None
 		self.selected_color1 = None
 		self.selected_color2 = None
+		self.lights = True
 		self.selected_speed = 0xc800
 		self.auto_apply = False
 		self.default_color = "0000FF"
@@ -229,8 +230,8 @@ class pyAlienFX_GUI():
 		self.AlienFX_Configurator_Table.set_row_spacings(20)
 		self.AlienFX_Configurator_Table.set_col_spacings(20)
 		old = 0
-		for zone in self.computer.regions.keys():
-			new = len(self.computer.regions[zone].line.keys())
+		for zone in self.configuration.area.keys():
+			new = len(self.configuration.area[zone])
 			old = max(old,new)
 			self.AlienFX_Configurator_Table.resize(old+1,l)
 			self.Widget_Line(self.computer.regions[zone],l)
@@ -255,35 +256,33 @@ class pyAlienFX_GUI():
 	def Set_Conf(self,Save=False):
 		Id = 0x00
 		self.controller.Set_Loop_Conf(Save, self.computer.BLOCK_LOAD_ON_BOOT)
-		self.controller.Add_Speed_Conf()
+		self.controller.Add_Speed_Conf(self.selected_speed)
 		max_conf = 1
 		for zone in self.computer.regions.keys():
 			if not self.computer.regions[zone].power_button:
-				max_conf = max(max_conf,len(self.computer.regions[zone].line.keys()))
+				max_conf = max(max_conf,len(self.configuration.area[zone]))
 		for zone in self.computer.regions.keys():
 			if self.computer.regions[zone].power_button:
 				power = zone
 			Id += 0x01 
 			if not self.computer.regions[zone].power_button:
-				confs = self.computer.regions[zone].line.keys()
-				confs.sort()
 				nb_conf = 0
-				for conf in confs: 
+				for conf in range(len(self.configuration.area[zone])):
 					nb_conf += 1
-					self.controller.Add_Loop_Conf(self.computer.regions[zone].regionId,self.computer.regions[zone].line[conf].mode,self.computer.regions[zone].line[conf].color1,self.computer.regions[zone].line[conf].color2)
-				if len(confs) != 1:
+					self.controller.Add_Loop_Conf(self.computer.regions[zone].regionId,self.configuration.area[zone][conf].mode,self.configuration.area[zone][conf].color1,self.configuration.area[zone][conf].color2)
+				if len(self.configuration.area[zone]) != 1:
 					while nb_conf != max_conf:
 						nb_conf += 1
-						conf = confs[-1]
-						self.controller.Add_Loop_Conf(self.computer.regions[zone].regionId,self.computer.regions[zone].line[conf].mode,self.computer.regions[zone].line[conf].color1,self.computer.regions[zone].line[conf].color2)
+						conf = -1
+						self.controller.Add_Loop_Conf(self.computer.regions[zone].regionId,self.configuration.area[zone][conf].mode,self.configuration.area[zone][conf].color1,self.configuration.area[zone][conf].color2)
 				self.controller.End_Loop_Conf()
 			#self.controller.Add_Loop_Conf(0x0f869e,"fixed",'000000','000000')
 			#self.controller.End_Loop_Conf()
 		self.controller.End_Transfert_Conf()
 		self.controller.Write_Conf()
 		if Save:
-			color1 = self.computer.regions[power].line[conf].color1
-			color2 = self.computer.regions[power].line[conf].color2
+			color1 = self.configuration.area[power][0].color1
+			color2 = self.configuration.area[power][0].color2
 			area = self.computer.regions[power].regionId
 			#Block = 0x02 ! Sleeping Mode !!!!!
 
@@ -564,6 +563,18 @@ class pyAlienFX_GUI():
 		if event.x > 20 and event.y > 20:
 			self.remove_box.destroy()
 		#print "Focus OUT : x = %s y = %s %s, %s"%(event.x,event.y,zone.description,conf)
+
+	def on_AlienFX_Menu_Light_Off(self,widget):
+		print "OFF"
+		if self.lights:
+			self.controller.Reset(self.computer.RESET_ALL_LIGHTS_OFF)
+		self.lights = False
+		
+	def on_AlienFX_Menu_Light_On(self,widget):
+		print "ON"
+		if not self.lights:
+			self.Set_Conf()
+		self.lights = True
 	
 	def Not_Yet(self,widget):
 		messagedialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "This feature is not yet available !")

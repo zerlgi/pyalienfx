@@ -139,7 +139,7 @@
                             <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="use_stock">True</property>
-                            <signal name="activate" handler="Not_Yet" swapped="no"/>
+                            <signal name="activate" handler="on_Configuration_New" swapped="no"/>
                           </object>
                         </child>
                         <child>
@@ -150,7 +150,7 @@
                             <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="use_stock">True</property>
-                            <signal name="activate" handler="Not_Yet" swapped="no"/>
+                            <signal name="activate" handler="on_Configuration_Open" swapped="no"/>
                           </object>
                         </child>
                         <child>
@@ -161,7 +161,7 @@
                             <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="use_stock">True</property>
-                            <signal name="activate" handler="Not_Yet" swapped="no"/>
+                            <signal name="activate" handler="on_Configuration_Save" swapped="no"/>
                           </object>
                         </child>
                         <child>
@@ -172,7 +172,7 @@
                             <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="use_stock">True</property>
-                            <signal name="activate" handler="Not_Yet" swapped="no"/>
+                            <signal name="activate" handler="on_Configuration_Save_As" swapped="no"/>
                           </object>
                         </child>
                         <child>
@@ -217,6 +217,26 @@
                             <property name="label" translatable="yes">AutoApply</property>
                             <property name="use_underline">True</property>
                             <signal name="toggled" handler="on_AlienFX_Menu_AutoApply" swapped="no"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkImageMenuItem" id="AlienFX_Menu_Light_Off">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="label" translatable="yes">Lights Off</property>
+                            <property name="use_underline">True</property>
+                            <signal name="toggled" handler="on_AlienFX_Menu_Light_Off" swapped="no"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkImageMenuItem" id="AlienFX_Menu_Light_On">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="label" translatable="yes">Lights On</property>
+                            <property name="use_underline">True</property>
+                            <signal name="toggled" handler="on_AlienFX_Menu_Light_On" swapped="no"/>
                           </object>
                         </child>
                       </object>
