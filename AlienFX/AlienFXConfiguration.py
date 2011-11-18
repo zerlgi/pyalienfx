@@ -19,6 +19,8 @@ class AlienFXConfiguration:
 	def Add(self,area):
 		if not self.area.has_key(area.name):
 			self.area[area.name] = configuration(area)
+		#else:
+			#self.area[area.name].append(configuration(area))
 	
 	def Show_Configuration(self):
 		print "\t%s\n=== === === === === ===\n"%self.name
@@ -39,13 +41,13 @@ class AlienFXConfiguration:
 			self.path = path
 		f = open(self.path,'w')
 		f.write("name=%s\n"%self.name)
-		f.write("computer=%s\n"%self.computer.name)
+		f.write("computer=%s\n"%self.computer)
 		f.write("speed=%s\n"%self.speed)
 		for area in self.area.keys():
 			f.write("area=%s\n"%area)
 			for element in self.area[area]:
-				f.write("type=%s\n"%element.Type)
-				f.write("color=%s\n"%element.color)
+				f.write("type=%s\n"%element.mode)
+				f.write("color=%s\n"%element.color1)
 				f.write("color2=%s\n"%element.color2)
 		f.close()
 	
@@ -60,7 +62,7 @@ class AlienFXConfiguration:
 			if split[0] == "name":
 				self.name = split[1]
 			elif split[0] == "speed":
-				self.speed = split[1]
+				self.speed = int(split[1])
 			elif split[0] == "computer":
 				self.computer = split[1]
 			elif split[0] == "area":
@@ -69,11 +71,42 @@ class AlienFXConfiguration:
 			elif split[0] == "type":
 				self.area[area].append(split[1])
 			elif split[0] == "color":
-				self.area[area][-1].color = split[1]
+				self.area[area][-1].color1 = split[1]
 			elif split[0] == "color2":
 				self.area[area][-1].color2 = split[1]
 				
-			
+	def Check(self,path):
+		old = AlienFXConfiguration()
+		old.Load(path)
+		if self.name != old.name:
+			print "name"
+			return False
+		if self.speed != old.speed:
+			print "speed"
+			return False
+		if self.computer != old.computer:
+			print "computer"
+			return False
+		#print "self.area: ",self.area
+		#print "old.area : ",old.area
+		for area in self.area:
+			if area not in old.area.keys():
+				print "AREA ERROR"
+				return False
+			for i in range(len(self.area[area])):
+				try:
+					if self.area[area][i].mode != old.area[area][i].mode:
+						return False
+					if self.area[area][i].color1 != old.area[area][i].color1:
+						return False
+					if self.area[area][i].color2 != old.area[area][i].color2:
+						return False
+				except:
+					return False
+		#if self.area != old.area:
+			#return False
+		return True
+		
 		
 class configuration(list,AlienFXTexts):
 	def __init__(self,area):
@@ -87,25 +120,36 @@ class configuration(list,AlienFXTexts):
 		el.Id = self.Id
 		self += [el]
 		self.Id += 1
+
+	def update_line(self,Id,mode=None,color1=None,color2=None):
+		if len(self) > Id:
+			if mode:
+				self[Id].mode = mode
+			if color1:
+				self[Id].color1 = color1
+			if color2:
+				self[Id].color2 = color2
+			return True
+		return False
 	
 	def remove(self,Id):
-		for i in range(Id-1,len(self)):
+		for i in range(Id,len(self)-1):
 			self[i].Id -= 1 
-		del self[int(Id,16)-1]
+		del self[Id]
 		
 class element():
 	def __init__(self, Type, color = "", color2 = ""):
-		self.Type = Type
+		self.mode = Type
 		self.Id = 0x00
-		self.color = color
+		self.color1 = color
 		self.color2 = color2
 		self.Text_Conf_Type = {
-		"color" : "Setting fixed color to %s%s",
+		"fixed" : "Setting fixed color to %s%s",
 		"blink" : "Setting blinking color to %s%s",
 		"morph" : "Setting morph color from %s to %s",
 		"speed" : "Setting Speed to %s%s",
 		"endloop" : "End of the loop%s%s"}
-		print "-%s-"%self.Type
-		self.text = self.Text_Conf_Type[self.Type]%(self.color,self.color2)
+		#print "-%s-"%self.mode
+		self.text = self.Text_Conf_Type[self.mode]%(self.color1,self.color2)
 	
 	

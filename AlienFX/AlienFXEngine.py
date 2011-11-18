@@ -43,7 +43,7 @@ class AlienFX_Driver(AllComputers):
 		self.READ_VALUE = 0x101
 		self.READ_INDEX = 0x0
 		
-		
+		self.log = open("packet.log",'w')
 		self.debug = True
 		
 		self.AlienFXProperties = AlienFXProperties()
@@ -77,6 +77,13 @@ class AlienFX_Driver(AllComputers):
 			for msg in MSG:
 				if self.debug:
 					print "Sending : %s\nPacket : %s"%(msg.legend,msg.packet)
+					log = "" 
+					for m in msg.packet:
+						if m < 16:
+							log += ("0%x "%m).replace('0x','')
+						else:
+							log += ("%x "%m).replace('0x','')
+					self.log.write(log+"\n")
 				self.dev.ctrl_transfer(self.SEND_REQUEST_TYPE, self.SEND_REQUEST, self.SEND_VALUE, self.SEND_INDEX, msg.packet)
 		else:
 			self.dev.ctrl_transfer(self.SEND_REQUEST_TYPE, self.SEND_REQUEST, self.SEND_VALUE, self.SEND_INDEX, MSG)
@@ -140,8 +147,9 @@ class AlienFX_Controller:
 	def Write_Conf(self):
 		self.WaitForOk()
 		self.driver.WriteDevice(self.request)
-		time.sleep(0.1)
-		self.driver.WriteDevice(self.request)
+		if not self.request.save:
+			time.sleep(0.1)
+			self.driver.WriteDevice(self.request)
 	
 	def Set_Color(self, Area, Color, Save = False, Apply = False, block = 0x01):
 		"""Set the Color of an Area """
@@ -240,6 +248,26 @@ class AlienFX_Controller:
 	def WaitForOk(self):
 		self.driver.Take_over()
 		request = AlienFX_Constructor(self.driver)
+		request.Reset_all()
+		self.driver.WriteDevice(request)
+		while not self.Get_State():
+			request.raz()
+			request.Get_Status()
+			request.Reset_all()
+			self.driver.WriteDevice(request)
+		return True
+		
+	def Get_State(self):
+		self.driver.Take_over()
+		request = AlienFX_Constructor(self.driver)
+		request.Get_Status()
+		self.driver.WriteDevice(request)
+		msg = self.driver.ReadDevice(request)
+		return msg[0] == self.driver.computer.STATE_READY
+	
+	def Reset(self,res_cmd):
+		self.driver.Take_over()
+		request = AlienFX_Constructor(self.driver)
 		while True:
 			request.Get_Status()
 			self.driver.WriteDevice(request)
@@ -249,7 +277,7 @@ class AlienFX_Controller:
 				break
 			request.raz()
 			request.Get_Status()
-			request.Reset_all()
+			request.Reset(res_cmd)
 			self.driver.WriteDevice(request)
 			msg =  self.driver.ReadDevice(request)
 			#print msg
@@ -280,13 +308,14 @@ class AlienFX_Constructor(list):
 				packet += hex(j) + " "
 			print "%s\t:\t%s"%(i.legend,packet)
 	
-	def Set_Speed(self,Speed = 0xc8):
+	def Set_Speed(self,Speed = 0xc800):
 		self.Save()
 		cmd = copy(self.void)
 		legend = "Set Speed : %s"%Speed
 		cmd[0] = self.computer.START_BYTE
 		cmd[1] = self.computer.COMMAND_SET_SPEED
-		cmd[3] = Speed
+		cmd[3] = Speed/256
+		cmd[4] = Speed - (Speed/256)*256
 		self.append(Request(legend,cmd))
 	
 	def Set_Blink_Color(self,Area,Color):
@@ -395,6 +424,20 @@ class AlienFX_Constructor(list):
 		cmd[2] = self.computer.RESET_ALL_LIGHTS_ON
 		#print "constructor : ",cmd
 		self.append(Request(legend,cmd))
+		
+	def Reset(self,command):
+		if command in [self.computer.RESET_ALL_LIGHTS_ON,self.computer.RESET_ALL_LIGHTS_OFF,self.computer.RESET_TOUCH_CONTROLS,self.computer.RESET_SLEEP_LIGHTS_ON]:
+			self.Save()
+			cmd = copy(self.void)
+			legend = "Reset All Lights On"
+			cmd[0] = self.computer.START_BYTE
+			cmd[1] = self.computer.COMMAND_RESET
+			cmd[2] = command
+			#print "constructor : ",cmd
+			self.append(Request(legend,cmd))
+		else:
+			print "ERROR : WRONG RESET COMMAND"
+	
 	
 	def End_Loop(self):
 		self.Save()

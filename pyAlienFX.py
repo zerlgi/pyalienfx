@@ -42,11 +42,18 @@ class pyAlienFX_GUI():
 		print "Initializing Controller ..."
 		self.controller = AlienFX_Controller(self.driver)
 		self.configuration = AlienFXConfiguration()
+		self.actual_conf_file = "default.cfg"
+		if os.path.isfile(self.actual_conf_file):
+			self.configuration.Load(self.actual_conf_file)
+		else:
+			self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
+			self.New_Conf(self.actual_conf_file)
 		self.computer = self.driver.computer
 		self.selected_area = None
 		self.selected_mode = None
 		self.selected_color1 = None
 		self.selected_color2 = None
+		self.selected_speed = 0xc800
 		self.auto_apply = False
 		self.default_color = "0000FF"
 		self.selected_Id = 1
@@ -111,31 +118,7 @@ class pyAlienFX_GUI():
 		box.pack_start(Apply)
 		box.pack_start(Save)
 		self.AlienFX_Computer_Eventbox.add(box)
-		
-		
-		#self.AlienFX_Main_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
 
-		
-		#self.LabelTitle.set_text("<span foreground=\"green\" size=\"x-large\">Encrypted Chat V"+self.version+"!</span>")
-		#self.LabelTitle.set_justify(gtk.JUSTIFY_CENTER)
-		#self.LabelTitle.set_use_markup(True)
-		#self.textHbox = gtk_AlienFX_Main.get_object("textHbox")
-		#self.textTextview = gtk_AlienFX_Main.get_object("textTextview")
-		#self.textButVbox = gtk_AlienFX_Main.get_object("textButVbox")
-		#self.textButton = gtk_AlienFX_Main.get_object("textButton")
-		#self.chatScrolledwindow = gtk_AlienFX_Main.get_object("chatScrolledwindow")
-		#self.chatVbox = gtk.VBox()
-		#self.chatEventbox = gtk.EventBox()
-		#self.chatEventbox.add(self.chatVbox)
-		#self.chatScrolledwindow = gtk_AlienFX_Main.get_object("chatScrolledwindow")
-		#self.chatScrolledwindow.set_placement(gtk.CORNER_TOP_LEFT)
-		#self.chatScrolledwindow.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
-		#self.chatScrolledwindow.add_with_viewport(self.chatEventbox)
-		#Connection des widgets Glade
-		#self.gtk_AlienFX_Main.connect_signals(self)
-		#self.textButton.connect("clicked", self.afficherTexte, self.textTextview, self.mainWindow)
-		##Affichage message initial
-		#self.newDisplayChat(["sys","0"," -- Initialisation -- "])
 	
 	def Create_zones(self):
 		try:
@@ -151,7 +134,7 @@ class pyAlienFX_GUI():
 		self.AlienFX_Preview_Eventbox.add(self.AlienFX_Preview_Hbox)
 		self.AlienFX_Main_Windows.show_all()
 	
-	def Widget_Zone(self,zone,confId = 1,line = False):
+	def Widget_Zone(self,zone,confId = 0,line = False):
 		#print "Creating : ",zone.description
 		Zone_VBox = gtk.VBox()
 		if not line:
@@ -162,35 +145,43 @@ class pyAlienFX_GUI():
 		color1 = gtk.EventBox()
 		color1.set_size_request(40, 20)
 		color1.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 1)
+		#color1.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
+		#color1.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
+
 		color2 = gtk.EventBox()
+		color2.set_above_child(False)
 		color2.set_size_request(40, 20)
 		color2.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 2)
+		color2.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
+		color2.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
+		
+		
 		#color_hbox.pack_start(color1)
 		#color_hbox.pack_start(color2)
-		color1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+zone.line[confId].color1))
+		color1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1))
 		if zone.power_button:
-			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+zone.line[confId].color2))
-		elif zone.line[confId].mode != "morph":
-			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+zone.line[confId].color1))
+			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2))
+		elif self.configuration.area[zone.name][confId].mode != "morph":
+			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1))
 		else:
-			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+zone.line[confId].color2))
+			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2))
 		mode = gtk.VBox()
 		if not zone.power_button:
-			if zone.line[confId].mode == "fixed":
+			if self.configuration.area[zone.name][confId].mode == "fixed":
 				if zone.canLight:
 					image1 = self.Image_DB.AlienFX_Icon_Fixed_On
 				if zone.canBlink:
 					image2 = self.Image_DB.AlienFX_Icon_Blink_Off
 				if zone.canMorph:
 					image3 = self.Image_DB.AlienFX_Icon_Morph_Off
-			elif zone.line[confId].mode == "blink":
+			elif self.configuration.area[zone.name][confId].mode == "blink":
 				if zone.canLight:
 					image1 = self.Image_DB.AlienFX_Icon_Fixed_Off
 				if zone.canBlink:
 					image2 = self.Image_DB.AlienFX_Icon_Blink_On
 				if zone.canMorph:
 					image3 = self.Image_DB.AlienFX_Icon_Morph_Off
-			elif zone.line[confId].mode == "morph":
+			elif self.configuration.area[zone.name][confId].mode == "morph":
 				if zone.canLight:
 					image1 = self.Image_DB.AlienFX_Icon_Fixed_Off
 				if zone.canBlink:
@@ -248,18 +239,17 @@ class pyAlienFX_GUI():
 		self.AlienFX_Main_Windows.show_all()
 	
 	def Widget_Line(self, zone, l):
-		#print "Creating : ",zone.description
+		print "Creating : ",zone.description
 		title = gtk.Label(zone.description)
 		self.AlienFX_Configurator_Table.attach(title,0,1,l-1,l,xoptions=gtk.EXPAND)
-		CONFS = zone.line.keys()
-		CONFS.sort()
-		for conf in CONFS:
+		for conf in range(len(self.configuration.area[zone.name])):
 			confBox = self.Widget_Zone(zone, conf, line=True)
-			self.AlienFX_Configurator_Table.attach(confBox,int(conf),int(conf)+1,l-1,l)
-		AddConf = gtk.Button()
-		AddConf.set_label("Add")
-		AddConf.connect("clicked", self.on_Line_AddConf_pressed, zone, conf)
-		self.AlienFX_Configurator_Table.attach(AddConf,int(conf)+1,int(conf)+2,l-1,l)
+			self.AlienFX_Configurator_Table.attach(confBox,int(conf)+1,int(conf)+2,l-1,l)
+		if not zone.power_button:
+			AddConf = gtk.Button()
+			AddConf.set_label("Add")
+			AddConf.connect("clicked", self.on_Line_AddConf_pressed, zone, conf)
+			self.AlienFX_Configurator_Table.attach(AddConf,int(conf)+2,int(conf)+3,l-1,l)
 		
 	
 	def Set_Conf(self,Save=False):
@@ -378,6 +368,27 @@ class pyAlienFX_GUI():
 				self.AlienFX_Color_Panel_VBox.pack_start(color_EventBox, expand=True)
 		self.AlienFX_Color_Eventbox.add(self.AlienFX_Color_Panel_VBox)
 		self.AlienFX_Main_Windows.show_all()
+
+	def New_Conf(self,path = None):
+		if not path:
+			chooser = gtk.FileChooserDialog(title=None,action=gtk.FILE_CHOOSER_ACTION_SAVE,buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+			filter = gtk.FileFilter()
+			filter.set_name("Conf Files")
+			filter.add_pattern("*.cfg")
+			chooser.add_filter(filter)
+			chooser.set_current_folder('.')
+			response = chooser.run()
+			if response == gtk.RESPONSE_OK:
+				self.actual_conf_file = chooser.get_filename()
+				self.configuration = AlienFXConfiguration()
+				self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
+			elif response == gtk.RESPONSE_CANCEL:
+				print 'Closed, no files selected'
+			chooser.destroy()
+		for zone in self.computer.regions.keys():
+			self.configuration.Add(self.computer.regions[zone])
+			self.configuration.area[zone].append(self.computer.default_mode,self.computer.default_color,self.computer.default_color)
+	
 	
 	
 	#Connect functions!
@@ -418,7 +429,7 @@ class pyAlienFX_GUI():
 		self.Set_Conf(Save=True)
 	
 	def on_Line_AddConf_pressed(self,widget, zone, conf):
-		self.computer.regions[zone.name].add_line(conf+1, "fixed", self.default_color, self.default_color)
+		self.configuration.area[zone.name].append("fixed", self.default_color, self.default_color)
 		#print zone.line
 		self.Create_zones()
 		self.Create_Line()
@@ -426,30 +437,30 @@ class pyAlienFX_GUI():
 	def on_AlienFX_Color_Panel_Clicked(self,widget, event, color):
 		if self.set_color == 1:
 			self.selected_color1 = color
-			self.computer.regions[self.selected_area.name].update_line(self.selected_Id,color1 = self.selected_color1)
+			self.configuration.area[self.selected_area.name].update_line(self.selected_Id,color1 = self.selected_color1)
 		else:
 			self.selected_color2 = color
-			self.computer.regions[self.selected_area.name].update_line(self.selected_Id,color2 = self.selected_color2)
+			self.configuration.area[self.selected_area.name].update_line(self.selected_Id,color2 = self.selected_color2)
 		if self.selected_area and self.selected_mode and self.selected_color1 and self.auto_apply and self.selected_Id == 1:
 			if self.selected_mode == "morph" and self.selected_color2 and not self.selected_area.power_button:
 				self.Set_color()
 			elif self.selected_mode != "morph" and not self.selected_area.power_button:
 				self.Set_color()
-		#print self.computer.regions[self.selected_area.name].line[self.selected_Id]
+		#print self.configuration.area[self.selected_area.name].line[self.selected_Id]
 		self.Create_zones()
 		self.Create_Line()
 	
 	def on_AlienFX_Preview_Zone_Clicked(self,widget,event,zone,Id,color):
 		self.selected_area = zone
 		self.selected_Id = Id
-		self.selected_mode = self.computer.regions[zone.name].line[self.selected_Id].mode
-		self.selected_color1 = self.computer.regions[zone.name].line[self.selected_Id].color1
-		self.selected_color2 = self.computer.regions[zone.name].line[self.selected_Id].color2
+		self.selected_mode = self.configuration.area[zone.name][self.selected_Id].mode
+		self.selected_color1 = self.configuration.area[zone.name][self.selected_Id].color1
+		self.selected_color2 = self.configuration.area[zone.name][self.selected_Id].color2
 		if self.selected_mode == "morph" or zone.power_button:
 			self.set_color = color
 		else:
 			self.set_color = 1
-		#print "Hey ! Color %s clicked ! Area : %s"%(color,zone.description)
+		print "Hey ! Color %s clicked ! Area : %s"%(color,zone.description)
 		
 	def on_AlienFX_Preview_Mode_Clicked(self, widget, event, mode, zone, confId):
 		self.selected_mode = mode
@@ -461,7 +472,7 @@ class pyAlienFX_GUI():
 				self.Set_color()
 			elif self.selected_mode != "morph":
 				self.Set_color()
-		self.computer.regions[self.selected_area.name].update_line(self.selected_Id,mode = self.selected_mode)
+		self.configuration.area[self.selected_area.name].update_line(self.selected_Id,mode = self.selected_mode)
 		self.Create_zones()
 		self.Create_Line()
 
@@ -475,6 +486,85 @@ class pyAlienFX_GUI():
 		gtk.main_quit()
 		
 		
+	def on_Configuration_New(self,widget):
+		if os.path.isfile(self.actual_conf_file):
+			if not self.configuration.Check(self.actual_conf_file):
+				messagedialog = gtk.Dialog("The configuration has changed ! Do you want to save it before creating a new one?", None, gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT,(gtk.STOCK_NO, gtk.RESPONSE_NO, gtk.STOCK_SAVE, gtk.RESPONSE_OK))
+				response = messagedialog.run()
+				if response == gtk.RESPONSE_OK:
+					self.configuration.Save(self.actual_conf_file)
+				elif response == gtk.RESPONSE_NO:
+					print 'Conf Not saved !'
+				messagedialog.destroy()
+		self.New_Conf()
+		self.Create_zones()
+		self.Create_Line()
+
+	def on_Configuration_Open(self,widget):
+		chooser = gtk.FileChooserDialog(title=None,action=gtk.FILE_CHOOSER_ACTION_OPEN,buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+		filter = gtk.FileFilter()
+		filter.set_name("Conf Files")
+		filter.add_pattern("*.cfg")
+		chooser.add_filter(filter)
+		chooser.set_current_folder('.')
+		response = chooser.run()
+		if response == gtk.RESPONSE_OK:
+			self.actual_conf_file = chooser.get_filename()
+			self.configuration = AlienFXConfiguration()
+			self.configuration.Load(self.actual_conf_file)
+		elif response == gtk.RESPONSE_CANCEL:
+			print 'Closed, no files selected'
+		chooser.destroy()
+		self.Create_zones()
+		self.Create_Line()
+		
+	def on_Configuration_Save(self,widget):
+		self.configuration.Save(self.actual_conf_file)
+
+	def on_Configuration_Save_As(self,widget):
+		chooser = gtk.FileChooserDialog(title=None,action=gtk.FILE_CHOOSER_ACTION_SAVE,buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_SAVE,gtk.RESPONSE_OK))
+		filter = gtk.FileFilter()
+		filter.set_name("Conf Files")
+		filter.add_pattern("*.cfg")
+		chooser.add_filter(filter)
+		chooser.set_current_folder('.')
+		response = chooser.run()
+		if response == gtk.RESPONSE_OK:
+			self.actual_conf_file = chooser.get_filename()
+			self.configuration.Save(self.actual_conf_file)
+		elif response == gtk.RESPONSE_CANCEL:
+			print 'Closed, no files selected'
+		chooser.destroy()
+		self.Create_zones()
+		self.Create_Line()
+	
+	def on_Remove_Clicked(self,widget,zone,conf):
+		self.configuration.area[zone.name].remove(conf)
+		self.Create_zones()
+		self.Create_Line()
+		
+	def on_color_focus_in(self,widget,event,zone,conf):
+		try :
+			if self.remove_box:
+				self.remove_box.destroy()
+		except:
+			pass
+		self.remove_box = gtk.Fixed()
+		self.remove_button = gtk.Button()
+		self.remove_button.set_label("X")
+		self.remove_button.connect("clicked",self.on_Remove_Clicked, zone,conf)
+		self.remove_button.set_size_request(20,20)
+		self.remove_box.put(self.remove_button,20,0)
+		widget.add(self.remove_box)
+		#print "ABOVE ?",widget.get_above_child()
+		self.remove_box.show_all()
+		#print "Focus IN :x = %s y = %s    %s, %s, %s"%(event.x,event.y,zone.description,conf,widget.get_size_request())
+
+	def on_color_focus_out(self,widget,event,zone,conf):
+		if event.x > 20 and event.y > 20:
+			self.remove_box.destroy()
+		#print "Focus OUT : x = %s y = %s %s, %s"%(event.x,event.y,zone.description,conf)
+	
 	def Not_Yet(self,widget):
 		messagedialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "This feature is not yet available !")
 		messagedialog.run()
