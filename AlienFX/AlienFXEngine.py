@@ -228,12 +228,14 @@ class AlienFX_Controller:
 			self.driver.WriteDevice(request)
 	
 	def Send_Request(self,request):
+		"""Only for testing purposes !"""
 		self.WaitForOk()
 		self.driver.WriteDevice(request)
 		time.sleep(0.1)
 		self.driver.WriteDevice(request)
 	
 	def Try_Power(self,block,color):
+		"""Only for testing purposes !"""
 		self.WaitForOk()
 		request = AlienFX_Constructor(self.driver)
 		request.Set_Save_Block(block)

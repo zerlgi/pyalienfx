@@ -43,11 +43,6 @@ class pyAlienFX_GUI():
 		self.controller = AlienFX_Controller(self.driver)
 		self.configuration = AlienFXConfiguration()
 		self.actual_conf_file = "default.cfg"
-		if os.path.isfile(self.actual_conf_file):
-			self.configuration.Load(self.actual_conf_file)
-		else:
-			self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
-			self.New_Conf(self.actual_conf_file)
 		self.computer = self.driver.computer
 		self.selected_area = None
 		self.selected_mode = None
@@ -61,13 +56,18 @@ class pyAlienFX_GUI():
 		self.set_color = 1
 		self.width,self.height = 800,600
 		self.Image_DB = Image_DB()
+		if os.path.isfile(self.actual_conf_file):
+			self.configuration.Load(self.actual_conf_file)
+		else:
+			self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
+			self.New_Conf(self.actual_conf_file)
 		print "Initializing Interface ..."
 		self.AlienFX_Main()
 		self.Create_zones()
 		self.Create_Line()
 		self.AlienFX_Color_Panel()
 		self.main()
-	
+
 	def main(self):
 		"""Main process, thread creation and wait for the main windows closure !"""
 		gtk.gdk.threads_enter()
@@ -538,7 +538,8 @@ class pyAlienFX_GUI():
 		self.Create_Line()
 	
 	def on_Remove_Clicked(self,widget,zone,conf):
-		self.configuration.area[zone.name].remove(conf)
+		if len(self.configuration.area[zone.name]) > 1:
+			self.configuration.area[zone.name].remove(conf)
 		self.Create_zones()
 		self.Create_Line()
 		
@@ -548,10 +549,14 @@ class pyAlienFX_GUI():
 				self.remove_box.destroy()
 		except:
 			pass
+		#self.Remove_button_destroy = False
 		self.remove_box = gtk.Fixed()
 		self.remove_button = gtk.Button()
 		self.remove_button.set_label("X")
 		self.remove_button.connect("clicked",self.on_Remove_Clicked, zone,conf)
+		#self.remove_button.connect("destroy-event",self.on_Remove_button_destroy)
+		#self.remove_button.connect("enter-notify-event",self.on_Remove_button_focus_in)
+		#self.remove_button.connect("leave-notify-event",self.on_Remove_button_focus_out)
 		self.remove_button.set_size_request(20,20)
 		self.remove_box.put(self.remove_button,20,0)
 		widget.add(self.remove_box)
@@ -559,7 +564,20 @@ class pyAlienFX_GUI():
 		self.remove_box.show_all()
 		#print "Focus IN :x = %s y = %s    %s, %s, %s"%(event.x,event.y,zone.description,conf,widget.get_size_request())
 
+	#def on_Remove_button_focus_in(self,widget):
+		#self.Remove_button_destroy = True
+
+
+	#def on_Remove_button_focus_out(self,widget):
+		#self.Remove_button_destroy = False
+		#self.remove_box.destroy()
+
+	#def on_Remove_button_destroy(self,widget):
+		#self.Remove_button_destroy = True
+	
 	def on_color_focus_out(self,widget,event,zone,conf):
+		#if not self.Remove_button_destroy:
+			#self.remove_box.destroy()
 		if event.x > 20 and event.y > 20:
 			self.remove_box.destroy()
 		#print "Focus OUT : x = %s y = %s %s, %s"%(event.x,event.y,zone.description,conf)
