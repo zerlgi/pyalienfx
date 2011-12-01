@@ -28,6 +28,9 @@ pygtk.require("2.0")
 import gtk,gobject
 #import cairo
 
+from socket import *
+from time import time
+from time import sleep
 
 #from gi.repository import Gtk as gtk
 #from gi.repository import Gdk as gdk
@@ -40,7 +43,10 @@ class pyAlienFX_GUI():
 		print "Initializing Driver  ..."
 		self.driver = AlienFX_Driver()
 		print "Initializing Controller ..."
-		self.controller = AlienFX_Controller(self.driver)
+		self.controller = Daemon_Controller()
+		conn = self.controller.makeConnection()
+		if not conn:
+			self.controller = AlienFX_Controller(self.driver)
 		self.configuration = AlienFXConfiguration()
 		self.actual_conf_file = "default.cfg"
 		self.computer = self.driver.computer
@@ -61,15 +67,14 @@ class pyAlienFX_GUI():
 		else:
 			self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
 			self.New_Conf(self.actual_conf_file)
+
+	def main(self):
+		"""Main process, thread creation and wait for the main windows closure !"""
 		print "Initializing Interface ..."
 		self.AlienFX_Main()
 		self.Create_zones()
 		self.Create_Line()
 		self.AlienFX_Color_Panel()
-		self.main()
-
-	def main(self):
-		"""Main process, thread creation and wait for the main windows closure !"""
 		gtk.gdk.threads_enter()
 		gtk.main()
 		gtk.gdk.threads_leave()
@@ -261,7 +266,15 @@ class pyAlienFX_GUI():
 		for zone in self.computer.regions.keys():
 			if not self.computer.regions[zone].power_button:
 				max_conf = max(max_conf,len(self.configuration.area[zone]))
-		for zone in self.computer.regions.keys():
+		tmp = {}
+		sorted_regions = []
+		for r in self.computer.regions.keys():
+			tmp[self.computer.regions[r].regionId] = r
+		stmp = tmp.keys()
+		stmp.sort()
+		for k in stmp:
+			sorted_regions.append(tmp[k])
+		for zone in sorted_regions:
 			if self.computer.regions[zone].power_button:
 				power = zone
 			Id += 0x01 
@@ -278,6 +291,9 @@ class pyAlienFX_GUI():
 				self.controller.End_Loop_Conf()
 			#self.controller.Add_Loop_Conf(0x0f869e,"fixed",'000000','000000')
 			#self.controller.End_Loop_Conf()
+		if not Save:
+			self.controller.Add_Loop_Conf(self.computer.REGION_ALL_BUT_POWER,"fixed","000000","000000")
+			self.controller.End_Loop_Conf()
 		self.controller.End_Transfert_Conf()
 		self.controller.Write_Conf()
 		if Save:
@@ -337,6 +353,7 @@ class pyAlienFX_GUI():
 			
 			#Applying after all the saving !
 			self.Set_Conf()
+		self.configuration.Save(path="default.cfg")
 			
 	def Select_Zone(self,zone):
 		"""When a zone is selected, launch the correct functions"""
@@ -586,6 +603,7 @@ class pyAlienFX_GUI():
 		print "OFF"
 		if self.lights:
 			self.controller.Reset(self.computer.RESET_ALL_LIGHTS_OFF)
+			self.controller.Send_Packet()
 		self.lights = False
 		
 	def on_AlienFX_Menu_Light_On(self,widget):
@@ -598,6 +616,12 @@ class pyAlienFX_GUI():
 		messagedialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "This feature is not yet available !")
 		messagedialog.run()
 		messagedialog.destroy()
+
+	def on_AlienFX_ColorSelection_Windows_Close(self,widget):
+		pass
+
+	def on_AlienFX_ColorSelection_Windows_Destroy(self,widget):
+		pass
 		
 		
 class Image_DB:
@@ -609,6 +633,123 @@ class Image_DB:
 		self.AlienFX_Icon_Blink_Off = './images/blink_off.png'
 		self.AlienFX_Icon_Morph_On = './images/morph_on.png'
 		self.AlienFX_Icon_Morph_Off = './images/morph_off.png'
+
+
+class Daemon_Controller:
+	def __init__(self):
+		self.HOST = 'localhost'
+		self.PORT = 25436
+		self.ADDR = (self.HOST,self.PORT)
+		self.sock = None
+		self.BUFSIZE = 4096
+		self.request = []
+
+	def makeConnection(self):
+		self.sock = socket(AF_INET, SOCK_STREAM)
+		try:
+			self.sock.connect(self.ADDR)
+			self.sock.settimeout(1)
+			return True
+		except error,e:
+			if "[Errno 111]" in str(e):
+				print "the Deamon is disconnected ... "
+			else:
+				print e
+			print "Trying to load the driver manually"
+			return False
+
+	def sendCmd(self, cmd):
+		self.sock.send(cmd)
+
+	def getResults(self):
+		data = self.sock.recv(self.BUFSIZE)
+		return data
+
+	def Set_Loop(self,action):
+		packet = ["Set_Loop",str(action)]
+		self.request.append(packet)
+
+	def Set_Loop_Conf(self,Save=False,block = 0x01):
+		packet = ["Set_Loop_Conf",str(Save),str(block)]
+		self.request.append(packet)
+
+	def Add_Loop_Conf(self,area,mode,color1,color2=None):
+		packet = ["Add_Loop_Conf",str(hex(area)).replace('0x',''),str(mode),str(color1),str(color2)]
+		self.request.append(packet)
+
+	def Add_Speed_Conf(self,speed = 0xc800):
+		packet = ["Add_Speed_Conf",str(speed)]
+		self.request.append(packet)
 		
+	def End_Loop_Conf(self):
+		packet = ["End_Loop_Conf",""]
+		self.request.append(packet)
+
+	def End_Transfert_Conf(self):
+		packet = ["End_Transfert_Conf",""]
+		self.request.append(packet)
+
+	def Write_Conf(self):
+		packet = ["Write_Conf",""]
+		self.request.append(packet)
+		self.Send_Packet()
+
+	def Set_Color(self, Area, Color, Save = False, Apply = False, block = 0x01):
+		packet = ["Set_Color",str(hex(Area)).replace('0x',''),str(Color),str(Save),str(Apply),str(block)]
+		self.request.append(packet)
+		self.Send_Packet()
+
+	def Set_Color_Blink(self,Area,Color, Save = False, Apply = False, block = 0x01):
+		packet = ["Set_Color_Blink",str(hex(Area)).replace('0x',''),str(Color),str(Save),str(Apply),str(block)]
+		self.request.append(packet)
+		self.Send_Packet()
+
+	def Set_Color_Morph(self,Area,Color1,Color2, Save = False, Apply = False, block = 0x01):
+		packet = ["Set_Color_Morph",str(hex(Area)).replace('0x',''),str(Color1),str(Color2),str(Save),str(Apply),str(block)]
+		self.request.append(packet)
+		self.Send_Packet()
+
+	def WaitForOk(self):
+		packet = ["WaitForOk",""]
+		self.request.append(packet)
+
+	def Get_State(self):
+		packet = ["Get_State",""]
+		self.request.append(packet)
+
+	def Reset(self,res_cmd):
+		packet = ["Reset",str(res_cmd)]
+		self.request.append(packet)
+
+	def Send_Packet(self):
+		tmp = []
+		for el in self.request:
+			tmp.append(",".join(el))
+		cmd = "|".join(tmp)
+		self.sendCmd(cmd)
+		self.RAZ()
+		resp = self.getResults()
+		print resp
+		if resp != "executed":
+			raise ValueError("Error while communicating with the daemon !")
+
+	def Ping(self):
+		print "Sending Ping"
+		self.sendCmd("PING")
+		print "Sent ..."
+		pong = self.getResults()
+		print "Server Answer : ",pong
+		if pong != "PONG":
+			return False
+		return True
+	
+	def RAZ(self):
+		self.request = []
+
+	def Bye(self):
+		self.sendCmd("BYE")
+
 if __name__ == "__main__":
 	gui = pyAlienFX_GUI()
+	gui.main()
+	gui.controller.Bye()

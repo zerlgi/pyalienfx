@@ -76,7 +76,13 @@ class AlienFX_Driver(AllComputers):
 		if len(MSG[0].packet) == self.computer.DATA_LENGTH:
 			for msg in MSG:
 				if self.debug:
-					print "Sending : %s\nPacket : %s"%(msg.legend,msg.packet)
+					nice_packet = ""
+					for i in msg.packet:
+						if i < 16:
+							nice_packet += " 0%s"%hex(i).replace('0x','')
+						else:
+							nice_packet += " %s"%hex(i).replace('0x','')
+					print "Sending : %s\nPacket : %s"%(msg.legend,nice_packet)
 					log = "" 
 					for m in msg.packet:
 						if m < 16:
@@ -110,6 +116,10 @@ class AlienFX_Driver(AllComputers):
 class AlienFX_Controller:
 	def __init__(self,driver):
 		self.driver = driver
+
+
+	def Ping(self):
+		return False
 		
 	def Set_Loop(self,action):
 		self.WaitForOk()
@@ -249,6 +259,7 @@ class AlienFX_Controller:
 		
 	def WaitForOk(self):
 		self.driver.Take_over()
+		self.Get_State()
 		request = AlienFX_Constructor(self.driver)
 		request.Reset_all()
 		self.driver.WriteDevice(request)
