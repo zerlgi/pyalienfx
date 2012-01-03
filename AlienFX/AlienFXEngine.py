@@ -75,6 +75,7 @@ class AlienFX_Driver(AllComputers):
 	def WriteDevice(self,MSG):
 		if len(MSG[0].packet) == self.computer.DATA_LENGTH:
 			for msg in MSG:
+				time.sleep(0.1)
 				if self.debug:
 					nice_packet = ""
 					for i in msg.packet:

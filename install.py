@@ -94,14 +94,14 @@ python ./pyAlienFX_Indicator.py &
 Unity = """[Desktop Entry]
 Name=pyAlienFX
 Comment=Launch the pyAlienFX Configurator
-TryExec=%s/pyAlienFX
-Exec=%s/pyAlienFX
+TryExec=pyAlienFX
+Exec=pyAlienFX
 Icon=%s/images/icon.png
 Type=Application
 Categories=Utility;
 StartupNotify=true
 OnlyShowIn=GNOME;Unity;
-"""%(BasePath,BasePath,BasePath)
+"""%(BasePath)
 
 f = open('/usr/share/applications/pyAlienFX.desktop','w')
 f.write(Unity)
@@ -114,9 +114,9 @@ f = open('%s/pyAlienFX_Launcher.sh'%BasePath,'w')
 f.write(Launcher)
 f.close()
 
-f = open('%s/pyAlienFX'%BasePath,'w')
+f = open('/usr/bin/pyAlienFX','w')
 f.write(Bin)
 f.close()
 
 os.system('chmod 755 %s/pyAlienFX_Launcher.sh'%BasePath)
-os.system('chmod 755 %s/pyAlienFX'%BasePath)
+os.system('chmod 755 /usr/bin/pyAlienFX')

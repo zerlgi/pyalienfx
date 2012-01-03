@@ -291,9 +291,9 @@ class pyAlienFX_GUI():
 				self.controller.End_Loop_Conf()
 			#self.controller.Add_Loop_Conf(0x0f869e,"fixed",'000000','000000')
 			#self.controller.End_Loop_Conf()
-		if not Save:
-			self.controller.Add_Loop_Conf(self.computer.REGION_ALL_BUT_POWER,"fixed","000000","000000")
-			self.controller.End_Loop_Conf()
+		#if not Save:
+			#self.controller.Add_Loop_Conf(self.computer.REGION_ALL_BUT_POWER,"fixed","FF0000","00FF00")
+			#self.controller.End_Loop_Conf()
 		self.controller.End_Transfert_Conf()
 		self.controller.Write_Conf()
 		if Save:
