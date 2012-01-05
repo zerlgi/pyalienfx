@@ -21,9 +21,45 @@
 #    to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 #
 
-import os
+import os,sys
 BasePath = os.path.realpath('.')
+print """
+\033[1;32mWelcome to the \033[0m\033[1;31mpyAlienFX\033[0m\033[1;32m Installer script !\033[0m
 
+You are about to instal the software : pyAlienFX !"""
+n = 0
+while True:
+	q = raw_input("Do you want to continue \033[1;31m(Y/N)\033[0m ? ")
+	if q.lower() == "n":
+		print "Thanks !\nCredit : \033[1;30mXqua\033[0m"
+		sys.exit(0)
+	elif q.lower() == "y":
+		break
+	elif n == 3:
+		print "Thanks !\nCredit : \033[1;30mXqua\033[0m"
+		sys.exit(0)
+	else:
+		print "Please enter Y or N !"
+	n += 1
+
+print """
+\033[1;31m   !!! WARNING !!!\033[0m
+The current version is packaged with a deamon running in the background as a TCP/IP server to control the lights.
+First, this could cause trouble under windows systems
+Second, this functionality is still in the Alpha stage and might cause unexpected bugs.
+If you don't want the deamon to start automatically you can still test it by launching the pyAlienFX_daemon.py and then restarting the other pyAlienFX scripts."""
+while True:
+	q = raw_input('Do you wish to launch the deamon at startup ? \033[1;31m(Y/N)\033[0m ')
+
+	if q.lower() == "y":
+		optdeamon = ""
+		break
+	elif q.lower() == "n":
+		optdeamon = "#"
+		break
+	else:
+		print "Please answer Y or N"
+	
 
 Bin = """#!/bin/sh
 # -*- coding: UTF-8 -*-
@@ -86,10 +122,10 @@ Launcher = """#!/bin/sh
 
 
 cd %s
-python ./pyAlienFX_daemon.py &
-sleep 5
+%spython ./pyAlienFX_daemon.py &
+%ssleep 5
 python ./pyAlienFX_Indicator.py &
-"""%(BasePath)
+"""%(BasePath,optdeamon,optdeamon)
 
 Unity = """[Desktop Entry]
 Name=pyAlienFX
@@ -102,21 +138,31 @@ Categories=Utility;
 StartupNotify=true
 OnlyShowIn=GNOME;Unity;
 """%(BasePath)
-
-f = open('/usr/share/applications/pyAlienFX.desktop','w')
-f.write(Unity)
-f.close()
-
+try:
+	f = open('/usr/share/applications/pyAlienFX.desktop','w')
+	f.write(Unity)
+	f.close()
+except:
+	print "\033[1;31m !!! Please run the script as sudo in order to install the script in the Unity interface !!! \033[0m"
 #os.setuid(1000)
 #os.setgid(1001)
 
 f = open('%s/pyAlienFX_Launcher.sh'%BasePath,'w')
 f.write(Launcher)
 f.close()
-
-f = open('/usr/bin/pyAlienFX','w')
-f.write(Bin)
-f.close()
-
 os.system('chmod 755 %s/pyAlienFX_Launcher.sh'%BasePath)
-os.system('chmod 755 /usr/bin/pyAlienFX')
+
+try:
+	f = open('/usr/bin/pyAlienFX','w')
+	f.write(Bin)
+	f.close()
+	os.system('chmod 755 /usr/bin/pyAlienFX')
+except:
+	f = open('%s/pyAlienFX'%BasePath,'w')
+	f.write(Bin)
+	f.close()
+	os.system('chmod 755 %s/pyAlienFX'%BasePath)
+	print "\033[1;31m !!! Please run the script as sudo in order to install the script correctly !!! \033[0m"
+
+print """Thanks for installing !
+Credit : \033[1;30mXqua\033[0m"""

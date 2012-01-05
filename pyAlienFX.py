@@ -97,6 +97,7 @@ class pyAlienFX_GUI():
 		self.AlienFX_Configurator_Eventbox = self.gtk_AlienFX_Main.get_object("AlienFX_Configurator_Eventbox")
 		self.AlienFX_Configurator_ScrollWindow = self.gtk_AlienFX_Main.get_object("AlienFX_Configurator_ScrollWindow")
 		self.AlienFX_ColorSelection_Window = self.gtk_AlienFX_Main.get_object("AlienFX_ColorSelection_Window")
+		self.AlienFX_ComputerName_Label = self.gtk_AlienFX_Main.get_object("AlienFX_ComputerName_Label")
 		#Modification of the background ! 
 		pixbuf = gtk.gdk.pixbuf_new_from_file(self.Image_DB.AlienFX_Main_Eventbox)
 		pixbuf = pixbuf.scale_simple(self.width, self.height, gtk.gdk.INTERP_BILINEAR)
@@ -105,7 +106,7 @@ class pyAlienFX_GUI():
 		self.AlienFX_Main_Windows.resize(self.width, self.height)
 		self.AlienFX_Main_Windows.realize()
 		self.AlienFX_Main_Windows.window.set_back_pixmap(pixmap, False)
-		
+		self.AlienFX_ComputerName_Label.set_label(self.computer.name)
 		self.gtk_AlienFX_Main.connect_signals(self)
 		
 		#To delete !
@@ -371,6 +372,11 @@ class pyAlienFX_GUI():
 	def AlienFX_Color_Panel(self):
 		default_color = ["FFFFFF","FFFF00","FF00FF","00FFFF","FF0000","00FF00","0000FF","000000","select"]
 		self.AlienFX_Color_Panel_VBox = gtk.VBox()
+		HBox1 = gtk.HBox()
+		HBox2 = gtk.HBox()
+		self.AlienFX_Color_Panel_VBox.pack_start(HBox1, expand=True)
+		self.AlienFX_Color_Panel_VBox.pack_start(HBox2, expand=True)
+		n = 0
 		for c in default_color:
 			if c == "select":
 				color_select_button = gtk.Button()
@@ -381,7 +387,12 @@ class pyAlienFX_GUI():
 				color_EventBox = gtk.EventBox()
 				color_EventBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+c))
 				color_EventBox.connect("button-press-event", self.on_AlienFX_Color_Panel_Clicked, c)
-				self.AlienFX_Color_Panel_VBox.pack_start(color_EventBox, expand=True)
+				if n > 3:
+					HBox2.pack_start(color_EventBox, expand=True)
+				else:
+					HBox1.pack_start(color_EventBox, expand=True)
+				n += 1
+		
 		self.AlienFX_Color_Eventbox.add(self.AlienFX_Color_Panel_VBox)
 		self.AlienFX_Main_Windows.show_all()
 
@@ -561,25 +572,26 @@ class pyAlienFX_GUI():
 		self.Create_Line()
 		
 	def on_color_focus_in(self,widget,event,zone,conf):
-		try :
-			if self.remove_box:
-				self.remove_box.destroy()
-		except:
-			pass
-		#self.Remove_button_destroy = False
-		self.remove_box = gtk.Fixed()
-		self.remove_button = gtk.Button()
-		self.remove_button.set_label("X")
-		self.remove_button.connect("clicked",self.on_Remove_Clicked, zone,conf)
-		#self.remove_button.connect("destroy-event",self.on_Remove_button_destroy)
-		#self.remove_button.connect("enter-notify-event",self.on_Remove_button_focus_in)
-		#self.remove_button.connect("leave-notify-event",self.on_Remove_button_focus_out)
-		self.remove_button.set_size_request(20,20)
-		self.remove_box.put(self.remove_button,20,0)
-		widget.add(self.remove_box)
-		#print "ABOVE ?",widget.get_above_child()
-		self.remove_box.show_all()
-		#print "Focus IN :x = %s y = %s    %s, %s, %s"%(event.x,event.y,zone.description,conf,widget.get_size_request())
+		if not zone.power_button:
+			try :
+				if self.remove_box:
+					self.remove_box.destroy()
+			except:
+				pass
+			#self.Remove_button_destroy = False
+			self.remove_box = gtk.Fixed()
+			self.remove_button = gtk.Button()
+			self.remove_button.set_label("X")
+			self.remove_button.connect("clicked",self.on_Remove_Clicked, zone,conf)
+			#self.remove_button.connect("destroy-event",self.on_Remove_button_destroy)
+			#self.remove_button.connect("enter-notify-event",self.on_Remove_button_focus_in)
+			#self.remove_button.connect("leave-notify-event",self.on_Remove_button_focus_out)
+			self.remove_button.set_size_request(20,20)
+			self.remove_box.put(self.remove_button,20,0)
+			widget.add(self.remove_box)
+			#print "ABOVE ?",widget.get_above_child()
+			self.remove_box.show_all()
+			#print "Focus IN :x = %s y = %s    %s, %s, %s"%(event.x,event.y,zone.description,conf,widget.get_size_request())
 
 	#def on_Remove_button_focus_in(self,widget):
 		#self.Remove_button_destroy = True
