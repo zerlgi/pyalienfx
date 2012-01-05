@@ -204,6 +204,7 @@ class M14XLight:
 		self.REGION_MEDIA_BAR = 0x1c00
 		self.REGION_POWER_BUTTON = 0x2000
 		self.REGION_POWER_BUTTON_EYES = 0x4000
+		self.REGION_ALL_BUT_POWER = 0x0f9fff
 
 		self.suportedMode["normal"] = AlienFXPowerMode(self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE,self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE, self.BLOCK_LOAD_ON_BOOT)
 		self.suportedMode["standby"] = AlienFXPowerMode(self.AlienFXProperties.STANDBY_ID, self.AlienFXTexts.STAND_BY_DESCRIPTION, self.BLOCK_STANDBY)
@@ -277,7 +278,7 @@ class M15XArea51:
 		self.REGION_KEY_BOARD = 0x000400
 		self.REGION_TOUCH_PANEL = 0x010000 
 		self.REGION_POWER_BUTTON = 0x008000
-		
+		self.REGION_ALL_BUT_POWER = 0x0f9fff
 		
 		self.suportedMode["normal"] = AlienFXPowerMode(self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE,self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE, self.BLOCK_LOAD_ON_BOOT)
 		self.suportedMode["standby"] = AlienFXPowerMode(self.AlienFXProperties.STANDBY_ID, self.AlienFXTexts.STAND_BY_DESCRIPTION, self.BLOCK_STANDBY)
@@ -355,7 +356,8 @@ class M15XAllPowerfull:
 		self.REGION_TOUCH_PAD = 0x0200 
 		self.REGION_MEDIA_BAR = 0x1c00
 		self.REGION_POWER_BUTTON = 0x2000 
-		self.REGION_POWER_BUTTON_EYES = 0x4000 
+		self.REGION_POWER_BUTTON_EYES = 0x4000
+		self.REGION_ALL_BUT_POWER = 0x0f9fff
 		
 		self.suportedMode["normal"] = AlienFXPowerMode(self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE,self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE, self.BLOCK_LOAD_ON_BOOT)
 		self.suportedMode["standby"] = AlienFXPowerMode(self.AlienFXProperties.STANDBY_ID, self.AlienFXTexts.STAND_BY_DESCRIPTION, self.BLOCK_STANDBY)
@@ -438,7 +440,8 @@ class M17XR3:
 		self.REGION_TOUCH_PAD = 0x0200 
 		self.REGION_MEDIA_BAR = 0x1c00
 		self.REGION_POWER_BUTTON = 0x2000 
-		self.REGION_POWER_BUTTON_EYES = 0x4000 
+		self.REGION_POWER_BUTTON_EYES = 0x4000
+		self.REGION_ALL_BUT_POWER = 0x0f9fff
 		
 		self.suportedMode["normal"] = AlienFXPowerMode(self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE,self.AlienFXProperties.ALIEN_FX_DEFAULT_POWER_MODE, self.BLOCK_LOAD_ON_BOOT)
 		self.suportedMode["standby"] = AlienFXPowerMode(self.AlienFXProperties.STANDBY_ID, self.AlienFXTexts.STAND_BY_DESCRIPTION, self.BLOCK_STANDBY)
