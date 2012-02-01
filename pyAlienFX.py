@@ -126,6 +126,100 @@ class pyAlienFX_GUI():
 		box.pack_start(Save)
 		self.AlienFX_Computer_Eventbox.add(box)
 
+
+	def Create_Border(self,Type,Inside,Label = None):
+		"""2 type of border Advanced (type == 1) and Normal (type == 0)"""
+		if Type == 0:
+			Table = gtk.Table(5,3,False)
+			UL = gtk.Image()
+			UL.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Left)
+			UL2 = gtk.Image()
+			UL2.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Left2)
+			UMbg = gtk.gdk.pixbuf_new_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Middle)
+			UM = gtk.EventBox()
+			UM.connect('expose_event', self.textbackground, UMbg)
+			text = gtk.Label('<span size="12000" color="#00FFFF">%s</span>'%Label)
+			text.set_use_markup(gtk.TRUE)
+			UM.add(text)
+			UR = gtk.Image()
+			UR.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Right)
+			UR2 = gtk.Image()
+			UR2.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Right2)
+			L = gtk.Image()
+			L.set_from_file(self.Image_DB.AlienFX_Cadre_0_Left)
+			R = gtk.Image()
+			R.set_from_file(self.Image_DB.AlienFX_Cadre_0_Right)
+			BL = gtk.Image()
+			BL.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Left)
+			BM = gtk.Image()
+			BM.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Middle)
+			BR = gtk.Image()
+			BR.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Right)
+			Table.attach(UL,0,1,0,1,yoptions=gtk.FILL)
+			Table.attach(UL2,1,2,0,1,yoptions=gtk.FILL)
+			Table.attach(UM,2,3,0,1,yoptions=gtk.FILL)
+			Table.attach(UR2,3,4,0,1,yoptions=gtk.FILL)
+			Table.attach(UR,4,5,0,1,yoptions=gtk.FILL)
+			Table.attach(L,0,1,1,2)
+			Table.attach(Inside,1,4,1,2)
+			Table.attach(R,4,5,1,2)
+			Table.attach(BL,0,1,2,3)
+			Table.attach(BM,1,4,2,3)
+			Table.attach(BR,4,5,2,3)
+			return Table
+		elif Type == 1:
+			Table = gtk.Table(3,3,False)
+			UL = gtk.Image()
+			UL.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Left)
+			UM = gtk.Image()
+			UM.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Middle)
+			UR = gtk.Image()
+			UR.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Right)
+			L = gtk.Image()
+			L.set_from_file(self.Image_DB.AlienFX_Cadre_01_Left)
+			R = gtk.Image()
+			R.set_from_file(self.Image_DB.AlienFX_Cadre_01_Right)
+			BL = gtk.Image()
+			BL.set_from_file(self.Image_DB.AlienFX_Cadre_01_Bottom_Left)
+			BM = gtk.Image()
+			BM.set_from_file(self.Image_DB.AlienFX_Cadre_01_Bottom_Middle)
+			BR = gtk.Image()
+			BR.set_from_file(self.Image_DB.AlienFX_Cadre_01_Bottom_Right)
+			Table.attach(UL,0,1,0,1)
+			Table.attach(UM,1,2,0,1)
+			Table.attach(UR,2,3,0,1)
+			Table.attach(L,0,1,1,2)
+			Table.attach(Inside,1,2,1,2)
+			Table.attach(R,2,3,1,2)
+			Table.attach(BL,0,1,2,3)
+			Table.attach(BM,1,2,2,3)
+			Table.attach(BR,2,3,2,3)
+			return Table
+		return Inside
+
+
+      #self.textbg = gtk.gdk.pixbuf_new_from_file("./package/images/textbg_"+str(event[1])+".png")
+      ##title = "chatevent" + `self.count`
+      #textenv = gtk.EventBox()
+      #textenv.connect('expose_event', self.textbackground)
+      #text = gtk.Label()
+      ##text = "Ceci estccccccccc un text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un text"
+      #text1 = "<span foreground=\"white\" size=\"large\">" + event[2] + "</span>"
+      #text.set_size_request(-1,-1)
+      #text.set_padding(0,10)
+      #if len(text1.split('\n')[0]) > 100:
+	#text.set_size_request(600,-1)
+      #text.set_text(text1)
+      #text.set_justify(gtk.JUSTIFY_CENTER)
+      #text.set_use_markup(True)
+      #text.set_line_wrap(True)
+      #textenv.add(text)
+
+	def textbackground(self,widget,ev,image):
+		widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL],image, 0, 0, 0, 0)
+		if widget.get_child() != None:
+			widget.propagate_expose(widget.get_child(), ev)
+		return True
 	
 	def Create_zones(self):
 		try:
@@ -144,9 +238,13 @@ class pyAlienFX_GUI():
 	def Widget_Zone(self,zone,confId = 0,line = False):
 		#print "Creating : ",zone.description
 		Zone_VBox = gtk.VBox()
+		set_type = 1
+		Label = None
 		if not line:
-			title = gtk.Label(zone.description)
-			Zone_VBox.pack_start(title, expand=False)
+			set_type = 0
+			Label = zone.description
+			#title = gtk.Label(zone.description)
+			#Zone_VBox.pack_start(title, expand=False)
 		#color = gtk.EventBox()
 		#color_hbox = gtk.HBox() 
 		color1 = gtk.EventBox()
@@ -221,8 +319,8 @@ class pyAlienFX_GUI():
 		Color_Hbox.pack_start(color1, expand=False)
 		Color_Hbox.pack_start(color2, expand=False)
 		Color_Hbox.pack_start(mode, expand=False)
-		Zone_VBox.pack_start(Color_Hbox, expand=False)
-		
+		Table = self.Create_Border(set_type,Color_Hbox,Label)
+		Zone_VBox.pack_start(Table, expand=False)
 		return Zone_VBox
 	
 	def Create_Line(self):
@@ -645,6 +743,24 @@ class Image_DB:
 		self.AlienFX_Icon_Blink_Off = './images/blink_off.png'
 		self.AlienFX_Icon_Morph_On = './images/morph_on.png'
 		self.AlienFX_Icon_Morph_Off = './images/morph_off.png'
+		self.AlienFX_Cadre_01_Up_Left = './images/carde_up_left.png'
+		self.AlienFX_Cadre_01_Up_Middle = './images/carde_up_middle.png'
+		self.AlienFX_Cadre_01_Up_Right = './images/carde_up_right.png'
+		self.AlienFX_Cadre_01_Left = './images/carde_left.png'
+		self.AlienFX_Cadre_01_Right = './images/carde_right.png'
+		self.AlienFX_Cadre_01_Bottom_Left = './images/carde_bottom_left.png'
+		self.AlienFX_Cadre_01_Bottom_Middle = './images/carde_bottom_middle.png'
+		self.AlienFX_Cadre_01_Bottom_Right = './images/carde_bottom_right.png'
+		self.AlienFX_Cadre_0_Up_Left = './images/carde0_up_left.png'
+		self.AlienFX_Cadre_0_Up_Left2 = './images/carde0_up_left2.png'
+		self.AlienFX_Cadre_0_Up_Middle = './images/carde0_up_middle.png'
+		self.AlienFX_Cadre_0_Up_Right = './images/carde0_up_right.png'
+		self.AlienFX_Cadre_0_Up_Right2 = './images/carde0_up_right2.png'
+		self.AlienFX_Cadre_0_Left = './images/carde0_left.png'
+		self.AlienFX_Cadre_0_Right = './images/carde0_right.png'
+		self.AlienFX_Cadre_0_Bottom_Left = './images/carde0_bottom_left.png'
+		self.AlienFX_Cadre_0_Bottom_Middle = './images/carde0_bottom_middle.png'
+		self.AlienFX_Cadre_0_Bottom_Right = './images/carde0_bottom_right.png'
 
 
 class Daemon_Controller:
