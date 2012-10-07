@@ -120,7 +120,7 @@ class AlienFX_Controller:
 
 
 	def Ping(self):
-		return False
+		return "No Deamon"
 		
 	def Set_Loop(self,action):
 		self.WaitForOk()
@@ -137,7 +137,7 @@ class AlienFX_Controller:
 		if type(color1) != list:
 			color1 = self.request.Color(color1)
 		if type(color2) != list and color2:
-			color2 = self.request.Color(color2)
+			color2 = self.request.Color2(color2)
 		if mode == "fixed":
 			self.request.Set_Color(area,color1)
 		elif mode == "blink":
@@ -350,9 +350,11 @@ class AlienFX_Constructor(list):
 	def Set_Morph_Color(self,Area,Color1,Color2):
 		self.Save()
 		cmd = copy(self.void)
+		print "Color2 ==== >>> ",Color2
 		legend = "Set Morph Color, Area : %s , Color1 : r = %s, g = %s, b = %s, Color2 : r = %s, g = %s, b = %s"%(hex(Area[0]*65536 + Area[1]*256 + Area[2]),hex((Color1[0]/16)),hex(Color1[0] - (Color1[0]/16)*16),hex(Color1[1]/16),hex(Color2[0]/16),hex(Color2[0] - (Color2[0]/16)*16),hex(Color2[1]/16))
-		Color2[1] = Color2[1]/16 + (Color2[0] - (Color2[0]/16)*16)
-		Color12 = Color1[1] + Color2[0]/16
+		#Color2[1] = Color2[1]/16 + (Color2[0] - (Color2[0]/16)*16)
+		print "Color2after ==== >>> ",Color2
+		Color12 = Color1[1] + Color2[0]
 		cmd[0] = self.computer.START_BYTE
 		cmd[1] = self.computer.COMMAND_SET_MORPH_COLOR
 		cmd[2] = self.Id
@@ -419,6 +421,15 @@ class AlienFX_Constructor(list):
 		c = [0x00,0x00]
 		c[0] = r * 16 + g  # if r = 0xf > r*16 = 0xf0 > and b = 0xc r*16 + b 0xfc 
 		c[1] = b * 16
+		return c
+
+	def Color2(self,color):
+		r = int(color[0:2],16)/16
+		g = int(color[2:4],16)/16
+		b = int(color[4:6],16)/16
+		c = [0x00,0x00]
+		c[0] = r  # if r = 0xf > r*16 = 0xf0 > and b = 0xc r*16 + b 0xfc
+		c[1] = g * 16 + b
 		return c
 		
 	def Get_Status(self):

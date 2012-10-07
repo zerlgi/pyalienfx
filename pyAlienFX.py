@@ -59,7 +59,10 @@ class pyAlienFX_GUI():
 		self.auto_apply = False
 		self.default_color = "0000FF"
 		self.selected_Id = 1
+		self.background_color = "#222222"
+		self.text_color = "#EEEEEE"
 		self.set_color = 1
+		self.Advanced_Mode = True
 		self.width,self.height = 800,600
 		self.Image_DB = Image_DB()
 		if os.path.isfile(self.actual_conf_file):
@@ -74,11 +77,17 @@ class pyAlienFX_GUI():
 		self.AlienFX_Main()
 		self.Create_zones()
 		self.Create_Line()
+		if not self.Advanced_Mode:
+			self.AlienFX_Inside_vBox.children()[2].hide()
 		self.AlienFX_Color_Panel()
 		gtk.gdk.threads_enter()
 		gtk.main()
 		gtk.gdk.threads_leave()
-	
+
+
+	#================================
+	#GTK functions!
+	#================================
 	def AlienFX_Main(self):
 		"Creating the gtk object, loading the main glade file"
 		self.gtk_AlienFX_Main = gtk.Builder()
@@ -98,6 +107,8 @@ class pyAlienFX_GUI():
 		self.AlienFX_Configurator_ScrollWindow = self.gtk_AlienFX_Main.get_object("AlienFX_Configurator_ScrollWindow")
 		self.AlienFX_ColorSelection_Window = self.gtk_AlienFX_Main.get_object("AlienFX_ColorSelection_Window")
 		self.AlienFX_ComputerName_Label = self.gtk_AlienFX_Main.get_object("AlienFX_ComputerName_Label")
+		self.AlienFX_Advanced_Button = self.gtk_AlienFX_Main.get_object("AlienFX_Button_Advanced")
+		self.AlienFX_ComputerName_EventBox = self.gtk_AlienFX_Main.get_object("AlienFX_ComputerName_EventBox")
 		#Modification of the background ! 
 		pixbuf = gtk.gdk.pixbuf_new_from_file(self.Image_DB.AlienFX_Main_Eventbox)
 		pixbuf = pixbuf.scale_simple(self.width, self.height, gtk.gdk.INTERP_BILINEAR)
@@ -109,12 +120,17 @@ class pyAlienFX_GUI():
 		self.AlienFX_ComputerName_Label.set_label(self.computer.name)
 		self.gtk_AlienFX_Main.connect_signals(self)
 		
-		#To delete !
-		self.AlienFX_Color_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
-		self.AlienFX_Computer_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("red"))
+		#Background Colors !
+		self.AlienFX_ComputerName_EventBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		self.AlienFX_ComputerName_Label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color))
+		self.AlienFX_Configurator_ScrollWindow.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		#Optional to be deleted enventually !
+		#====----====
+		self.AlienFX_Color_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		self.AlienFX_Computer_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		self.AlienFX_Main_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("green"))
-		#self.AlienFX_Preview_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("yellow"))
 		self.AlienFX_Configurator_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("purple"))
+		#====----====
 		Apply = gtk.Button()
 		Apply.set_label("Apply !")
 		Apply.connect("clicked",self.on_Apply_pressed)
@@ -125,50 +141,111 @@ class pyAlienFX_GUI():
 		box.pack_start(Apply)
 		box.pack_start(Save)
 		self.AlienFX_Computer_Eventbox.add(box)
+		self.on_Advanced_Button_Clicked(self.AlienFX_Advanced_Button)
 
 
 	def Create_Border(self,Type,Inside,Label = None):
-		"""2 type of border Advanced (type == 1) and Normal (type == 0)"""
+		"""2 type of border Advanced (type == 1) and Normal (type == 0)
+		That function creates the gtk Box that contains the images border that surround the zones."""
 		if Type == 0:
-			Table = gtk.Table(5,3,False)
-			UL = gtk.Image()
-			UL.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Left)
-			UL2 = gtk.Image()
-			UL2.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Left2)
-			UMbg = gtk.gdk.pixbuf_new_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Middle)
+			MainBox = gtk.VBox()
+			TopBox = gtk.HBox()
+			MiddleBox = gtk.HBox()
+			BottomBox = gtk.HBox()
+			TopBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			UL = gtk.EventBox()
+			ULi = gtk.Image()
+			ULi.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Left)
+			UL.add(ULi)
+			UL.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			UL2 = gtk.EventBox()
+			UL2i = gtk.Image()
+			UL2i.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Left2)
+			UL2.add(UL2i)
+			UL2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			if len(Label)<11:
+				Title_width = (11)*9
+			else:
+				Title_width = (len(Label)*9)
+			UMbg = gtk.gdk.pixbuf_new_from_file_at_scale(self.Image_DB.AlienFX_Cadre_0_Up_Middle,width=Title_width,height=31,preserve_aspect_ratio=False)
+			#print "LEN ======>>>>>%s >> %s"%(Label,Title_width)
 			UM = gtk.EventBox()
-			UM.connect('expose_event', self.textbackground, UMbg)
-			text = gtk.Label('<span size="12000" color="#00FFFF">%s</span>'%Label)
+			UM.set_size_request(width=Title_width,height=-1)
+			UM.connect('expose_event', self.__textbackground, UMbg)
+			text = gtk.Label('<span size="11000" color="#00FFFF">%s</span>'%Label)
 			text.set_use_markup(gtk.TRUE)
 			UM.add(text)
-			UR = gtk.Image()
-			UR.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Right)
-			UR2 = gtk.Image()
-			UR2.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Right2)
-			L = gtk.Image()
-			L.set_from_file(self.Image_DB.AlienFX_Cadre_0_Left)
-			R = gtk.Image()
-			R.set_from_file(self.Image_DB.AlienFX_Cadre_0_Right)
-			BL = gtk.Image()
-			BL.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Left)
-			BM = gtk.Image()
-			BM.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Middle)
-			BR = gtk.Image()
-			BR.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Right)
-			Table.attach(UL,0,1,0,1,yoptions=gtk.FILL)
-			Table.attach(UL2,1,2,0,1,yoptions=gtk.FILL)
-			Table.attach(UM,2,3,0,1,yoptions=gtk.FILL)
-			Table.attach(UR2,3,4,0,1,yoptions=gtk.FILL)
-			Table.attach(UR,4,5,0,1,yoptions=gtk.FILL)
-			Table.attach(L,0,1,1,2)
-			Table.attach(Inside,1,4,1,2)
-			Table.attach(R,4,5,1,2)
-			Table.attach(BL,0,1,2,3)
-			Table.attach(BM,1,4,2,3)
-			Table.attach(BR,4,5,2,3)
-			return Table
+			UM.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			UR = gtk.EventBox()
+			URi = gtk.Image()
+			URi.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Right)
+			UR.add(URi)
+			UR.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			UR2 = gtk.EventBox()
+			UR2i = gtk.Image()
+			UR2i.set_from_file(self.Image_DB.AlienFX_Cadre_0_Up_Right2)
+			UR2.add(UR2i)
+			UR2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			L = gtk.EventBox()
+			Li = gtk.Image()
+			Li.set_from_file(self.Image_DB.AlienFX_Cadre_0_Left)
+			L.add(Li)
+			L.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			R = gtk.EventBox()
+			Ri = gtk.Image()
+			Ri.set_from_file(self.Image_DB.AlienFX_Cadre_0_Right)
+			R.add(Ri)
+			R.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			BL = gtk.EventBox()
+			BLi = gtk.Image()
+			BLi.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Left)
+			BL.add(BLi)
+			BL.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			BL2 = gtk.EventBox()
+			BL2i = gtk.Image()
+			BL2i.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Middle_Left)
+			BL2.add(BL2i)
+			BL2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			BM = gtk.EventBox()
+			BMi = gtk.Image()
+			BMbg = gtk.gdk.pixbuf_new_from_file_at_scale(self.Image_DB.AlienFX_Cadre_0_Bottom_Middle,width=((81+Title_width)-165),height=16,preserve_aspect_ratio=False)
+			BMi.set_from_pixbuf(BMbg)
+			BMi.set_size_request(width=((81+Title_width)-165),height=-1)
+			BM.add(BMi)
+			BM.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			BR2 = gtk.EventBox()
+			BR2i = gtk.Image()
+			BR2i.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Middle_Right)
+			BR2.add(BR2i)
+			BR2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			BR = gtk.EventBox()
+			BRi = gtk.Image()
+			BRi.set_from_file(self.Image_DB.AlienFX_Cadre_0_Bottom_Right)
+			BR.add(BRi)
+			BR.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			Inside.set_size_request(width = (81+Title_width)- 33,height=-1)
+			TopBox.pack_start(UL,gtk.SHRINK)
+			TopBox.pack_start(UL2,gtk.SHRINK)
+			TopBox.pack_start(UM,gtk.SHRINK)
+			TopBox.pack_start(UR2,gtk.SHRINK)
+			TopBox.pack_start(UR,gtk.SHRINK)
+			MiddleBox.pack_start(L,gtk.SHRINK)
+			MiddleBox.pack_start(Inside,gtk.SHRINK)
+			MiddleBox.pack_start(R,gtk.SHRINK)
+			BottomBox.pack_start(BL,gtk.SHRINK)
+			BottomBox.pack_start(BL2,gtk.SHRINK)
+			BottomBox.pack_start(BM,gtk.SHRINK)
+			BottomBox.pack_start(BR2,gtk.SHRINK)
+			BottomBox.pack_start(BR,gtk.SHRINK)
+			MainBox.pack_start(TopBox,gtk.SHRINK)
+			MainBox.pack_start(MiddleBox,gtk.SHRINK)
+			MainBox.pack_start(BottomBox,gtk.SHRINK)
+			return MainBox
 		elif Type == 1:
-			Table = gtk.Table(3,3,False)
+			MainBox = gtk.VBox(spacing=0,homogeneous=False)
+			TopBox = gtk.HBox(spacing=0,homogeneous=False)
+			MiddleBox = gtk.HBox(spacing=0,homogeneous=False)
+			BottomBox = gtk.HBox(spacing=0,homogeneous=False)
 			UL = gtk.Image()
 			UL.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Left)
 			UM = gtk.Image()
@@ -185,77 +262,117 @@ class pyAlienFX_GUI():
 			BM.set_from_file(self.Image_DB.AlienFX_Cadre_01_Bottom_Middle)
 			BR = gtk.Image()
 			BR.set_from_file(self.Image_DB.AlienFX_Cadre_01_Bottom_Right)
-			Table.attach(UL,0,1,0,1)
-			Table.attach(UM,1,2,0,1)
-			Table.attach(UR,2,3,0,1)
-			Table.attach(L,0,1,1,2)
-			Table.attach(Inside,1,2,1,2)
-			Table.attach(R,2,3,1,2)
-			Table.attach(BL,0,1,2,3)
-			Table.attach(BM,1,2,2,3)
-			Table.attach(BR,2,3,2,3)
-			return Table
+			TopBox.pack_start(UL,gtk.SHRINK)
+			TopBox.pack_start(UM,gtk.SHRINK)
+			TopBox.pack_start(UR,gtk.SHRINK)
+			MiddleBox.pack_start(L,gtk.SHRINK)
+			MiddleBox.pack_start(Inside,gtk.SHRINK)
+			MiddleBox.pack_start(R,gtk.SHRINK)
+			BottomBox.pack_start(BL,gtk.SHRINK)
+			BottomBox.pack_start(BM,gtk.SHRINK)
+			BottomBox.pack_start(BR,gtk.SHRINK)
+			TopBox.set_size_request(180,-1)
+			MiddleBox.set_size_request(180,-1)
+			BottomBox.set_size_request(180,-1)
+			MainBox.set_size_request(180,-1)
+			MainBox.pack_start(TopBox)
+			MainBox.pack_start(MiddleBox)
+			MainBox.pack_start(BottomBox)
+			return MainBox
+		elif Type == 2:
+			MainBox = gtk.VBox(spacing=0,homogeneous=False)
+			TopBox = gtk.HBox(spacing=0,homogeneous=False)
+			MiddleBox = gtk.HBox(spacing=0,homogeneous=False)
+			BottomBox = gtk.HBox(spacing=0,homogeneous=False)
+			UL = gtk.Image()
+			UL.set_from_file(self.Image_DB.AlienFX_Cadre_02_Up_Left)
+			UM = gtk.Image()
+			UM.set_from_file(self.Image_DB.AlienFX_Cadre_02_Up_Middle)
+			UR = gtk.Image()
+			UR.set_from_file(self.Image_DB.AlienFX_Cadre_02_Up_Right)
+			L = gtk.Image()
+			L.set_from_file(self.Image_DB.AlienFX_Cadre_02_Left)
+			R = gtk.Image()
+			R.set_from_file(self.Image_DB.AlienFX_Cadre_02_Right)
+			BL = gtk.Image()
+			BL.set_from_file(self.Image_DB.AlienFX_Cadre_02_Bottom_Left)
+			BM = gtk.Image()
+			BM.set_from_file(self.Image_DB.AlienFX_Cadre_02_Bottom_Middle)
+			BR = gtk.Image()
+			BR.set_from_file(self.Image_DB.AlienFX_Cadre_02_Bottom_Right)
+			TopBox.pack_start(UL,gtk.SHRINK)
+			TopBox.pack_start(UM,gtk.SHRINK)
+			TopBox.pack_start(UR,gtk.SHRINK)
+			MiddleBox.pack_start(L,gtk.SHRINK)
+			MiddleBox.pack_start(Inside,gtk.SHRINK)
+			MiddleBox.pack_start(R,gtk.SHRINK)
+			BottomBox.pack_start(BL,gtk.SHRINK)
+			BottomBox.pack_start(BM,gtk.SHRINK)
+			BottomBox.pack_start(BR,gtk.SHRINK)
+			#TopBox.set_size_request(40,-1)
+			#MiddleBox.set_size_request(40,-1)
+			#BottomBox.set_size_request(40,-1)
+			#MainBox.set_size_request(40,40)
+			MainBox.pack_start(TopBox, gtk.SHRINK)
+			MainBox.pack_start(MiddleBox, gtk.SHRINK)
+			MainBox.pack_start(BottomBox, gtk.SHRINK)
+			return MainBox
 		return Inside
 
-
-      #self.textbg = gtk.gdk.pixbuf_new_from_file("./package/images/textbg_"+str(event[1])+".png")
-      ##title = "chatevent" + `self.count`
-      #textenv = gtk.EventBox()
-      #textenv.connect('expose_event', self.textbackground)
-      #text = gtk.Label()
-      ##text = "Ceci estccccccccc un text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un textun text est un text Ceci est un text"
-      #text1 = "<span foreground=\"white\" size=\"large\">" + event[2] + "</span>"
-      #text.set_size_request(-1,-1)
-      #text.set_padding(0,10)
-      #if len(text1.split('\n')[0]) > 100:
-	#text.set_size_request(600,-1)
-      #text.set_text(text1)
-      #text.set_justify(gtk.JUSTIFY_CENTER)
-      #text.set_use_markup(True)
-      #text.set_line_wrap(True)
-      #textenv.add(text)
-
-	def textbackground(self,widget,ev,image):
-		widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL],image, 0, 0, 0, 0)
-		if widget.get_child() != None:
-			widget.propagate_expose(widget.get_child(), ev)
-		return True
-	
 	def Create_zones(self):
+		"""That function creates a gtk object.
+		That object is the Normal Selections boxes (not advanced).
+		It calls self.Widget_Zone that is the boxes creator"""
+		#print "Advanced mode : ",self.Advanced_Mode
 		try:
 			self.AlienFX_Preview_Hbox.destroy()
 			#print "Destroy"
 		except:
 			pass
-		
-		self.AlienFX_Preview_Hbox = gtk.HBox()
-		self.AlienFX_Preview_Hbox.set_spacing(20)
-		for zone in self.computer.regions.keys():
-			self.AlienFX_Preview_Hbox.pack_start(self.Widget_Zone(self.computer.regions[zone]), expand=False)
-		self.AlienFX_Preview_Eventbox.add(self.AlienFX_Preview_Hbox)
-		self.AlienFX_Main_Windows.show_all()
+		if self.Advanced_Mode == False:
+			self.AlienFX_Preview_Hbox = gtk.HBox()
+			self.AlienFX_Preview_Hbox.set_spacing(20)
+			for zone in self.computer.regions.keys():
+				self.AlienFX_Preview_Hbox.pack_start(self.Widget_Zone(self.computer.regions[zone]), expand=False)
+			self.AlienFX_Preview_Eventbox.add(self.AlienFX_Preview_Hbox)
+			self.AlienFX_Preview_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			self.AlienFX_Main_Windows.show_all()
 	
 	def Widget_Zone(self,zone,confId = 0,line = False):
+		"""That function creates a gtk object.
+		This object is a not advanced zone box"""
 		#print "Creating : ",zone.description
-		Zone_VBox = gtk.VBox()
+		Zone_VBox = gtk.VBox(False)
 		set_type = 1
 		Label = None
+		if not zone.power_button:
+			width = (180-33-28)/2
+		else:
+			width = (180-33)/2
 		if not line:
 			set_type = 0
 			Label = zone.description
+			if len(Label)<11:
+				Title_width = (11)*9
+			else:
+				Title_width = (len(Label)*9)
+			if not zone.power_button:
+				width = ((81+Title_width)- 33 -28)/2
+			else:
+				width = ((81+Title_width)- 33)/2
 			#title = gtk.Label(zone.description)
 			#Zone_VBox.pack_start(title, expand=False)
 		#color = gtk.EventBox()
-		#color_hbox = gtk.HBox() 
+		#color_hbox = gtk.HBox()
 		color1 = gtk.EventBox()
-		color1.set_size_request(40, 20)
+		color1.set_size_request(width, -1)
 		color1.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 1)
 		#color1.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
 		#color1.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
 
 		color2 = gtk.EventBox()
 		color2.set_above_child(False)
-		color2.set_size_request(40, 20)
+		color2.set_size_request(width, -1)
 		color2.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 2)
 		color2.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
 		color2.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
@@ -324,8 +441,15 @@ class pyAlienFX_GUI():
 		return Zone_VBox
 	
 	def Create_Line(self):
+		"""That function creates a gtk object.
+		That object is the Normal Selections boxes (not advanced).
+		It calls self.Widget_Zone that is the boxes creator"""
+		#if self.Advanced_Mode == True:
+		print "Creating lines"
+		print "Advanced mode : ",self.Advanced_Mode
 		try:
 			self.AlienFX_Configurator_Table.destroy()
+			self.AlienFX_Configurator_Eventbox.destroy()
 			print "Destroy"
 		except:
 			pass
@@ -340,21 +464,27 @@ class pyAlienFX_GUI():
 			self.AlienFX_Configurator_Table.resize(old+1,l)
 			self.Widget_Line(self.computer.regions[zone],l)
 			l += 1
-		self.AlienFX_Configurator_ScrollWindow.add_with_viewport(self.AlienFX_Configurator_Table)
+		self.AlienFX_Configurator_Eventbox = gtk.EventBox()
+		self.AlienFX_Configurator_Eventbox.add(self.AlienFX_Configurator_Table)
+		self.AlienFX_Configurator_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		self.AlienFX_Configurator_ScrollWindow.add_with_viewport(self.AlienFX_Configurator_Eventbox)
 		self.AlienFX_Main_Windows.show_all()
 	
 	def Widget_Line(self, zone, l):
-		print "Creating : ",zone.description
+		"""That function creates a gtk object.
+		This object is an advanced zone box"""
+		#print "Creating : ",zone.description
 		title = gtk.Label(zone.description)
-		self.AlienFX_Configurator_Table.attach(title,0,1,l-1,l,xoptions=gtk.EXPAND)
+		title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color))
+		self.AlienFX_Configurator_Table.attach(title,0,1,l-1,l,xoptions=gtk.SHRINK)#,xoptions=gtk.EXPAND
 		for conf in range(len(self.configuration.area[zone.name])):
 			confBox = self.Widget_Zone(zone, conf, line=True)
-			self.AlienFX_Configurator_Table.attach(confBox,int(conf)+1,int(conf)+2,l-1,l)
+			self.AlienFX_Configurator_Table.attach(confBox,int(conf)+1,int(conf)+2,l-1,l,xoptions=gtk.SHRINK,yoptions=gtk.SHRINK)
 		if not zone.power_button:
 			AddConf = gtk.Button()
 			AddConf.set_label("Add")
 			AddConf.connect("clicked", self.on_Line_AddConf_pressed, zone, conf)
-			self.AlienFX_Configurator_Table.attach(AddConf,int(conf)+2,int(conf)+3,l-1,l)
+			self.AlienFX_Configurator_Table.attach(AddConf,int(conf)+2,int(conf)+3,l-1,l,xoptions=gtk.SHRINK,yoptions=gtk.SHRINK)
 		
 	
 	def Set_Conf(self,Save=False):
@@ -464,16 +594,15 @@ class pyAlienFX_GUI():
 		if self.selected_mode == "blink":
 			self.controller.Set_Color_Blink(self.selected_area.regionId,self.selected_color1)
 		if self.selected_mode == "morph" and self.selected_color2:
+			#print "\n\n\n",self.selected_color2
 			self.controller.Set_Color_Morph(self.selected_area.regionId,self.selected_color1,self.selected_color2)
 		
 	
 	def AlienFX_Color_Panel(self):
 		default_color = ["FFFFFF","FFFF00","FF00FF","00FFFF","FF0000","00FF00","0000FF","000000","select"]
-		self.AlienFX_Color_Panel_VBox = gtk.VBox()
-		HBox1 = gtk.HBox()
-		HBox2 = gtk.HBox()
-		self.AlienFX_Color_Panel_VBox.pack_start(HBox1, expand=True)
-		self.AlienFX_Color_Panel_VBox.pack_start(HBox2, expand=True)
+		self.AlienFX_Color_Panel_VBox = gtk.VBox(spacing = 5)
+		HBox1 = gtk.HBox(spacing = 5)
+		HBox2 = gtk.HBox(spacing = 5)
 		n = 0
 		for c in default_color:
 			if c == "select":
@@ -482,15 +611,21 @@ class pyAlienFX_GUI():
 				color_select_button.connect("clicked", self.on_color_select_button_Clicked)
 				self.AlienFX_Color_Panel_VBox.pack_start(color_select_button, expand=True)
 			else:
+				fixed = gtk.Fixed()
 				color_EventBox = gtk.EventBox()
+				color_EventBox.set_size_request(35,37)
 				color_EventBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+c))
 				color_EventBox.connect("button-press-event", self.on_AlienFX_Color_Panel_Clicked, c)
+				fixed.add(color_EventBox)
+				box = self.Create_Border(2,fixed)
 				if n > 3:
-					HBox2.pack_start(color_EventBox, expand=True)
+					HBox2.pack_start(box, gtk.SHRINK)
 				else:
-					HBox1.pack_start(color_EventBox, expand=True)
+					HBox1.pack_start(box, gtk.SHRINK)
 				n += 1
-		
+
+		self.AlienFX_Color_Panel_VBox.pack_start(HBox2, gtk.SHRINK)
+		self.AlienFX_Color_Panel_VBox.pack_start(HBox1, gtk.SHRINK)
 		self.AlienFX_Color_Eventbox.add(self.AlienFX_Color_Panel_VBox)
 		self.AlienFX_Main_Windows.show_all()
 
@@ -515,8 +650,34 @@ class pyAlienFX_GUI():
 			self.configuration.area[zone].append(self.computer.default_mode,self.computer.default_color,self.computer.default_color)
 	
 	
-	
+	#================================
 	#Connect functions!
+	#================================
+	def on_Advanced_Button_Clicked(self,widget):
+		if self.Advanced_Mode:
+			self.AlienFX_Main_Windows
+			widget.set_label("Show Advanced")
+			self.AlienFX_Configurator_ScrollWindow.hide()
+			self.AlienFX_Inside_vBox.children()[2].hide()
+			self.AlienFX_Inside_vBox.children()[2].set_size_request(-1,0)
+			#self.AlienFX_Configurator_ScrollWindow.hide()
+			self.AlienFX_Inside_vBox.children()[1].show()
+			#self.AlienFX_Inside_vBox.children()[2].set_size_request(-1,0)
+			self.Advanced_Mode = False
+			self.Create_zones()
+			#self.AlienFX_Main_Windows.realize()
+			self.AlienFX_Main_Windows.resize(800, 200)
+		else:
+			self.Advanced_Mode = True
+			self.Create_Line()
+			self.AlienFX_Configurator_ScrollWindow.show()
+			self.AlienFX_Inside_vBox.children()[2].show()
+			self.AlienFX_Inside_vBox.children()[2].set_size_request(-1,350)
+			self.AlienFX_Inside_vBox.children()[1].hide()
+			widget.set_label("Hide Advanced")
+			#self.AlienFX_Main_Windows.realize()
+			self.AlienFX_Main_Windows.resize(800, 600)
+
 	
 	def on_AlienFX_ColorSelection_Dialog_Ok(self,widget):
 		colorsel = self.AlienFX_ColorSelection_Window.colorsel
@@ -671,44 +832,46 @@ class pyAlienFX_GUI():
 		
 	def on_color_focus_in(self,widget,event,zone,conf):
 		if not zone.power_button:
-			try :
-				if self.remove_box:
-					self.remove_box.destroy()
-			except:
-				pass
-			#self.Remove_button_destroy = False
-			self.remove_box = gtk.Fixed()
-			self.remove_button = gtk.Button()
-			self.remove_button.set_label("X")
-			self.remove_button.connect("clicked",self.on_Remove_Clicked, zone,conf)
-			#self.remove_button.connect("destroy-event",self.on_Remove_button_destroy)
-			#self.remove_button.connect("enter-notify-event",self.on_Remove_button_focus_in)
-			#self.remove_button.connect("leave-notify-event",self.on_Remove_button_focus_out)
-			self.remove_button.set_size_request(20,20)
-			self.remove_box.put(self.remove_button,20,0)
-			widget.add(self.remove_box)
-			#print "ABOVE ?",widget.get_above_child()
-			self.remove_box.show_all()
-			#print "Focus IN :x = %s y = %s    %s, %s, %s"%(event.x,event.y,zone.description,conf,widget.get_size_request())
-
-	#def on_Remove_button_focus_in(self,widget):
-		#self.Remove_button_destroy = True
-
-
-	#def on_Remove_button_focus_out(self,widget):
-		#self.Remove_button_destroy = False
-		#self.remove_box.destroy()
-
-	#def on_Remove_button_destroy(self,widget):
-		#self.Remove_button_destroy = True
+			if conf > 0:
+				try :
+					if self.remove_box:
+						self.remove_box.destroy()
+				except:
+					pass
+				#self.Remove_button_destroy = False
+				self.remove_box = gtk.Fixed()
+				self.remove_button = gtk.Button()
+				self.remove_button.set_label("X")
+				self.remove_button.connect("clicked",self.on_Remove_Clicked, zone,conf)
+				#self.remove_button.connect("destroy-event",self.on_Remove_button_destroy)
+				#self.remove_button.connect("enter-notify-event",self.on_Remove_button_focus_in)
+				#self.remove_button.connect("leave-notify-event",self.on_Remove_button_focus_out)
+				self.remove_button.set_size_request(20,20)
+				self.remove_box.put(self.remove_button,40,0)
+				widget.add(self.remove_box)
+				#print "ABOVE ?",widget.get_above_child()
+				self.remove_box.show_all()
+				#print "Focus IN :x = %s y = %s    %s, %s, %s"%(event.x,event.y,zone.description,conf,widget.get_size_request())
 	
 	def on_color_focus_out(self,widget,event,zone,conf):
+		#print widget
 		#if not self.Remove_button_destroy:
 			#self.remove_box.destroy()
-		if event.x > 20 and event.y > 20:
-			self.remove_box.destroy()
-		#print "Focus OUT : x = %s y = %s %s, %s"%(event.x,event.y,zone.description,conf)
+		try:
+			if event.x > 40 and event.x < 60 and event.y < 20 and event.y > 1:
+				pass
+			else:
+				self.remove_box.destroy()
+		except:
+			pass
+		print "Focus OUT : x = %s y = %s %s, %s"%(event.x,event.y,zone.description,conf)
 
+	def __textbackground(self,widget,ev,image):
+		widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL],image, 0, 0, 0, 0)
+		if widget.get_child() != None:
+			widget.propagate_expose(widget.get_child(), ev)
+		return True
+		
 	def on_AlienFX_Menu_Light_Off(self,widget):
 		print "OFF"
 		if self.lights:
@@ -751,6 +914,14 @@ class Image_DB:
 		self.AlienFX_Cadre_01_Bottom_Left = './images/carde_bottom_left.png'
 		self.AlienFX_Cadre_01_Bottom_Middle = './images/carde_bottom_middle.png'
 		self.AlienFX_Cadre_01_Bottom_Right = './images/carde_bottom_right.png'
+		self.AlienFX_Cadre_02_Up_Left = './images/cadre1_up_left.png'
+		self.AlienFX_Cadre_02_Up_Middle = './images/cadre1_up_middle.png'
+		self.AlienFX_Cadre_02_Up_Right = './images/cadre1_up_right.png'
+		self.AlienFX_Cadre_02_Left = './images/cadre1_left.png'
+		self.AlienFX_Cadre_02_Right = './images/cadre1_right.png'
+		self.AlienFX_Cadre_02_Bottom_Left = './images/cadre1_bottom_left.png'
+		self.AlienFX_Cadre_02_Bottom_Middle = './images/cadre1_bottom_middle.png'
+		self.AlienFX_Cadre_02_Bottom_Right = './images/cadre1_bottom_right.png'
 		self.AlienFX_Cadre_0_Up_Left = './images/carde0_up_left.png'
 		self.AlienFX_Cadre_0_Up_Left2 = './images/carde0_up_left2.png'
 		self.AlienFX_Cadre_0_Up_Middle = './images/carde0_up_middle.png'
@@ -759,7 +930,9 @@ class Image_DB:
 		self.AlienFX_Cadre_0_Left = './images/carde0_left.png'
 		self.AlienFX_Cadre_0_Right = './images/carde0_right.png'
 		self.AlienFX_Cadre_0_Bottom_Left = './images/carde0_bottom_left.png'
-		self.AlienFX_Cadre_0_Bottom_Middle = './images/carde0_bottom_middle.png'
+		self.AlienFX_Cadre_0_Bottom_Middle_Left = './images/carde0_bottom_middle_l.png'
+		self.AlienFX_Cadre_0_Bottom_Middle = './images/carde0_bottom_middle_m.png'
+		self.AlienFX_Cadre_0_Bottom_Middle_Right = './images/carde0_bottom_middle_r.png'
 		self.AlienFX_Cadre_0_Bottom_Right = './images/carde0_bottom_right.png'
 
 
