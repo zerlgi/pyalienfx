@@ -99,6 +99,7 @@ class pyAlienFX_GUI():
 			try:
 				conf = AlienFXConfiguration()
 				conf.Load(os.path.join('.','Profiles',profile))
+				if not conf.name in DB_profiles.keys()
 				DB_profiles[conf.name] = profile
 			except:
 				#print "REMOVED : ",profile
@@ -828,6 +829,8 @@ class pyAlienFX_GUI():
 			self.actual_conf_file = os.path.join('.','Profiles',self.Profiles[choosed_profile])
 			self.configuration = AlienFXConfiguration()
 			self.configuration.Load(self.actual_conf_file)
+			f = open(os.path.join('.','Profiles',"last"),'w')
+			f.write(self.Profiles[choosed_profile])
 			self.Create_zones()
 			self.Create_Line()
 
