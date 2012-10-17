@@ -48,7 +48,9 @@ class pyAlienFX_GUI():
 		if not conn:
 			self.controller = AlienFX_Controller(self.driver)
 		self.configuration = AlienFXConfiguration()
-		self.actual_conf_file = os.path.join('.','Profiles',"default.cfg")
+		f = open(os.path.join('.','Profiles',"last"),'r')
+		profile = f.readline().strip()
+		self.actual_conf_file = os.path.join('.','Profiles',profile)
 		self.computer = self.driver.computer
 		self.selected_area = None
 		self.selected_mode = None
@@ -66,6 +68,7 @@ class pyAlienFX_GUI():
 		self.width,self.height = 800,600
 		self.Image_DB = Image_DB()
 		if os.path.isfile(self.actual_conf_file):
+			print "Loading : %s"%self.actual_conf_file
 			self.configuration.Load(self.actual_conf_file)
 		else:
 			self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
@@ -87,10 +90,10 @@ class pyAlienFX_GUI():
 	def Check_profiles(self):
 		DB_profiles = {}
 		profiles = os.listdir('./Profiles/')
-		print profiles
+		#print profiles
 		for profile in profiles:
 			if not ".cfg" in profile:
-				print "REMOVED : ",profile
+				#print "REMOVED : ",profile
 				profiles.remove(profile)
 		for profile in profiles:
 			try:
@@ -98,7 +101,7 @@ class pyAlienFX_GUI():
 				conf.Load(os.path.join('.','Profiles',profile))
 				DB_profiles[conf.name] = profile
 			except:
-				print "REMOVED : ",profile
+				#print "REMOVED : ",profile
 				profiles.remove(profile)
 		return DB_profiles
 		
@@ -194,7 +197,7 @@ class pyAlienFX_GUI():
 		self.AlienFX_Profiles_Combobox.show_all()
 
 
-	def Create_Border(self,Type,Inside,Label = None):
+	def Create_Border(self,Type,Inside,Label = None,zone=None ,confId=None):
 		"""2 type of border Advanced (type == 1) and Normal (type == 0)
 		That function creates the gtk Box that contains the images border that surround the zones."""
 		if Type == 0:
@@ -300,8 +303,13 @@ class pyAlienFX_GUI():
 			UL.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Left)
 			UM = gtk.Image()
 			UM.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Middle)
-			UR = gtk.Image()
-			UR.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Right_c)
+			UR = gtk.EventBox()
+			UR.set_above_child(True)
+			UR.connect("button-press-event",self.on_Remove_Clicked,zone,confId)
+			UR.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+			URi = gtk.Image()
+			URi.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Right_c)
+			UR.add(URi)
 			L = gtk.Image()
 			L.set_from_file(self.Image_DB.AlienFX_Cadre_01_Left)
 			R = gtk.Image()
@@ -400,7 +408,7 @@ class pyAlienFX_GUI():
 
 
 	def expose_gradient(self, widget, event, zone, color1, color2, cm, width):
-		print "Exposing the gradient on Eventbox : ",widget
+		#print "Exposing the gradient on Eventbox : ",widget
 		if zone == 1:
 			start = color1
 			stop = cm
@@ -408,25 +416,25 @@ class pyAlienFX_GUI():
 			start = cm
 			stop = color2
 		#Creating the PixBuf object !
-		cspace = gtk.gdk.Colorspace(0)
-		pixbuf = gtk.gdk.Pixbuf(cspace,False,8,width,100)
-		pixbuf_width = pixbuf.get_width()
-		pixbuf_height = pixbuf.get_height()
-		pix_data = pixbuf.get_pixels_array()
-		print len(pix_data)
-		print pixbuf_width
-		print len(pix_data[0])
-		print pixbuf_height
+		#cspace = gtk.gdk.Colorspace(0)
+		#pixbuf = gtk.gdk.Pixbuf(cspace,False,8,width,100)
+		#pixbuf_width = pixbuf.get_width()
+		#pixbuf_height = pixbuf.get_height()
+		#pix_data = pixbuf.get_pixels_array()
+		#print len(pix_data)
+		#print pixbuf_width
+		#print len(pix_data[0])
+		#print pixbuf_height
 		#Creating the Cairo object!
 		#surface = cairo.ImageSurface.create_for_data(pix_data, cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height(), pixbuf.get_rowstride())
-		stride = cairo.ImageSurface.format_stride_for_width(cspace, pixbuf_width)
-		print stride
-		surface = cairo.ImageSurface.create_for_data(pix_data, cspace, pixbuf_width, pixbuf_height ,stride)
-		cr = cairo.Context(surface)
-		cr.save()
-		cr.scale(1.0, 1.0)
+		#stride = cairo.ImageSurface.format_stride_for_width(cspace, pixbuf_width)
+		#print stride
+		#surface = cairo.ImageSurface.create_for_data(pix_data, cspace, pixbuf_width, pixbuf_height ,stride)
+		#cr = cairo.Context(surface)
+		#cr.save()
+		#cr.scale(1.0, 1.0)
 
-		#cr = widget.window.cairo_create()
+		cr = widget.window.cairo_create()
 		#Drawinf the gradient !
 		lg1 = cairo.LinearGradient(0.0, 0.0, width, 0)
 		lg1.add_color_stop_rgb(0, start[0], start[1], start[2])
@@ -434,13 +442,14 @@ class pyAlienFX_GUI():
 		cr.rectangle(0, 0, width, 100)
 		cr.set_source(lg1)
 		cr.fill()
-		cr.restore()
-		surface.flush()
-		surface.finish()
-		print cr
-		widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL],pixbuf, 0, 0, 0, 0)
-		if widget.get_child() != None:
-			widget.propagate_expose(widget.get_child(), ev)
+		#cr.save()
+		#cr.restore()
+		#surface.flush()
+		#surface.finish()
+		#print cr
+		#widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL],cr, 0, 0, 0, 0)
+		#if widget.get_child() != None:
+			#widget.propagate_expose(widget.get_child(), ev)
 		return True
 
 	def Create_zones(self):
@@ -499,7 +508,7 @@ class pyAlienFX_GUI():
 		else:
 			c2 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2)
 
-		#grad1,grad2 = self.gradient_box(width,height,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float])
+		grad1,grad2 = self.gradient_box(width,height,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float])
 		cm = self.color_mean([c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float])
 		#darea1 = gtk.DrawingArea()
 		#darea2 = gtk.DrawingArea()
@@ -507,22 +516,22 @@ class pyAlienFX_GUI():
 		#return darea1,darea2
 
 		color1 = gtk.EventBox()
-		color1.connect("expose-event", self.expose_gradient,1,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float],cm,width)
-		#color1.add(grad1)
-		#color1.set_above_child(True)
+		#color1.connect("expose-event", self.expose_gradient,1,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float],cm,width)
+		color1.add(grad1)
+		color1.set_above_child(True)
 		color1.set_size_request(width, -1)
 		color1.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 1)
 		#color1.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
 		#color1.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
 
 		color2 = gtk.EventBox()
-		#color2.add(grad2)
-		color2.connect("expose-event", self.expose_gradient,2,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float],cm,width)
-		#color2.set_above_child(True)
+		color2.add(grad2)
+		#color2.connect("expose-event", self.expose_gradient,2,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float],cm,width)
+		color2.set_above_child(True)
 		color2.set_size_request(width, -1)
 		color2.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 2)
-		color2.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
-		color2.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
+		#color2.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
+		#color2.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
 
 
 		#color_hbox.pack_start(color1)
@@ -575,7 +584,7 @@ class pyAlienFX_GUI():
 		Color_Hbox.pack_start(color1, expand=False)
 		Color_Hbox.pack_start(color2, expand=False)
 		Color_Hbox.pack_start(mode, expand=False)
-		Table = self.Create_Border(set_type,Color_Hbox,Label)
+		Table = self.Create_Border(set_type,Color_Hbox,Label,zone,confId)
 		Zone_VBox.pack_start(Table, expand=False)
 		return Zone_VBox
 	
@@ -584,12 +593,12 @@ class pyAlienFX_GUI():
 		That object is the Normal Selections boxes (not advanced).
 		It calls self.Widget_Zone that is the boxes creator"""
 		#if self.Advanced_Mode == True:
-		print "Creating lines"
-		print "Advanced mode : ",self.Advanced_Mode
+		#print "Creating lines"
+		#print "Advanced mode : ",self.Advanced_Mode
 		try:
 			self.AlienFX_Configurator_Table.destroy()
 			self.AlienFX_Configurator_Eventbox.destroy()
-			print "Destroy"
+			#print "Destroy"
 		except:
 			pass
 		l = 1
@@ -814,7 +823,7 @@ class pyAlienFX_GUI():
 	def on_Profile_changed(self,widget):
 		"""Get the profile selected and changes to that profile !"""
 		choosed_profile = widget.get_active_text()
-		print choosed_profile,self.Profiles[choosed_profile],self.actual_conf_file
+		#print choosed_profile,self.Profiles[choosed_profile],self.actual_conf_file
 		if choosed_profile != self.actual_conf_file:
 			self.actual_conf_file = os.path.join('.','Profiles',self.Profiles[choosed_profile])
 			self.configuration = AlienFXConfiguration()
@@ -915,7 +924,7 @@ class pyAlienFX_GUI():
 			self.set_color = color
 		else:
 			self.set_color = 1
-		print "Hey ! Color %s clicked ! Area : %s"%(color,zone.description)
+		#print "Hey ! Color %s clicked ! Area : %s"%(color,zone.description)
 		
 	def on_AlienFX_Preview_Mode_Clicked(self, widget, event, mode, zone, confId):
 		self.selected_mode = mode
@@ -993,7 +1002,7 @@ class pyAlienFX_GUI():
 		self.Create_zones()
 		self.Create_Line()
 	
-	def on_Remove_Clicked(self,widget,zone,conf):
+	def on_Remove_Clicked(self,widget,bla,zone,conf):
 		if len(self.configuration.area[zone.name]) > 1:
 			self.configuration.area[zone.name].remove(conf)
 		self.Create_zones()
@@ -1018,7 +1027,7 @@ class pyAlienFX_GUI():
 				self.remove_button.set_size_request(20,20)
 				self.remove_box.put(self.remove_button,40,0)
 				#widget.set_above_child(False)
-				print widget.get_parent()
+				#print widget.get_parent()
 				widget.add(self.remove_box)
 				#print "ABOVE ?",widget.get_above_child()
 				self.remove_box.show_all()
@@ -1035,7 +1044,7 @@ class pyAlienFX_GUI():
 				self.remove_box.destroy()
 		except:
 			pass
-		print "Focus OUT : x = %s y = %s %s, %s"%(event.x,event.y,zone.description,conf)
+		#print "Focus OUT : x = %s y = %s %s, %s"%(event.x,event.y,zone.description,conf)
 
 	def __textbackground(self,widget,ev,image):
 		widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL],image, 0, 0, 0, 0)
@@ -1044,14 +1053,14 @@ class pyAlienFX_GUI():
 		return True
 		
 	def on_AlienFX_Menu_Light_Off(self,widget):
-		print "OFF"
+		#print "OFF"
 		if self.lights:
 			self.controller.Reset(self.computer.RESET_ALL_LIGHTS_OFF)
 			self.controller.Send_Packet()
 		self.lights = False
 		
 	def on_AlienFX_Menu_Light_On(self,widget):
-		print "ON"
+		#print "ON"
 		if not self.lights:
 			self.Set_Conf()
 		self.lights = True
