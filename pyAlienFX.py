@@ -24,9 +24,9 @@
 from AlienFX.AlienFXEngine import *
 from AlienFX.AlienFXConfiguration import *
 import pygtk
-pygtk.require("2.0")
-import gtk,gobject
-#import cairo
+#pygtk.require("2.0")
+import gtk, gobject
+import cairo
 
 from socket import *
 from time import time
@@ -48,7 +48,7 @@ class pyAlienFX_GUI():
 		if not conn:
 			self.controller = AlienFX_Controller(self.driver)
 		self.configuration = AlienFXConfiguration()
-		self.actual_conf_file = "default.cfg"
+		self.actual_conf_file = os.path.join('.','Profiles',"default.cfg")
 		self.computer = self.driver.computer
 		self.selected_area = None
 		self.selected_mode = None
@@ -84,7 +84,24 @@ class pyAlienFX_GUI():
 		gtk.main()
 		gtk.gdk.threads_leave()
 
-
+	def Check_profiles(self):
+		DB_profiles = {}
+		profiles = os.listdir('./Profiles/')
+		print profiles
+		for profile in profiles:
+			if not ".cfg" in profile:
+				print "REMOVED : ",profile
+				profiles.remove(profile)
+		for profile in profiles:
+			try:
+				conf = AlienFXConfiguration()
+				conf.Load(os.path.join('.','Profiles',profile))
+				DB_profiles[conf.name] = profile
+			except:
+				print "REMOVED : ",profile
+				profiles.remove(profile)
+		return DB_profiles
+		
 	#================================
 	#GTK functions!
 	#================================
@@ -109,6 +126,10 @@ class pyAlienFX_GUI():
 		self.AlienFX_ComputerName_Label = self.gtk_AlienFX_Main.get_object("AlienFX_ComputerName_Label")
 		self.AlienFX_Advanced_Button = self.gtk_AlienFX_Main.get_object("AlienFX_Button_Advanced")
 		self.AlienFX_ComputerName_EventBox = self.gtk_AlienFX_Main.get_object("AlienFX_ComputerName_EventBox")
+		self.AlienFX_Profiles_Eventbox = self.gtk_AlienFX_Main.get_object("AlienFX_Profiles_Eventbox")
+		self.AlienFX_Profile_Chooser_Eventbox = self.gtk_AlienFX_Main.get_object("AlienFX_Profile_Chooser_Eventbox")
+		self.AlienFX_Choose_Profile_Name = self.gtk_AlienFX_Main.get_object("AlienFX_Choose_Profile_Name")
+		
 		#Modification of the background ! 
 		pixbuf = gtk.gdk.pixbuf_new_from_file(self.Image_DB.AlienFX_Main_Eventbox)
 		pixbuf = pixbuf.scale_simple(self.width, self.height, gtk.gdk.INTERP_BILINEAR)
@@ -124,6 +145,8 @@ class pyAlienFX_GUI():
 		self.AlienFX_ComputerName_EventBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		self.AlienFX_ComputerName_Label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color))
 		self.AlienFX_Configurator_ScrollWindow.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		self.AlienFX_Profiles_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		self.AlienFX_Profile_Chooser_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		#Optional to be deleted enventually !
 		#====----====
 		self.AlienFX_Color_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
@@ -131,6 +154,9 @@ class pyAlienFX_GUI():
 		self.AlienFX_Main_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("green"))
 		self.AlienFX_Configurator_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("purple"))
 		#====----====
+
+		#========Creation of different GTK elements not specified in Glade=========
+		
 		Apply = gtk.Button()
 		Apply.set_label("Apply !")
 		Apply.connect("clicked",self.on_Apply_pressed)
@@ -140,8 +166,32 @@ class pyAlienFX_GUI():
 		box = gtk.VBox()
 		box.pack_start(Apply)
 		box.pack_start(Save)
+		self.Updtate_Profile_Combobox()
 		self.AlienFX_Computer_Eventbox.add(box)
 		self.on_Advanced_Button_Clicked(self.AlienFX_Advanced_Button)
+
+	def Updtate_Profile_Combobox(self):
+		#print "Updating Profiles"
+		try:
+			self.AlienFX_Profiles_Combobox.destroy()
+		except:
+			pass
+		self.AlienFX_Profiles_Combobox = gtk.combo_box_new_text()
+		self.Profiles = self.Check_profiles()
+		self.Profiles_Positions = {}
+		n = 0
+		for p in self.Profiles.keys():
+			self.Profiles_Positions[self.Profiles[p]] = n
+			self.AlienFX_Profiles_Combobox.append_text(p)
+			n += 1
+		#print self.actual_conf_file.split('/')[-1]
+		#print self.Profiles_Positions.keys()
+		if self.actual_conf_file.split('/')[-1] in self.Profiles_Positions.keys():
+			#print "set Active"
+			self.AlienFX_Profiles_Combobox.set_active(self.Profiles_Positions[self.actual_conf_file.split('/')[-1]])
+		self.AlienFX_Profiles_Eventbox.add(self.AlienFX_Profiles_Combobox)
+		self.AlienFX_Profiles_Combobox.connect("changed",self.on_Profile_changed)
+		self.AlienFX_Profiles_Combobox.show_all()
 
 
 	def Create_Border(self,Type,Inside,Label = None):
@@ -251,7 +301,7 @@ class pyAlienFX_GUI():
 			UM = gtk.Image()
 			UM.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Middle)
 			UR = gtk.Image()
-			UR.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Right)
+			UR.set_from_file(self.Image_DB.AlienFX_Cadre_01_Up_Right_c)
 			L = gtk.Image()
 			L.set_from_file(self.Image_DB.AlienFX_Cadre_01_Left)
 			R = gtk.Image()
@@ -319,6 +369,80 @@ class pyAlienFX_GUI():
 			return MainBox
 		return Inside
 
+	def gradient_box(self, width, height, color1, color2):
+		#color1 = [122,255,22]
+		#color2 = [255,34,122]
+		#color1 = self.norm_color(color1)
+		#color2 = self.norm_color(color2)
+		cm = self.color_mean(color1,color2)
+		darea1 = gtk.DrawingArea()
+		darea1.connect("expose-event", self.expose_gradient,1,color1,color2,cm,width)
+		darea2 = gtk.DrawingArea()
+		darea2.connect("expose-event", self.expose_gradient,2,color1,color2,cm,width)
+		return darea1,darea2
+
+	def color_mean(self, color1, color2):
+		cf = [0,0,0]
+		cf[0] = ((color1[0] + color2[0])/2.0)
+		cf[1] = ((color1[1] + color2[1])/2.0)
+		cf[2] = ((color1[2] + color2[2])/2.0)
+		#print "Color1 : %s\nColor2 : %s\nColor F : %s"%(color1,color2,cf)
+		return cf
+
+	def norm_color(self,color):
+		doit = False
+		for i in color:
+			if i > 1:
+				doit = True
+		for i in range(0,len(color)):
+			color[i] = color[i]/255.0
+		return color
+
+
+	def expose_gradient(self, widget, event, zone, color1, color2, cm, width):
+		print "Exposing the gradient on Eventbox : ",widget
+		if zone == 1:
+			start = color1
+			stop = cm
+		if zone == 2:
+			start = cm
+			stop = color2
+		#Creating the PixBuf object !
+		cspace = gtk.gdk.Colorspace(0)
+		pixbuf = gtk.gdk.Pixbuf(cspace,False,8,width,100)
+		pixbuf_width = pixbuf.get_width()
+		pixbuf_height = pixbuf.get_height()
+		pix_data = pixbuf.get_pixels_array()
+		print len(pix_data)
+		print pixbuf_width
+		print len(pix_data[0])
+		print pixbuf_height
+		#Creating the Cairo object!
+		#surface = cairo.ImageSurface.create_for_data(pix_data, cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height(), pixbuf.get_rowstride())
+		stride = cairo.ImageSurface.format_stride_for_width(cspace, pixbuf_width)
+		print stride
+		surface = cairo.ImageSurface.create_for_data(pix_data, cspace, pixbuf_width, pixbuf_height ,stride)
+		cr = cairo.Context(surface)
+		cr.save()
+		cr.scale(1.0, 1.0)
+
+		#cr = widget.window.cairo_create()
+		#Drawinf the gradient !
+		lg1 = cairo.LinearGradient(0.0, 0.0, width, 0)
+		lg1.add_color_stop_rgb(0, start[0], start[1], start[2])
+		lg1.add_color_stop_rgb(1, stop[0], stop[1], stop[2])
+		cr.rectangle(0, 0, width, 100)
+		cr.set_source(lg1)
+		cr.fill()
+		cr.restore()
+		surface.flush()
+		surface.finish()
+		print cr
+		widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL],pixbuf, 0, 0, 0, 0)
+		if widget.get_child() != None:
+			widget.propagate_expose(widget.get_child(), ev)
+		return True
+
 	def Create_zones(self):
 		"""That function creates a gtk object.
 		That object is the Normal Selections boxes (not advanced).
@@ -345,6 +469,7 @@ class pyAlienFX_GUI():
 		Zone_VBox = gtk.VBox(False)
 		set_type = 1
 		Label = None
+		height = 40
 		if not zone.power_button:
 			width = (180-33-28)/2
 		else:
@@ -364,29 +489,43 @@ class pyAlienFX_GUI():
 			#Zone_VBox.pack_start(title, expand=False)
 		#color = gtk.EventBox()
 		#color_hbox = gtk.HBox()
+		
+		#color_hbox.pack_start(color2)
+		c1 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1)
+		if zone.power_button:
+			c2 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2)
+		elif self.configuration.area[zone.name][confId].mode != "morph":
+			c2 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1)
+		else:
+			c2 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2)
+
+		#grad1,grad2 = self.gradient_box(width,height,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float])
+		cm = self.color_mean([c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float])
+		#darea1 = gtk.DrawingArea()
+		#darea2 = gtk.DrawingArea()
+		#darea2.connect("expose-event", self.expose_gradient,2,color1,color2,cm,width)
+		#return darea1,darea2
+
 		color1 = gtk.EventBox()
+		color1.connect("expose-event", self.expose_gradient,1,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float],cm,width)
+		#color1.add(grad1)
+		#color1.set_above_child(True)
 		color1.set_size_request(width, -1)
 		color1.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 1)
 		#color1.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
 		#color1.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
 
 		color2 = gtk.EventBox()
-		color2.set_above_child(False)
+		#color2.add(grad2)
+		color2.connect("expose-event", self.expose_gradient,2,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float],cm,width)
+		#color2.set_above_child(True)
 		color2.set_size_request(width, -1)
 		color2.connect("button-press-event", self.on_AlienFX_Preview_Zone_Clicked , zone, confId, 2)
 		color2.connect("enter-notify-event", self.on_color_focus_in, zone, confId)
 		color2.connect("leave-notify-event", self.on_color_focus_out, zone, confId)
-		
-		
+
+
 		#color_hbox.pack_start(color1)
-		#color_hbox.pack_start(color2)
-		color1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1))
-		if zone.power_button:
-			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2))
-		elif self.configuration.area[zone.name][confId].mode != "morph":
-			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1))
-		else:
-			color2.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2))
 		mode = gtk.VBox()
 		if not zone.power_button:
 			if self.configuration.area[zone.name][confId].mode == "fixed":
@@ -636,23 +775,53 @@ class pyAlienFX_GUI():
 			filter.set_name("Conf Files")
 			filter.add_pattern("*.cfg")
 			chooser.add_filter(filter)
-			chooser.set_current_folder('.')
+			chooser.set_current_folder(os.path.join('.',"Profiles"))
+			chooser.set_current_name(self.new_title+".cfg")
 			response = chooser.run()
 			if response == gtk.RESPONSE_OK:
 				self.actual_conf_file = chooser.get_filename()
+				if not ".cfg" in self.actual_conf_file:
+					self.actual_conf_file = self.actual_conf_file + ".cfg"
 				self.configuration = AlienFXConfiguration()
-				self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
+				self.configuration.Create(self.new_title,self.computer.name,self.selected_speed,self.actual_conf_file)
+				chooser.destroy()
 			elif response == gtk.RESPONSE_CANCEL:
 				print 'Closed, no files selected'
-			chooser.destroy()
+				chooser.destroy()
+				return False
 		for zone in self.computer.regions.keys():
 			self.configuration.Add(self.computer.regions[zone])
 			self.configuration.area[zone].append(self.computer.default_mode,self.computer.default_color,self.computer.default_color)
+			self.on_Configuration_Save("widget")
+		self.Updtate_Profile_Combobox()
+		self.Create_zones()
+		self.Create_Line()
 	
 	
 	#================================
 	#Connect functions!
 	#================================
+
+	def on_New_Conf(self):
+		self.AlienFX_Choose_Profile_Name.show_all()
+	
+	def on_AlienFX_Choose_Profile_Name_Button_clicked(self,widget):
+		#print widget
+		self.new_title = widget.get_text()
+		self.AlienFX_Choose_Profile_Name.hide()
+		self.New_Conf()
+	
+	def on_Profile_changed(self,widget):
+		"""Get the profile selected and changes to that profile !"""
+		choosed_profile = widget.get_active_text()
+		print choosed_profile,self.Profiles[choosed_profile],self.actual_conf_file
+		if choosed_profile != self.actual_conf_file:
+			self.actual_conf_file = os.path.join('.','Profiles',self.Profiles[choosed_profile])
+			self.configuration = AlienFXConfiguration()
+			self.configuration.Load(self.actual_conf_file)
+			self.Create_zones()
+			self.Create_Line()
+
 	def on_Advanced_Button_Clicked(self,widget):
 		if self.Advanced_Mode:
 			self.AlienFX_Main_Windows
@@ -782,7 +951,7 @@ class pyAlienFX_GUI():
 				elif response == gtk.RESPONSE_NO:
 					print 'Conf Not saved !'
 				messagedialog.destroy()
-		self.New_Conf()
+		self.on_New_Conf()
 		self.Create_zones()
 		self.Create_Line()
 
@@ -848,6 +1017,8 @@ class pyAlienFX_GUI():
 				#self.remove_button.connect("leave-notify-event",self.on_Remove_button_focus_out)
 				self.remove_button.set_size_request(20,20)
 				self.remove_box.put(self.remove_button,40,0)
+				#widget.set_above_child(False)
+				print widget.get_parent()
 				widget.add(self.remove_box)
 				#print "ABOVE ?",widget.get_above_child()
 				self.remove_box.show_all()
@@ -909,6 +1080,7 @@ class Image_DB:
 		self.AlienFX_Cadre_01_Up_Left = './images/carde_up_left.png'
 		self.AlienFX_Cadre_01_Up_Middle = './images/carde_up_middle.png'
 		self.AlienFX_Cadre_01_Up_Right = './images/carde_up_right.png'
+		self.AlienFX_Cadre_01_Up_Right_c = './images/carde_up_right_c.png'
 		self.AlienFX_Cadre_01_Left = './images/carde_left.png'
 		self.AlienFX_Cadre_01_Right = './images/carde_right.png'
 		self.AlienFX_Cadre_01_Bottom_Left = './images/carde_bottom_left.png'
