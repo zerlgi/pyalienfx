@@ -99,8 +99,8 @@ class pyAlienFX_GUI():
 			try:
 				conf = AlienFXConfiguration()
 				conf.Load(os.path.join('.','Profiles',profile))
-				if not conf.name in DB_profiles.keys()
-				DB_profiles[conf.name] = profile
+				if not conf.name in DB_profiles.keys():
+					DB_profiles[conf.name] = profile
 			except:
 				#print "REMOVED : ",profile
 				profiles.remove(profile)
@@ -378,15 +378,19 @@ class pyAlienFX_GUI():
 			return MainBox
 		return Inside
 
-	def gradient_box(self, width, height, color1, color2):
+	def gradient_box(self, width, height, color1, color2, power):
 		#color1 = [122,255,22]
 		#color2 = [255,34,122]
 		#color1 = self.norm_color(color1)
 		#color2 = self.norm_color(color2)
 		cm = self.color_mean(color1,color2)
 		darea1 = gtk.DrawingArea()
+		if power:
+			cm = color1
 		darea1.connect("expose-event", self.expose_gradient,1,color1,color2,cm,width)
 		darea2 = gtk.DrawingArea()
+		if power:
+			cm = color2
 		darea2.connect("expose-event", self.expose_gradient,2,color1,color2,cm,width)
 		return darea1,darea2
 
@@ -456,7 +460,7 @@ class pyAlienFX_GUI():
 	def Create_zones(self):
 		"""That function creates a gtk object.
 		That object is the Normal Selections boxes (not advanced).
-		It calls self.Widget_Zone that is the boxes creator"""
+		It calls self.Widget_Zone that is the boxes unit creator"""
 		#print "Advanced mode : ",self.Advanced_Mode
 		try:
 			self.AlienFX_Preview_Hbox.destroy()
@@ -509,7 +513,7 @@ class pyAlienFX_GUI():
 		else:
 			c2 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2)
 
-		grad1,grad2 = self.gradient_box(width,height,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float])
+		grad1,grad2 = self.gradient_box(width,height,[c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float],zone.power_button)
 		cm = self.color_mean([c1.red_float,c1.green_float,c1.blue_float],[c2.red_float,c2.green_float,c2.blue_float])
 		#darea1 = gtk.DrawingArea()
 		#darea2 = gtk.DrawingArea()

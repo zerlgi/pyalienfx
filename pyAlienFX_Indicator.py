@@ -86,14 +86,16 @@ class CheckGMail:
 	def lights_on(self,widget):
 		print "Light on"
 		if not self.gui.lights:
-			self.gui.Set_Conf(Save=True)
+			print "Re-Activating Lights"
+			print self.gui.configuration
+			self.gui.Set_Conf(Save=False)
 		self.gui.lights = True
 
 	def lights_off(self,widget):
 		print "Light off"
 		if self.gui.lights:
 			self.gui.controller.Reset(self.gui.computer.RESET_ALL_LIGHTS_OFF)
-			self.gui.controller.Send_Packet()
+			#self.gui.controller.Send_Packet()
 		self.gui.lights = False
 
 	def main(self):
