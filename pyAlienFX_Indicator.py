@@ -107,7 +107,7 @@ class CheckGMail:
 	def check_daemon(self):
 		print "Check Deamon"
 		ping = self.gui.controller.Ping()
-		if ping:
+		if ping == True:
 			self.ind.set_status(appindicator.STATUS_ATTENTION)
 		else:
 			self.ind.set_status(appindicator.STATUS_ACTIVE)
