@@ -113,7 +113,10 @@ class CheckGMail:
 			self.ind.set_status(appindicator.STATUS_ACTIVE)
 
 	def quit(self, widget):
-		self.gui.controller.Bye()
+		try:
+			self.gui.controller.Bye()
+		except:
+			print "No deamon to kill"
 		sys.exit(0)
 
 

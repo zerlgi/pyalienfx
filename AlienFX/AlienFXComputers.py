@@ -503,11 +503,11 @@ class AllComputers():
 	"M11XR1" : AlienFXComputer("M11XR1", 0x187c,0x0514,M11XR3()),
 	"M15XAllPowerfull" : AlienFXComputer("M15XAllPowerfull", 0x187c,0x0512,M15XAllPowerfull()),
 	"M15XArea51" : AlienFXComputer("M15XArea51", 0x187c,0x0511,M15XArea51()),
-#############################################################################
-#added by niai (start)
+	#############################################################################
+	#added by niai (start)
 	"M17XR3"	: AlienFXComputer("M17XR3", 0x187c,0x0520,M17XR3()),
-#added by niai (end)
-############################################################################
+	#added by niai (end)
+	############################################################################
 	#LightHash [start]
 	"M14XR1" : AlienFXComputer("M14XR1", 0x187c,0x0521,M14XLight())}
 	#LightHash [end]

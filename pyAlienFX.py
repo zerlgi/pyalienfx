@@ -57,7 +57,8 @@ class pyAlienFX_GUI():
 		self.selected_color1 = None
 		self.selected_color2 = None
 		self.lights = True
-		self.selected_speed = 0xc800
+		#self.selected_speed = 0xc800
+		self.selected_speed = 0xff00
 		self.auto_apply = False
 		self.default_color = "0000FF"
 		self.selected_Id = 1
@@ -70,6 +71,7 @@ class pyAlienFX_GUI():
 		if os.path.isfile(self.actual_conf_file):
 			print "Loading : %s"%self.actual_conf_file
 			self.configuration.Load(self.actual_conf_file)
+			print "SPEED = ",self.configuration.speed
 		else:
 			self.configuration.Create(self.actual_conf_file.split('.')[0],self.computer.name,self.selected_speed,self.actual_conf_file)
 			self.New_Conf(self.actual_conf_file)
@@ -133,8 +135,11 @@ class pyAlienFX_GUI():
 		self.AlienFX_Profiles_Eventbox = self.gtk_AlienFX_Main.get_object("AlienFX_Profiles_Eventbox")
 		self.AlienFX_Profile_Chooser_Eventbox = self.gtk_AlienFX_Main.get_object("AlienFX_Profile_Chooser_Eventbox")
 		self.AlienFX_Choose_Profile_Name = self.gtk_AlienFX_Main.get_object("AlienFX_Choose_Profile_Name")
-		
-		#Modification of the background ! 
+		self.AlienFX_Tempo_EventBox = self.gtk_AlienFX_Main.get_object("AlienFX_Tempo_EventBox")
+
+
+
+		#Modification of the background and elements !
 		pixbuf = gtk.gdk.pixbuf_new_from_file(self.Image_DB.AlienFX_Main_Eventbox)
 		pixbuf = pixbuf.scale_simple(self.width, self.height, gtk.gdk.INTERP_BILINEAR)
 		pixmap, mask = pixbuf.render_pixmap_and_mask()
@@ -145,12 +150,14 @@ class pyAlienFX_GUI():
 		self.AlienFX_ComputerName_Label.set_label(self.computer.name)
 		self.gtk_AlienFX_Main.connect_signals(self)
 		
+		
 		#Background Colors !
 		self.AlienFX_ComputerName_EventBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		self.AlienFX_ComputerName_Label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color))
 		self.AlienFX_Configurator_ScrollWindow.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		self.AlienFX_Profiles_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		self.AlienFX_Profile_Chooser_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		self.AlienFX_Tempo_EventBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		#Optional to be deleted enventually !
 		#====----====
 		self.AlienFX_Color_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
@@ -160,12 +167,25 @@ class pyAlienFX_GUI():
 		#====----====
 
 		#========Creation of different GTK elements not specified in Glade=========
-		
+		self.AlienFX_Tempo_VBox = gtk.VBox()
+		self.AlienFX_Tempo_Label = gtk.Label()
+		self.AlienFX_Tempo_Label.set_label(" Tempo ")
+		self.AlienFX_Tempo_Label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color))
+		ajustement = gtk.Adjustment((self.configuration.speed/256), 1, 255, 1, 16)
+		self.AlienFX_Tempo_Ruler = gtk.VScale(ajustement)
+		self.AlienFX_Tempo_Ruler.set_size_request(-1,110)
+		self.AlienFX_Tempo_Ruler.set_digits(0)
+		self.AlienFX_Tempo_Ruler.set_draw_value(False)
+		self.AlienFX_Tempo_Ruler.connect("change-value",self.on_AlienFX_Tempo_Changed)
+		self.AlienFX_Tempo_EventBox.add(self.AlienFX_Tempo_VBox)
+		#self.AlienFX_Tempo_Ruler.set_range(0, 255, 200, 255)
+		self.AlienFX_Tempo_VBox.pack_start(self.AlienFX_Tempo_Label)
+		self.AlienFX_Tempo_VBox.pack_start(self.AlienFX_Tempo_Ruler)
 		Apply = gtk.Button()
-		Apply.set_label("Apply !")
+		Apply.set_label("Preview")
 		Apply.connect("clicked",self.on_Apply_pressed)
 		Save = gtk.Button()
-		Save.set_label("Save !")
+		Save.set_label("Save")
 		Save.connect("clicked",self.on_Save_pressed)
 		box = gtk.VBox()
 		box.pack_start(Apply)
@@ -835,6 +855,8 @@ class pyAlienFX_GUI():
 			self.configuration.Load(self.actual_conf_file)
 			f = open(os.path.join('.','Profiles',"last"),'w')
 			f.write(self.Profiles[choosed_profile])
+			self.speed = self.configuration.speed
+			self.AlienFX_Tempo_Ruler.set_value(int(self.speed/256))
 			self.Create_zones()
 			self.Create_Line()
 
@@ -862,6 +884,11 @@ class pyAlienFX_GUI():
 			widget.set_label("Hide Advanced")
 			#self.AlienFX_Main_Windows.realize()
 			self.AlienFX_Main_Windows.resize(800, 600)
+
+	def on_AlienFX_Tempo_Changed(self,widget,scroll,value):
+		self.speed = int(value*256)
+		self.configuration.speed = self.speed
+		#print self.speed
 
 	
 	def on_AlienFX_ColorSelection_Dialog_Ok(self,widget):
