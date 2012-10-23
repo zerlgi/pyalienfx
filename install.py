@@ -22,7 +22,12 @@
 #
 
 import os,sys
+
+if os.getuid() != 0:
+	print "You must launch the installer script as root !"
+	sys.exit(1)
 BasePath = os.path.realpath('.')
+thanksmsg = "Thanks !\nDevelopped by \033[1;30mXqua\033[0m"
 print """
 \033[1;32mWelcome to the \033[0m\033[1;31mpyAlienFX\033[0m\033[1;32m Installer script !\033[0m
 
@@ -31,12 +36,12 @@ n = 0
 while True:
 	q = raw_input("Do you want to continue \033[1;31m(Y/N)\033[0m ? ")
 	if q.lower() == "n":
-		print "Thanks !\nCredit : \033[1;30mXqua\033[0m"
+		print thanksmsg
 		sys.exit(0)
 	elif q.lower() == "y":
 		break
 	elif n == 3:
-		print "Thanks !\nCredit : \033[1;30mXqua\033[0m"
+		print thanksmsg
 		sys.exit(0)
 	else:
 		print "Please enter Y or N !"
@@ -45,9 +50,9 @@ while True:
 print """
 \033[1;31m   !!! WARNING !!!\033[0m
 The current version is packaged with a deamon running in the background as a TCP/IP server to control the lights.
-First, this could cause trouble under windows systems
+First, this might/will cause trouble under windows systems
 Second, this functionality is still in the Alpha stage and might cause unexpected bugs.
-If you don't want the deamon to start automatically you can still test it by launching the pyAlienFX_daemon.py and then restarting the other pyAlienFX scripts."""
+It is reccomended that you do not start the deamon automatically as you can still test it by launching the pyAlienFX_daemon.py script and then restarting the other pyAlienFX scripts."""
 while True:
 	q = raw_input('Do you wish to launch the deamon at startup ? \033[1;31m(Y/N)\033[0m ')
 
@@ -89,7 +94,7 @@ Bin = """#!/bin/sh
 
 
 cd %s
-python ./pyAlienFX.py
+gksudo ./pyAlienFX.py
 """%(BasePath)
 
 Launcher = """#!/bin/sh
@@ -164,5 +169,4 @@ except:
 	os.system('chmod 755 %s/pyAlienFX'%BasePath)
 	print "\033[1;31m !!! Please run the script as sudo in order to install the script correctly !!! \033[0m"
 
-print """Thanks for installing !
-Credit : \033[1;30mXqua\033[0m"""
+print "Thanks for installing !\n%s"%thanksmsg
