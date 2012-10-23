@@ -34,7 +34,7 @@ from AlienFX.AlienFXConfiguration import *
 
 PING_FREQUENCY = 10 # seconds
 
-class CheckGMail:
+class pyAlienFX_Indicator:
 	def __init__(self):
 		self.colormap = {"White":"FFFFFF","Yellow":"FFFF00","Purple":"FF00FF","Cyan":"00FFFF","Red":"FF0000","Green":"00FF00","Blue":"0000FF"}
 		self.ind = appindicator.Indicator("pyAlienFX",
@@ -121,5 +121,5 @@ class CheckGMail:
 
 
 if __name__ == "__main__":
-	indicator = CheckGMail()
+	indicator = pyAlienFX_Indicator()
 	indicator.main()
