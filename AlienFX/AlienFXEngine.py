@@ -118,7 +118,9 @@ class AlienFX_Controller:
 	def __init__(self,driver):
 		self.driver = driver
 
-
+	def Bye(self):
+		sys.exit(0)
+		
 	def Ping(self):
 		return "No Deamon"
 		
