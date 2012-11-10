@@ -22,6 +22,8 @@
 #
 
 import os,sys
+import platform
+dist = platform.dist()[0]
 
 if os.getuid() != 0:
 	print "You must launch the installer script as root !"
@@ -103,7 +105,7 @@ Bin = """#!/bin/sh
 
 
 cd %s
-gksudo ./pyAlienFX.py
+gksudo ./pyAlienFX_Launcher.sh
 """%(BasePath)
 
 Launcher = """#!/bin/sh
@@ -156,6 +158,10 @@ try:
 	f = open('/usr/share/applications/pyAlienFX.desktop','w')
 	f.write(Unity)
 	f.close()
+	if dist == "Ubuntu":
+		f = open('/etc/xdg/autostart/pyAlienFX.desktop','w')
+		f.write(Unity)
+		f.close()
 except:
 	print "\033[1;31m !!! Please run the script as sudo in order to install the script in the Unity interface !!! \033[0m"
 #os.setuid(1000)
