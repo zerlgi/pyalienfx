@@ -62,12 +62,6 @@ class pyAlienFX_Indicator:
 			item.connect("activate", self.on_AlienFX_Color_Clicked, c)
 			self.color_menu.append(item)
 		self.all_color_selection.set_submenu(self.color_menu)
-		self.profile_menu = gtk.Menu()
-		for p in self.gui.Check_profiles().keys():
-			item = gtk.MenuItem(p)
-			self.profile_menu.append(item)
-		self.profile_selection = gtk.MenuItem("Load Profile")
-		self.profile_selection.set_submenu(self.profile_menu)
 		self.editor = gtk.MenuItem("Configuration Editor")
 		self.editor.connect("activate", self.launch_editor)
 		self.quit_item = gtk.MenuItem("Quit")
@@ -76,7 +70,6 @@ class pyAlienFX_Indicator:
 		self.menu.append(self.light_on)
 		self.menu.append(self.light_off)
 		self.menu.append(self.all_color_selection)
-		self.menu.append(self.profile_selection)
 		self.menu.append(self.quit_item)
 		self.menu.show_all()
 
@@ -86,7 +79,7 @@ class pyAlienFX_Indicator:
 	
 	def on_AlienFX_Color_Clicked(self,widget,c):
 		"""Applying a single color profile !"""
-		print "Color Click ! ",c
+		#print "Color Click ! ",c
 		self.configuration = AlienFXConfiguration()
 		self.configuration.Create("default",self.gui.computer.name,self.gui.selected_speed,"default.cfg")
 		for zone in self.gui.computer.regions.keys():

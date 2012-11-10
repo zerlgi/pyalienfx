@@ -165,8 +165,8 @@ class pyAlienFX_GUI():
 		#====----====
 		self.AlienFX_Color_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		self.AlienFX_Computer_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
-		self.AlienFX_Main_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("green"))
-		self.AlienFX_Configurator_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("purple"))
+		self.AlienFX_Main_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
+		self.AlienFX_Configurator_Eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.background_color))
 		#====----====
 
 		#========Creation of different GTK elements not specified in Glade=========
@@ -216,9 +216,12 @@ class pyAlienFX_GUI():
 		if self.actual_conf_file.split('/')[-1] in self.Profiles_Positions.keys():
 			#print "set Active"
 			self.AlienFX_Profiles_Combobox.set_active(self.Profiles_Positions[self.actual_conf_file.split('/')[-1]])
-		self.AlienFX_Profiles_Eventbox.add(self.AlienFX_Profiles_Combobox)
-		self.AlienFX_Profiles_Combobox.connect("changed",self.on_Profile_changed)
-		self.AlienFX_Profiles_Combobox.show_all()
+		try:
+			self.AlienFX_Profiles_Eventbox.add(self.AlienFX_Profiles_Combobox)
+			self.AlienFX_Profiles_Combobox.connect("changed",self.on_Profile_changed)
+			self.AlienFX_Profiles_Combobox.show_all()
+		except:
+			pass
 
 
 	def Create_Border(self,Type,Inside,Label = None,zone=None ,confId=None):
@@ -848,9 +851,12 @@ class pyAlienFX_GUI():
 		self.AlienFX_Choose_Profile_Name.hide()
 		self.New_Conf()
 	
-	def on_Profile_changed(self,widget):
+	def on_Profile_changed(self,widget,p = None):
 		"""Get the profile selected and changes to that profile !"""
-		choosed_profile = widget.get_active_text()
+		if not p:
+			choosed_profile = widget.get_active_text()
+		else:
+			choosed_profile = p
 		#print choosed_profile,self.Profiles[choosed_profile],self.actual_conf_file
 		if choosed_profile != self.actual_conf_file:
 			self.actual_conf_file = os.path.join('.','Profiles',self.Profiles[choosed_profile])
