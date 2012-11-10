@@ -48,8 +48,11 @@ class pyAlienFX_GUI():
 		if not conn:
 			self.controller = AlienFX_Controller(self.driver)
 		self.configuration = AlienFXConfiguration()
-		f = open(os.path.join('.','Profiles',"last"),'r')
-		profile = f.readline().strip()
+		try:
+			f = open(os.path.join('.','Profiles',"last"),'r')
+			profile = f.readline().strip()
+		except:
+			profile = "Fire.cfg"
 		self.actual_conf_file = os.path.join('.','Profiles',profile)
 		self.computer = self.driver.computer
 		self.selected_area = None
