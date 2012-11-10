@@ -32,20 +32,23 @@ print """
 \033[1;32mWelcome to the \033[0m\033[1;31mpyAlienFX\033[0m\033[1;32m Installer script !\033[0m
 
 You are about to configure the software : pyAlienFX !"""
-n = 0
-while True:
-	q = raw_input("Do you want to continue \033[1;31m(Y/N)\033[0m ? ")
-	if q.lower() == "n":
-		print thanksmsg
-		sys.exit(0)
-	elif q.lower() == "y":
-		break
-	elif n == 3:
-		print thanksmsg
-		sys.exit(0)
-	else:
-		print "Please enter Y or N !"
-	n += 1
+if sys.argv[1] != "deb":
+	n = 0
+	while True:
+		q = raw_input("Do you want to continue \033[1;31m(Y/N)\033[0m ? ")
+		if q.lower() == "n":
+			print thanksmsg
+			sys.exit(0)
+		elif q.lower() == "y":
+			break
+		elif n == 3:
+			print thanksmsg
+			sys.exit(0)
+		else:
+			print "Please enter Y or N !"
+		n += 1
+else:
+	BasePath = "/usr/share/pyAlienFX"
 
 print """
 \033[1;31m   !!! WARNING !!!\033[0m
