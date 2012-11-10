@@ -306,7 +306,7 @@ class M15XAllPowerfull:
 		self.suportedMode = {}
 		self.default_color = '0000FF'
 		self.default_mode = "fixed"
-		self.name = "M15XAllPowerfull"
+		self.name = "M15XAllPowerful"
 		
 		self.STATE_BUSY = 0x11
 		self.STATE_READY = 0x10
@@ -501,7 +501,7 @@ class AllComputers():
 	"M11XR25" : AlienFXComputer("M11XR25", 0x187c,0x0516,M11XR3()),
 	"M11XR2" : AlienFXComputer("M11XR2", 0x187c,0x0515,M11XR3()),
 	"M11XR1" : AlienFXComputer("M11XR1", 0x187c,0x0514,M11XR3()),
-	"M15XAllPowerfull" : AlienFXComputer("M15XAllPowerfull", 0x187c,0x0512,M15XAllPowerfull()),
+	"M15XAllPowerful" : AlienFXComputer("M15XAllPowerful", 0x187c,0x0512,M15XAllPowerfull()),
 	"M15XArea51" : AlienFXComputer("M15XArea51", 0x187c,0x0511,M15XArea51()),
 	#############################################################################
 	#added by niai (start)

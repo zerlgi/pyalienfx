@@ -15,6 +15,7 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with pyAlienFX.  If not, see <http://www.gnu.org/licenses/>.
+#    ./COPYING
 #
 #    This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #    To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter

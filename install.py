@@ -31,7 +31,7 @@ thanksmsg = "Thanks !\nDevelopped by \033[1;30mXqua\033[0m"
 print """
 \033[1;32mWelcome to the \033[0m\033[1;31mpyAlienFX\033[0m\033[1;32m Installer script !\033[0m
 
-You are about to instal the software : pyAlienFX !"""
+You are about to configure the software : pyAlienFX !"""
 n = 0
 while True:
 	q = raw_input("Do you want to continue \033[1;31m(Y/N)\033[0m ? ")
@@ -62,8 +62,11 @@ while True:
 	elif q.lower() == "n":
 		optdeamon = "#"
 		break
+	elif q.lower() == "":
+		optdeamon = "#"
+		break
 	else:
-		print "Please answer Y or N"
+		print "Please answer Y or N (N)"
 	
 
 Bin = """#!/bin/sh
