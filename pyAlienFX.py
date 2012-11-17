@@ -72,6 +72,8 @@ class pyAlienFX_GUI():
 		self.Advanced_Mode = True
 		self.width,self.height = 800,600
 		self.Image_DB = Image_DB()
+		if not os.path.isdir(os.path.join('.','Profiles')):
+			os.mkdir(os.path.join('.','Profiles'))
 		if os.path.isfile(self.actual_conf_file):
 			print "Loading : %s"%self.actual_conf_file
 			self.configuration.Load(self.actual_conf_file)
