@@ -52,7 +52,8 @@ class pyAlienFX_GUI():
 			f = open(os.path.join('.','Profiles',"last"),'r')
 			profile = f.readline().strip()
 		except:
-			profile = "Fire.cfg"
+			profile = "Default.cfg"
+			#self.New_Conf(path=os.path.join('.','Profiles',profile))
 		self.actual_conf_file = os.path.join('.','Profiles',profile)
 		self.computer = self.driver.computer
 		self.selected_area = None
@@ -531,6 +532,7 @@ class pyAlienFX_GUI():
 		#color_hbox = gtk.HBox()
 		
 		#color_hbox.pack_start(color2)
+		print self.configuration.Show_Configuration()
 		c1 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1)
 		if zone.power_button:
 			c2 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2)
@@ -834,8 +836,8 @@ class pyAlienFX_GUI():
 			self.configuration.area[zone].append(self.computer.default_mode,self.computer.default_color,self.computer.default_color)
 			self.on_Configuration_Save("widget")
 		self.Updtate_Profile_Combobox()
-		self.Create_zones()
-		self.Create_Line()
+		#self.Create_zones()
+		#self.Create_Line()
 	
 	
 	#================================

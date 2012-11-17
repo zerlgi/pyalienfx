@@ -224,7 +224,7 @@ class M14XLight:
 		self.regions[self.AlienFXProperties.TOUCH_PAD_ID] = AlienFXRegion(self.AlienFXProperties.TOUCH_PAD_ID,  self.AlienFXTexts.TOUCHPAD_DESCRIPTION, self.REGION_TOUCH_PAD,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.MEDIA_BAR_ID] = AlienFXRegion(self.AlienFXProperties.MEDIA_BAR_ID,  self.AlienFXTexts.MEDIA_BAR_DESCRIPTION, self.REGION_MEDIA_BAR,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.POWER_BUTTON_EYES_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_EYES_ID, self.AlienFXTexts.ALIENWARE_POWERBUTTON_EYES_DESCRIPTION, self.REGION_POWER_BUTTON_EYES,1,False,False,True, self.default_color , self.suportedMode)
-		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,2,True,True,True, self.default_color , self.suportedMode)
+		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,2,True,True,True, self.default_color , self.suportedMode, power_button = True)
 #added by LightHash [end]
 
 		
@@ -292,7 +292,7 @@ class M15XArea51:
 		self.regions[self.AlienFXProperties.ALIEN_LOGO_ID] = AlienFXRegion(self.AlienFXProperties.ALIEN_LOGO_ID, self.AlienFXTexts.ALIENWARE_LOGO_DESCRIPTION, self.REGION_ALIEN_LOGO,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.TOUCH_PAD_ID] = AlienFXRegion(self.AlienFXProperties.TOUCH_PAD_ID, self.AlienFXTexts.TOUCHPAD_DESCRIPTION, self.REGION_TOUCH_PAD,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.MEDIA_BAR_ID] = AlienFXRegion(self.AlienFXProperties.MEDIA_BAR_ID, self.AlienFXTexts.MEDIA_BAR_DESCRIPTION, self.REGION_TOUCH_PANEL,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
-		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,1,False,False,True, self.default_color , self.suportedMode)
+		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,1,False,False,True, self.default_color , self.suportedMode, power_button = True)
 		
 		
 		
@@ -377,7 +377,7 @@ class M15XAllPowerfull:
 		self.regions[self.AlienFXProperties.TOUCH_PAD_ID] = AlienFXRegion(self.AlienFXProperties.TOUCH_PAD_ID,  self.AlienFXTexts.TOUCHPAD_DESCRIPTION, self.REGION_TOUCH_PAD,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.MEDIA_BAR_ID] = AlienFXRegion(self.AlienFXProperties.MEDIA_BAR_ID,  self.AlienFXTexts.MEDIA_BAR_DESCRIPTION, self.REGION_MEDIA_BAR,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.POWER_BUTTON_EYES_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_EYES_ID, self.AlienFXTexts.ALIENWARE_POWERBUTTON_EYES_DESCRIPTION, self.REGION_POWER_BUTTON_EYES,1,False,False,True, self.default_color , self.suportedMode)
-		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,2,True,True,True, self.default_color , self.suportedMode)
+		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,2,True,True,True, self.default_color , self.suportedMode, power_button = True)
 
 #############################################################
 #added by niai (start)
@@ -461,7 +461,7 @@ class M17XR3:
 		self.regions[self.AlienFXProperties.TOUCH_PAD_ID] = AlienFXRegion(self.AlienFXProperties.TOUCH_PAD_ID,  self.AlienFXTexts.TOUCHPAD_DESCRIPTION, self.REGION_TOUCH_PAD,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.MEDIA_BAR_ID] = AlienFXRegion(self.AlienFXProperties.MEDIA_BAR_ID,  self.AlienFXTexts.MEDIA_BAR_DESCRIPTION, self.REGION_MEDIA_BAR,self.SUPPORTED_COMMANDS,True,True,True, self.default_color , self.suportedMode)
 		self.regions[self.AlienFXProperties.POWER_BUTTON_EYES_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_EYES_ID, self.AlienFXTexts.ALIENWARE_POWERBUTTON_EYES_DESCRIPTION, self.REGION_POWER_BUTTON_EYES,1,False,False,True, self.default_color , self.suportedMode)
-		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,2,True,True,True, self.default_color , self.suportedMode)
+		self.regions[self.AlienFXProperties.POWER_BUTTON_ID] = AlienFXRegion(self.AlienFXProperties.POWER_BUTTON_ID, self.AlienFXTexts.POWER_BUTTON_DESCRIPTION, self.REGION_POWER_BUTTON,2,True,True,True, self.default_color , self.suportedMode, power_button = True)
 #added by niai (end)
 ##############################################################################################
 
@@ -510,4 +510,6 @@ class AllComputers():
 	############################################################################
 	#LightHash [start]
 	"M14XR1" : AlienFXComputer("M14XR1", 0x187c,0x0521,M14XLight())}
+	#"M14XR1" : AlienFXComputer("M14XR1",0x187c,0x0522,M14XLight())}
+
 	#LightHash [end]
