@@ -534,7 +534,7 @@ class pyAlienFX_GUI():
 		#color_hbox = gtk.HBox()
 		
 		#color_hbox.pack_start(color2)
-		print self.configuration.Show_Configuration()
+		#print self.configuration.Show_Configuration()
 		c1 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color1)
 		if zone.power_button:
 			c2 = gtk.gdk.Color('#'+self.configuration.area[zone.name][confId].color2)
