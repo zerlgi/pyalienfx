@@ -596,11 +596,11 @@ class AllComputers():
 	#added by niai (end)
 	############################################################################
 	#LightHash [start]
-	"M14XR1" : AlienFXComputer("M14XR1", 0x187c,0x0521,M14XLight())}
+	"M14XR1" : AlienFXComputer("M14XR1", 0x187c,0x0521,M14XLight()),
 	#"M14XR1" : AlienFXComputer("M14XR1",0x187c,0x0522,M14XLight())}
 	#############################################################################
 	#added by SuperTool (start)
-	"M18XR2"	: AlienFXComputer("M18XR2", 0x187c,0x0518,M18XR2()),
+	"M18XR2"	: AlienFXComputer("M18XR2", 0x187c,0x0518,M18XR2())}
 	#added by SuperTool (end)
 	############################################################################
 	#LightHash [end]
