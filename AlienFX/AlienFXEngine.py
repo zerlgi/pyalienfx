@@ -105,15 +105,21 @@ class AlienFX_Driver(AllComputers):
 	def Take_over(self):
 		try:
 			self.dev.detach_kernel_driver(0)
-		except:
-			pass
+			print "Kernel Detached (on 1st trial)"
+		except Exception,e:
+			print "can't detach_kernel_driver error : %s"%e
 		try:
 			self.dev.set_configuration()
-		except:
+			print "CONFIGURATION SET ! (on 1st trial)"
+		except Exception,e:
+			print "Can't set the configuration. Error : %s"%e
 			self.dev.attach_kernel_driver(0)
+			print "Driver Attached to Kernel"
 			self.dev.detach_kernel_driver(0)
+			print "Driver Detached to Kernel"
 			try:
 				self.dev.set_configuration()
+				print "CONFIGURATION SET ! (on 2nd trial)"
 			except Exception,e:
 				print "Can't set the configuration. Error : %s"%e
 				sys.exit(1)
