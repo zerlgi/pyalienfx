@@ -104,13 +104,18 @@ class AlienFX_Driver(AllComputers):
 		
 	def Take_over(self):
 		try:
+			self.dev.detach_kernel_driver(0)
+		except:
+			pass
+		try:
 			self.dev.set_configuration()
 		except:
+			self.dev.attach_kernel_driver(0)
 			self.dev.detach_kernel_driver(0)
 			try:
 				self.dev.set_configuration()
 			except Exception,e:
-				raise DeviceNotFound("Can't set the configuration. Error : %s"%e)
+				print "Can't set the configuration. Error : %s"%e
 				sys.exit(1)
 
 

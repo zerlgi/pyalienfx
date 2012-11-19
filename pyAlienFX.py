@@ -43,10 +43,12 @@ class pyAlienFX_GUI():
 		print "Initializing Driver  ..."
 		self.driver = AlienFX_Driver()
 		print "Initializing Controller ..."
-		self.controller = Daemon_Controller()
-		conn = self.controller.makeConnection()
+		Deamon = Daemon_Controller()
+		conn = Deamon.makeConnection()
 		if not conn:
 			self.controller = AlienFX_Controller(self.driver)
+		else:
+			self.controller = Deamon
 		self.configuration = AlienFXConfiguration()
 		try:
 			f = open(os.path.join('.','Profiles',"last"),'r')
